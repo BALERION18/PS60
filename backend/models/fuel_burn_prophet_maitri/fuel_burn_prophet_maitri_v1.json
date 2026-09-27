@@ -1,0 +1,40 @@
+{
+  "model_name": "fuel_burn_prophet_maitri",
+  "model_version": "v1",
+  "trained_at": "2026-09-27T21:24:10.998628+00:00",
+  "algorithm": "Prophet",
+  "feature_names": [
+    "ambient_temp_c",
+    "crew_count",
+    "is_winter",
+    "wind_speed_ms",
+    "generator_load_kw"
+  ],
+  "n_features": 5,
+  "n_training_samples": 1969,
+  "hyperparameters": {
+    "changepoint_prior_scale": 0.15,
+    "seasonality_prior_scale": 12.0,
+    "yearly_fourier_order": 8,
+    "interval_width": 0.9,
+    "regressors": [
+      "ambient_temp_c",
+      "crew_count",
+      "is_winter",
+      "wind_speed_ms",
+      "generator_load_kw"
+    ],
+    "station_id": "maitri",
+    "threshold_warning_pct": 0.35,
+    "threshold_critical_pct": 0.2
+  },
+  "val_scores": {
+    "mae_litres": 49.4,
+    "rmse_litres": 62.2,
+    "mape_pct": 3.9,
+    "coverage_90pct": 87.8,
+    "n_val_days": 180
+  },
+  "notes": "Trained on real ERA5 reanalysis weather from Open-Meteo/ECMWF",
+  "model_id": "1caab09b-a6c2-4a47-ab80-dfd0548ac538"
+}

@@ -1,0 +1,40 @@
+{
+  "model_name": "fuel_burn_prophet_bharati",
+  "model_version": "v1",
+  "trained_at": "2026-09-27T21:24:11.636313+00:00",
+  "algorithm": "Prophet",
+  "feature_names": [
+    "ambient_temp_c",
+    "crew_count",
+    "is_winter",
+    "wind_speed_ms",
+    "generator_load_kw"
+  ],
+  "n_features": 5,
+  "n_training_samples": 1969,
+  "hyperparameters": {
+    "changepoint_prior_scale": 0.15,
+    "seasonality_prior_scale": 12.0,
+    "yearly_fourier_order": 8,
+    "interval_width": 0.9,
+    "regressors": [
+      "ambient_temp_c",
+      "crew_count",
+      "is_winter",
+      "wind_speed_ms",
+      "generator_load_kw"
+    ],
+    "station_id": "bharati",
+    "threshold_warning_pct": 0.35,
+    "threshold_critical_pct": 0.2
+  },
+  "val_scores": {
+    "mae_litres": 78.3,
+    "rmse_litres": 98.7,
+    "mape_pct": 3.89,
+    "coverage_90pct": 88.3,
+    "n_val_days": 180
+  },
+  "notes": "Trained on real ERA5 reanalysis weather from Open-Meteo/ECMWF",
+  "model_id": "9e149e7c-442b-458d-9ce8-b143df15e402"
+}

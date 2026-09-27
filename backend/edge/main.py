@@ -7,8 +7,10 @@ Services started in order:
   1. Database engine (async SQLAlchemy + TimescaleDB)
   2. Redis client (for queue, pub/sub, dedup cache)
   3. Station config (YAML)
-  4. Alert Engine (background asyncio task)
+  4. Alert Engine (background asyncio task — threshold-based)
   5. Black-Box Logger (background asyncio task)
+  6. AI Engine (Isolation Forest vibration anomaly detector)
+     Gracefully skipped if no trained model is present on disk.
 
 FastAPI routers mounted:
   - /ingest              → edge.ingestion.router
@@ -30,6 +32,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from shared.db.async_base import get_async_engine, get_async_session_factory
 from shared.schemas.config import StationConfig
 from shared.utils.logging import configure_logging
+from edge.ai_engine import AIEngineService
 from edge.alert_engine.service import AlertEngine
 from edge.api.router import router as local_api_router
 from edge.auth.local_auth import KeyStore, set_key_store
@@ -103,11 +106,30 @@ async def lifespan(app: FastAPI):
     await black_box_logger.start()
     app.state.black_box_logger = black_box_logger
 
+    # 6. AI Engine (Isolation Forest vibration anomaly detector)
+    #    Gracefully skips inference if no trained model is found on disk.
+    #    Train first: cd backend && python -m scripts.train_vibration_model
+    ai_engine = AIEngineService(
+        station_id=cfg.station_id,
+        session_factory=session_factory,
+    )
+    await ai_engine.start()
+    app.state.ai_engine = ai_engine
+    if ai_engine.is_model_loaded:
+        log.info("edge.ai_engine.ready", station_id=cfg.station_id)
+    else:
+        log.warning(
+            "edge.ai_engine.no_model",
+            station_id=cfg.station_id,
+            hint="Run: cd backend && python -m scripts.train_vibration_model",
+        )
+
     log.info("edge.ready", station_id=cfg.station_id)
     yield  # app runs
 
     # --------------- Shutdown ---------------
     log.info("edge.shutdown", station_id=cfg.station_id)
+    await ai_engine.stop()
     await black_box_logger.stop()
     await alert_engine.stop()
     await close_redis()

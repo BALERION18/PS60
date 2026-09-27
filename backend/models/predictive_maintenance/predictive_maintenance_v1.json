@@ -1,0 +1,49 @@
+{
+  "model_name": "predictive_maintenance",
+  "model_version": "v1",
+  "trained_at": "2026-09-27T21:18:34.744611+00:00",
+  "algorithm": "RandomForestClassifier",
+  "feature_names": [
+    "runtime_hours_since_service",
+    "anomaly_score_latest",
+    "anomaly_events_7d",
+    "anomaly_events_30d",
+    "vibration_trend_7d",
+    "vibration_std_7d",
+    "oil_pressure_trend_7d",
+    "oil_pressure_drop_rate",
+    "coolant_temp_trend_7d",
+    "coolant_temp_max_7d",
+    "power_output_trend_7d",
+    "power_variance_7d",
+    "fuel_consumption_trend_7d",
+    "runtime_hours_total",
+    "days_since_last_maintenance"
+  ],
+  "n_features": 15,
+  "n_training_samples": 17537,
+  "hyperparameters": {
+    "n_estimators": 300,
+    "max_depth": "None",
+    "min_samples_leaf": 5,
+    "class_weight": "balanced_subsample",
+    "random_state": 42,
+    "urgency_classes": [
+      "NONE",
+      "LOW",
+      "MEDIUM",
+      "HIGH"
+    ]
+  },
+  "val_scores": {
+    "accuracy": 0.959,
+    "high_recall": 0.9562,
+    "high_precision": 0.9282,
+    "medium_recall": 0.9137,
+    "low_recall": 0.9607,
+    "none_precision": 0.9911,
+    "weighted_f1": 0.959
+  },
+  "notes": "Trained on NASA CMAPSS FD001 real engine data with rolling window features",
+  "model_id": "2eb3d7fa-8ca4-4009-b50e-728823d40bfc"
+}
