@@ -1,0 +1,99 @@
+# Scenario: Generator failure at Maitri
+# Used in: tests/e2e/test_generator_failure_maitri.py
+#
+# Sequence:
+#   T+0s:   Normal operations
+#   T+30s:  Fuel drain anomaly injected (10× normal consumption)
+#   T+90s:  Generator fault injected (gen1 status=FAULT, output=0)
+#   T+150s: Generator fault cleared (crew performs restart)
+#   T+180s: End of scenario
+#
+# Expected outcomes (all must pass):
+#   1. Fuel drain → HIGH alert within 60s of injection (fuel crosses 30% faster)
+#   2. Generator fault → CRITICAL alert within 5 seconds of injection
+#   3. Black-box window activated on CRITICAL alert
+#   4. Black-box pre-event frames contain readings from 5 min before trigger
+#   5. CRITICAL alert delivered to Cloud within 10 seconds (link is up)
+#   6. HQ dashboard WebSocket clients receive alert push
+#   7. Black-box window closed 15 min after alert resolution
+#   8. Black-box hash chain passes end-to-end verification
+#   9. No cross-contamination with Bharati (Bharati has zero alerts)
+
+name: generator_failure_maitri
+stations: [maitri, bharati]
+primary_station: maitri
+duration_real_seconds: 200
+
+steps:
+  - at_second: 0
+    action: baseline
+    description: "Nominal operations begin"
+
+  - at_second: 30
+    action: inject_anomaly
+    station_id: maitri
+    anomaly: fuel_drain
+    description: "Fuel drain begins — consumption rate 10× normal"
+
+  - at_second: 90
+    action: inject_anomaly
+    station_id: maitri
+    anomaly: generator_fault
+    description: "Generator 1 FAULT — output drops to 0 kW"
+
+  - at_second: 150
+    action: clear_anomaly
+    station_id: maitri
+    anomaly: generator_fault
+    description: "Crew restarts generator — fault cleared"
+
+  - at_second: 155
+    action: clear_anomaly
+    station_id: maitri
+    anomaly: fuel_drain
+    description: "Fuel drain cleared after generator restart"
+
+assertions:
+  # Maitri alerts
+  - type: alert_raised
+    station_id: maitri
+    domain: energy
+    severity: HIGH
+    within_seconds_of: 30    # HIGH alert raised within 60s of fuel drain start
+    plus_seconds: 60
+    description: "HIGH fuel low alert raised within 60s of fuel drain injection"
+
+  - type: alert_raised
+    station_id: maitri
+    domain: energy
+    severity: CRITICAL
+    within_seconds_of: 90
+    plus_seconds: 5
+    description: "CRITICAL generator fault alert within 5s"
+
+  - type: black_box_activated
+    station_id: maitri
+    trigger: CRITICAL
+    description: "Black-box window opened on CRITICAL alert"
+
+  - type: black_box_pre_event_frames
+    station_id: maitri
+    min_frames: 1
+    description: "At least one pre-event frame captured"
+
+  - type: cloud_alert_delivery
+    station_id: maitri
+    severity: CRITICAL
+    within_seconds: 10
+    description: "CRITICAL alert delivered to Cloud within 10s (link up)"
+
+  - type: black_box_hash_chain_valid
+    station_id: maitri
+    description: "Full hash chain integrity verified after window close"
+
+  # Bharati isolation check
+  - type: alert_count
+    station_id: bharati
+    severity: [CRITICAL, HIGH]
+    expected_max: 0
+    description: "Bharati has zero alerts — no cross-contamination"

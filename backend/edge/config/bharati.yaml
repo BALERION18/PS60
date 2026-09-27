@@ -1,0 +1,322 @@
+# VajraX Station Configuration — Bharati Research Station
+# Larsemann Hills, Prydz Bay, Antarctica
+# DO NOT hardcode station_id in application code — always read from this file.
+
+station_id: bharati
+display_name: "Bharati Research Station"
+location: "Larsemann Hills, Prydz Bay, Antarctica"
+latitude: -69.4069
+longitude: 76.1931
+elevation_m: 35.0
+timezone: UTC
+
+heartbeat_timeout_minutes: 15
+
+black_box:
+  trigger_severities: [CRITICAL]
+  pre_event_window_s: 300
+  post_resolution_tail_s: 900
+
+sync:
+  heartbeat_interval_s: 60
+  max_queue_size_bytes: 1073741824
+  queue_retention_days: 30
+  telemetry_batch_window_s:
+    energy: 300
+    weather: 900
+    environment: 900
+    logistics: 3600
+  priority_map:
+    black_box: 0
+    alert_critical: 1
+    alert_high: 1
+    alert_medium: 2
+    alert_low: 2
+    telemetry: 3
+
+# -----------------------------------------------------------------------
+# Local API Authentication (offline-capable pre-provisioned keys)
+# -----------------------------------------------------------------------
+local_api_keys:
+  - "CREW.b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2"
+  - "OPERATOR.c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3"
+  - "ADMIN.d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4"
+
+sensors:
+  # Energy — Generator 1
+  - sensor_id: bharati.energy.gen1.fuel_pct
+    domain: energy
+    asset_id: bharati.gen1
+    metric_name: fuel_level_percent
+    unit: pct
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 100.0
+
+  - sensor_id: bharati.energy.gen1.power_output_kw
+    domain: energy
+    asset_id: bharati.gen1
+    metric_name: power_output_kw
+    unit: kW
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 250.0
+
+  - sensor_id: bharati.energy.gen1.fuel_consumption_lph
+    domain: energy
+    asset_id: bharati.gen1
+    metric_name: fuel_consumption_lph
+    unit: L/h
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 50.0
+
+  - sensor_id: bharati.energy.gen1.status
+    domain: energy
+    asset_id: bharati.gen1
+    metric_name: generator_status
+    unit: enum
+    sampling_interval_s: 10
+
+  # Energy — Solar panels (Bharati has a solar installation)
+  - sensor_id: bharati.energy.solar1.output_kw
+    domain: energy
+    asset_id: bharati.solar_array
+    metric_name: solar_output_kw
+    unit: kW
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 50.0
+
+  - sensor_id: bharati.energy.solar1.irradiance_wm2
+    domain: energy
+    asset_id: bharati.solar_array
+    metric_name: solar_irradiance_wm2
+    unit: W/m2
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 1200.0
+
+  # Energy — Power distribution
+  - sensor_id: bharati.energy.grid.total_load_kw
+    domain: energy
+    asset_id: bharati.grid
+    metric_name: total_load_kw
+    unit: kW
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 300.0
+
+  # Weather — Bharati (coastal, sea-ice proximity)
+  - sensor_id: bharati.weather.aws.ambient_temp_c
+    domain: weather
+    asset_id: bharati.aws
+    metric_name: ambient_temp_c
+    unit: degC
+    sampling_interval_s: 60
+    nominal_min: -40.0
+    nominal_max: 10.0
+
+  - sensor_id: bharati.weather.aws.wind_speed_ms
+    domain: weather
+    asset_id: bharati.aws
+    metric_name: wind_speed_ms
+    unit: m/s
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 70.0
+
+  - sensor_id: bharati.weather.aws.wind_direction_deg
+    domain: weather
+    asset_id: bharati.aws
+    metric_name: wind_direction_deg
+    unit: deg
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 360.0
+
+  - sensor_id: bharati.weather.aws.pressure_hpa
+    domain: weather
+    asset_id: bharati.aws
+    metric_name: pressure_hpa
+    unit: hPa
+    sampling_interval_s: 60
+    nominal_min: 960.0
+    nominal_max: 1040.0
+
+  - sensor_id: bharati.weather.aws.humidity_pct
+    domain: weather
+    asset_id: bharati.aws
+    metric_name: relative_humidity_pct
+    unit: pct
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 100.0
+
+  - sensor_id: bharati.weather.aws.uv_index
+    domain: weather
+    asset_id: bharati.aws
+    metric_name: uv_index
+    unit: uvi
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 12.0
+
+  # Environment — Ice thickness (Bharati-specific — sea-ice proximity)
+  - sensor_id: bharati.environment.ice.thickness_cm
+    domain: environment
+    asset_id: bharati.sea_ice_monitor
+    metric_name: ice_thickness_cm
+    unit: cm
+    sampling_interval_s: 3600  # hourly
+    nominal_min: 0.0
+    nominal_max: 300.0
+
+  # Environment — Air quality
+  - sensor_id: bharati.environment.aq1.co2_ppm
+    domain: environment
+    asset_id: bharati.main_building
+    metric_name: co2_ppm
+    unit: ppm
+    sampling_interval_s: 60
+    nominal_min: 350.0
+    nominal_max: 1500.0
+
+  - sensor_id: bharati.environment.aq1.co_ppm
+    domain: environment
+    asset_id: bharati.main_building
+    metric_name: co_ppm
+    unit: ppm
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 35.0
+
+  # Environment — Fire detection
+  - sensor_id: bharati.environment.fire_z1.state
+    domain: environment
+    asset_id: bharati.main_building
+    metric_name: fire_state
+    unit: enum
+    sampling_interval_s: 10
+
+  - sensor_id: bharati.environment.fire_z2.state
+    domain: environment
+    asset_id: bharati.lab_wing
+    metric_name: fire_state
+    unit: enum
+    sampling_interval_s: 10
+
+  # Environment — Seismic
+  - sensor_id: bharati.environment.seismic.magnitude
+    domain: environment
+    asset_id: bharati.seismic_station
+    metric_name: seismic_magnitude
+    unit: richter
+    sampling_interval_s: 1
+    nominal_min: 0.0
+    nominal_max: 10.0
+
+threshold_rules:
+  - sensor_id: bharati.energy.gen1.fuel_pct
+    metric_name: fuel_level_percent
+    condition: lte
+    threshold_value: 30.0
+    severity: HIGH
+    description_template: "Generator 1 fuel low: {value:.1f}%"
+
+  - sensor_id: bharati.energy.gen1.fuel_pct
+    metric_name: fuel_level_percent
+    condition: lte
+    threshold_value: 15.0
+    severity: CRITICAL
+    description_template: "Generator 1 fuel CRITICAL: {value:.1f}%"
+
+  - sensor_id: bharati.energy.gen1.status
+    metric_name: generator_status
+    condition: eq
+    threshold_value: 2.0
+    severity: CRITICAL
+    description_template: "Generator 1 FAULT detected"
+
+  - sensor_id: bharati.weather.aws.wind_speed_ms
+    metric_name: wind_speed_ms
+    condition: gte
+    threshold_value: 25.0
+    severity: MEDIUM
+    description_template: "High winds: {value:.1f} m/s"
+
+  - sensor_id: bharati.weather.aws.wind_speed_ms
+    metric_name: wind_speed_ms
+    condition: gte
+    threshold_value: 40.0
+    severity: HIGH
+    description_template: "Storm-force winds: {value:.1f} m/s"
+
+  - sensor_id: bharati.environment.ice.thickness_cm
+    metric_name: ice_thickness_cm
+    condition: lte
+    threshold_value: 30.0
+    severity: HIGH
+    description_template: "Sea ice thinning: {value:.1f} cm — travel restriction advised"
+
+  - sensor_id: bharati.environment.ice.thickness_cm
+    metric_name: ice_thickness_cm
+    condition: lte
+    threshold_value: 15.0
+    severity: CRITICAL
+    description_template: "CRITICAL sea ice: {value:.1f} cm — no travel on sea ice"
+
+  - sensor_id: bharati.environment.aq1.co_ppm
+    metric_name: co_ppm
+    condition: gte
+    threshold_value: 35.0
+    severity: HIGH
+    description_template: "CO concentration above OSHA PEL: {value:.1f} ppm"
+
+  - sensor_id: bharati.environment.fire_z1.state
+    metric_name: fire_state
+    condition: eq
+    threshold_value: 1.0
+    severity: CRITICAL
+    description_template: "FIRE DETECTED — Zone 1 (Main Building)"
+
+  - sensor_id: bharati.environment.fire_z2.state
+    metric_name: fire_state
+    condition: eq
+    threshold_value: 1.0
+    severity: CRITICAL
+    description_template: "FIRE DETECTED — Zone 2 (Lab Wing)"
+
+  - sensor_id: bharati.environment.seismic.magnitude
+    metric_name: seismic_magnitude
+    condition: gte
+    threshold_value: 3.0
+    severity: MEDIUM
+    description_template: "Seismic event: M{value:.1f}"
+
+  - sensor_id: bharati.environment.seismic.magnitude
+    metric_name: seismic_magnitude
+    condition: gte
+    threshold_value: 4.5
+    severity: HIGH
+    description_template: "Significant seismic event: M{value:.1f}"
+
+  - sensor_id: bharati.environment.seismic.magnitude
+    metric_name: seismic_magnitude
+    condition: gte
+    threshold_value: 6.0
+    severity: CRITICAL
+    description_template: "MAJOR SEISMIC EVENT: M{value:.1f}"
+
+rate_of_change_rules:
+  - sensor_id: bharati.energy.gen1.fuel_pct
+    max_rate_per_minute: 2.0
+    severity: HIGH
+    description_template: "Abnormal fuel consumption rate: {rate:.2f}%/min"
+
+composite_rules:
+  - rule_id: bharati.composite.gen1_blackout
+    description: "Generator 1 output drops to zero while load is non-zero"
+    condition_expression: "gen1_output <= 0 and grid_load > 5"
+    severity: CRITICAL
+    description_template: "Generator 1 blackout: output={gen1_output:.1f} kW, load={grid_load:.1f} kW"

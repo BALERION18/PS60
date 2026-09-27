@@ -1,0 +1,29 @@
+syntax = "proto3";
+package vajrax;
+import "enums.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "vajrax/proto";
+
+// A single sensor reading from one metric on one sensor.
+message SensorReading {
+  string station_id = 1;       // "maitri" | "bharati"
+  string sensor_id = 2;        // e.g. "maitri.energy.gen1.fuel_pct"
+  Domain domain = 3;
+  string metric_name = 4;      // human-readable metric label
+  double value = 5;
+  string unit = 6;             // e.g. "pct", "kW", "degC", "m/s"
+  SensorQuality quality = 7;
+  google.protobuf.Timestamp timestamp_utc = 8;
+  string asset_id = 9;         // nullable — associated infrastructure asset
+}
+
+// A batch of sensor readings from one station, sent as a single sync unit.
+message SensorBatch {
+  string station_id = 1;
+  repeated SensorReading readings = 2;
+  string batch_id = 3;         // UUID v4
+  google.protobuf.Timestamp generated_at = 4;
+  uint64 sequence_number = 5;  // monotonically increasing per station
+  bool is_aggregate = 6;       // true if readings are 1-min averages (not raw)
+  uint32 aggregation_window_s = 7; // aggregation window in seconds (0 if raw)
+}

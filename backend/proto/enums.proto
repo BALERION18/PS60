@@ -1,0 +1,59 @@
+syntax = "proto3";
+package vajrax;
+option go_package = "vajrax/proto";
+
+// Severity levels for alerts
+enum Severity {
+  SEVERITY_UNSPECIFIED = 0;
+  SEVERITY_LOW = 1;
+  SEVERITY_MEDIUM = 2;
+  SEVERITY_HIGH = 3;
+  SEVERITY_CRITICAL = 4;
+}
+
+// Sensor data domain
+enum Domain {
+  DOMAIN_UNSPECIFIED = 0;
+  DOMAIN_ENERGY = 1;
+  DOMAIN_WEATHER = 2;
+  DOMAIN_ENVIRONMENT = 3;
+  DOMAIN_INFRASTRUCTURE = 4;
+  DOMAIN_LOGISTICS = 5;
+  DOMAIN_NETWORK = 6;
+}
+
+// Quality flag for sensor readings
+enum SensorQuality {
+  SENSOR_QUALITY_UNSPECIFIED = 0;
+  SENSOR_QUALITY_NOMINAL = 1;
+  SENSOR_QUALITY_DEGRADED = 2;
+  SENSOR_QUALITY_STALE = 3;
+  SENSOR_QUALITY_SENSOR_FAULT = 4;
+}
+
+// Alert acknowledgement state
+enum AckState {
+  ACK_STATE_UNSPECIFIED = 0;
+  ACK_STATE_OPEN = 1;
+  ACK_STATE_ACKNOWLEDGED = 2;
+  ACK_STATE_RESOLVED = 3;
+}
+
+// Type of payload inside a SyncEnvelope
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  MESSAGE_TYPE_SENSOR_BATCH = 1;
+  MESSAGE_TYPE_ALERT = 2;
+  MESSAGE_TYPE_ALERT_ACK = 3;
+  MESSAGE_TYPE_BLACK_BOX_FRAME = 4;
+  MESSAGE_TYPE_INVENTORY_SNAPSHOT = 5;
+  MESSAGE_TYPE_LINK_HEARTBEAT = 6;
+}
+
+// Link state as seen from Edge
+enum LinkState {
+  LINK_STATE_UNSPECIFIED = 0;
+  LINK_STATE_UP = 1;
+  LINK_STATE_DEGRADED = 2;
+  LINK_STATE_DOWN = 3;
+}

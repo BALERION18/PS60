@@ -1,0 +1,1 @@
+# VajraX shared schemas package

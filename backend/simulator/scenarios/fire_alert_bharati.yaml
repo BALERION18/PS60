@@ -1,0 +1,116 @@
+# Scenario: Fire alert at Bharati Research Station
+# Used in: tests/e2e/test_fire_alert_bharati.py
+#
+# Sequence:
+#   T+0s:   Normal operations, link UP
+#   T+20s:  Fire detected in Zone 1 (main building)
+#   T+35s:  Fire spreads to Zone 2 (lab wing)
+#   T+70s:  Fire suppressed in Zone 1
+#   T+85s:  Fire suppressed in Zone 2
+#   T+120s: End of scenario (black-box window closes at T+990s = 15 min after resolution)
+#
+# This scenario tests:
+#   1. Multi-zone fire escalation detection
+#   2. Immediate CRITICAL alert delivery to Cloud (<5s, link is up)
+#   3. Black-box window captures all sensor readings from 5 min before trigger
+#   4. HQ dashboard shows real-time fire status
+#   5. Alert escalation: first CRITICAL stays open when Zone 2 fires
+#   6. Two separate alert_ids (one per zone fire)
+#   7. Resolution of both alerts when fire is suppressed
+#   8. Maitri is unaffected — station isolation verified
+#   9. Black-box post-event window stays open 15 min after last resolution
+#
+# Safety requirement:
+#   The fire alert must appear in the EDGE local API (/api/v1/local/alerts)
+#   BEFORE the Cloud receives it (local-first safety guarantee).
+
+name: fire_alert_bharati
+stations: [maitri, bharati]
+primary_station: bharati
+duration_real_seconds: 150
+
+steps:
+  - at_second: 0
+    action: baseline
+    description: "Normal operations at Bharati"
+
+  - at_second: 20
+    action: inject_anomaly
+    station_id: bharati
+    anomaly: fire_zone_1
+    description: "Fire alarm Z1 activated — main building"
+
+  - at_second: 35
+    action: inject_anomaly
+    station_id: bharati
+    anomaly: fire_zone_2
+    description: "Fire alarm Z2 activated — lab wing"
+
+  - at_second: 70
+    action: clear_anomaly
+    station_id: bharati
+    anomaly: fire_zone_1
+    description: "Zone 1 fire suppressed by crew"
+
+  - at_second: 85
+    action: clear_anomaly
+    station_id: bharati
+    anomaly: fire_zone_2
+    description: "Zone 2 fire suppressed by crew"
+
+assertions:
+  # Alert generation (Edge-first requirement)
+  - type: alert_raised_local_before_cloud
+    station_id: bharati
+    domain: environment
+    severity: CRITICAL
+    description: "CRITICAL fire alert appears in Edge local API before Cloud delivery"
+
+  - type: alert_raised
+    station_id: bharati
+    domain: environment
+    severity: CRITICAL
+    within_seconds_of: 20
+    plus_seconds: 2
+    description: "CRITICAL alert raised within 2s of fire_zone_1 injection"
+
+  - type: cloud_alert_delivery
+    station_id: bharati
+    severity: CRITICAL
+    within_seconds: 5
+    description: "CRITICAL fire alert delivered to Cloud within 5s"
+
+  # Multi-zone: two separate alerts
+  - type: alert_count
+    station_id: bharati
+    domain: environment
+    severity: CRITICAL
+    expected_min: 2
+    description: "Two CRITICAL fire alerts — one per zone"
+
+  # Black-box validation
+  - type: black_box_activated
+    station_id: bharati
+    trigger: CRITICAL
+    description: "Black-box window opened on first CRITICAL fire alert"
+
+  - type: black_box_pre_event_frames
+    station_id: bharati
+    min_frames: 1
+    description: "Pre-event readings captured before fire detection"
+
+  - type: black_box_window_open_after_resolution
+    station_id: bharati
+    post_resolution_seconds: 900   # window stays open for 15 min (900s) after resolution
+    description: "Black-box window remains open 15 min after last alert resolution"
+
+  - type: black_box_hash_chain_valid
+    station_id: bharati
+    description: "Complete fire event hash chain is tamper-evident and valid"
+
+  # Station isolation
+  - type: alert_count
+    station_id: maitri
+    severity: [CRITICAL, HIGH]
+    expected_max: 0
+    description: "Maitri has zero alerts — Bharati fire has no cross-contamination"

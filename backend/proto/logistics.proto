@@ -1,0 +1,25 @@
+syntax = "proto3";
+package vajrax;
+import "google/protobuf/timestamp.proto";
+option go_package = "vajrax/proto";
+
+// A snapshot of a single inventory item's state.
+message InventoryItem {
+  string item_id = 1;
+  string station_id = 2;
+  string category = 3;       // "consumable" | "equipment" | "ppe"
+  string name = 4;
+  double quantity = 5;
+  string unit = 6;           // "litres", "kg", "units"
+  double min_threshold = 7;  // alert threshold
+  google.protobuf.Timestamp last_updated = 8;
+  string updated_by = 9;     // user_id or "system" for automated updates
+}
+
+// Full inventory snapshot for a station, sent on every sync cycle.
+message InventorySnapshot {
+  string station_id = 1;
+  repeated InventoryItem items = 2;
+  string snapshot_id = 3;    // UUID v4
+  google.protobuf.Timestamp snapshot_at = 4;
+}
