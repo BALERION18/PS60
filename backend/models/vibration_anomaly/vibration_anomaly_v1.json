@@ -1,7 +1,7 @@
 {
   "model_name": "vibration_anomaly",
   "model_version": "v1",
-  "trained_at": "2026-09-27T21:18:10.483946+00:00",
+  "trained_at": "2026-09-28T18:46:38.976407+00:00",
   "algorithm": "IsolationForest",
   "feature_names": [
     "vibration_rms",
@@ -11,7 +11,7 @@
     "fuel_consumption_lph"
   ],
   "n_features": 5,
-  "n_training_samples": 7678,
+  "n_training_samples": 22500,
   "hyperparameters": {
     "n_estimators": 200,
     "contamination": 0.05,
@@ -22,16 +22,16 @@
     "threshold_critical": -0.04
   },
   "val_scores": {
-    "recall_anomaly": 0.9865,
-    "precision_anomaly": 0.9831,
-    "specificity": 0.9484,
-    "f1_score": 0.9848,
-    "fp_rate": 0.0516,
-    "mean_score_normal": 0.0782,
-    "mean_score_anomaly": -0.1442,
-    "n_val_normal": 853,
-    "n_val_anomaly": 2600
+    "recall_anomaly": 1.0,
+    "precision_anomaly": 0.9174,
+    "specificity": 0.946,
+    "f1_score": 0.9569,
+    "fp_rate": 0.054,
+    "mean_score_normal": 0.0745,
+    "mean_score_anomaly": -0.1676,
+    "n_val_normal": 2500,
+    "n_val_anomaly": 1500
   },
-  "notes": "Trained on NASA CMAPSS FD001 real engine data",
-  "model_id": "0b94104b-1d23-4aa3-8600-053632f23caf"
+  "notes": "Optimized hyperparameters with grid search",
+  "model_id": "7acac87a-89f9-4f0e-ad57-f19ad378fcfb"
 }

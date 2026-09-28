@@ -1,0 +1,35 @@
+{
+  "model_name": "energy_optimization",
+  "model_version": "v1",
+  "trained_at": "2026-09-28T19:15:48.089299+00:00",
+  "algorithm": "Q-Learning",
+  "feature_names": [
+    "battery_soc",
+    "renewable_power",
+    "power_demand",
+    "hour_of_day"
+  ],
+  "n_features": 4,
+  "n_training_samples": 500,
+  "hyperparameters": {
+    "learning_rate": 0.1,
+    "discount_factor": 0.95,
+    "epsilon_initial": 0.1,
+    "q_table_shape": [
+      10,
+      8,
+      6,
+      24,
+      4
+    ]
+  },
+  "val_scores": {
+    "fuel_savings_pct": -43.283004258614014,
+    "power_shortage_rate_pct": 7.986111111111111,
+    "action_accuracy_pct": 87.84722222222221,
+    "avg_reward": -30.426098773395346,
+    "total_fuel_saved_L": -2236.0
+  },
+  "notes": "Q-Learning for Antarctic power management",
+  "model_id": "b313bbdb-4116-4dc8-9aa7-2d48e834c56e"
+}
