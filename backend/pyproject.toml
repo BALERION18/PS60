@@ -1,11 +1,11 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=68", "wheel", "setuptools.backends"]
 build-backend = "setuptools.backends.legacy:build"
 
 [project]
-name = "vajrax"
+name = "himadri"
 version = "0.1.0"
-description = "Digital Twin: Antarctic Research Stations — Remote Management Platform"
+description = "HIMADRI — Antarctic Research Stations Remote Management Platform, NCPOR / MoES"
 readme = "README.md"
 license = {text = "Proprietary — NCPOR / MoES"}
 requires-python = ">=3.12"
