@@ -20,8 +20,8 @@ export default function AlertStrip() {
   const renderBulletinBlock = () => (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: 24, paddingRight: 24 }}>
       {bulletins.map((item, idx) => (
-        <span key={idx} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 600, color: '#1e293b' }}>
-          <span style={{ color: '#ea580c', fontWeight: 900 }}>★</span>
+        <span key={idx} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 600, color: '#252820' }}>
+          <span style={{ color: '#C58A32', fontWeight: 900 }}>★</span>
           <span>{item}</span>
         </span>
       ))}
@@ -31,8 +31,8 @@ export default function AlertStrip() {
   return (
     <div
       style={{
-        background: '#ffffff',
-        borderBottom: '1px solid #cbd5e1',
+        background: '#FCFBF8',
+        borderBottom: '1px solid #DDD8CC',
         padding: '3px 16px',
         display: 'flex',
         alignItems: 'center',
@@ -49,7 +49,7 @@ export default function AlertStrip() {
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          background: '#dc2626',
+          background: '#B85A5A',
           padding: '3px 10px',
           flexShrink: 0,
           boxShadow: '0 1px 2px rgba(220,38,38,0.25)',
@@ -90,8 +90,8 @@ export default function AlertStrip() {
           alignItems: 'center',
           gap: 6,
           flexShrink: 0,
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
+          background: '#F6F3ED',
+          border: '1px solid #E9E5DC',
           padding: '2px 8px',
           zIndex: 5,
         }}
@@ -105,7 +105,7 @@ export default function AlertStrip() {
             display: 'inline-block',
           }}
         />
-        <span style={{ fontSize: 10, fontWeight: 800, color: isError ? '#dc2626' : '#166534', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 10, fontWeight: 800, color: isError ? '#dc2626' : '#6F8747', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
           {isError ? 'LINK OFFLINE' : t('advisory.live')}
         </span>
       </div>

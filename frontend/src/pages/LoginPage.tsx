@@ -58,7 +58,7 @@ export default function LoginPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: '#f0f4f8',
+        background: '#E9E3D7',
         display: 'flex',
         flexDirection: 'column',
         fontFamily: 'Inter, sans-serif',
@@ -70,8 +70,8 @@ export default function LoginPage() {
       {/* ── Tier 2: Official Government Top Accessibility Bar ── */}
       <div
         style={{
-          background: '#0b3b60',
-          borderBottom: '2px solid #ff9933',
+          background: '#2A3429',
+          borderBottom: '2px solid #D4883A',
           padding: '8px 24px',
           display: 'flex',
           justifyContent: 'space-between',
@@ -86,30 +86,30 @@ export default function LoginPage() {
               height: 12,
               display: 'flex',
               flexDirection: 'column',
-              border: '1px solid #cbd5e1',
+              border: '1px solid #DDD8CC',
               overflow: 'hidden',
               flexShrink: 0,
             }}
           >
-            <div style={{ flex: 1, background: '#FF9933' }} />
-            <div style={{ flex: 1, background: '#FFFFFF', position: 'relative' }}>
-              <div style={{ width: 3, height: 3, borderRadius: '50%', background: '#0B3B60', margin: 'auto' }} />
+            <div style={{ flex: 1, background: '#D4883A' }} />
+            <div style={{ flex: 1, background: '#FCFBF8', position: 'relative' }}>
+              <div style={{ width: 3, height: 3, borderRadius: '50%', background: '#4F5935', margin: 'auto' }} />
             </div>
             <div style={{ flex: 1, background: '#138808' }} />
           </div>
 
-          <span style={{ fontSize: 12, fontWeight: 800, color: '#ffffff', letterSpacing: '0.02em' }}>
+          <span style={{ fontSize: 12, fontWeight: 800, color: '#FCFBF8', letterSpacing: '0.02em' }}>
             {t('gov.title')}
           </span>
           <span style={{ color: '#93c5fd' }}>•</span>
-          <span style={{ fontSize: 11.5, color: '#e0f2fe', fontWeight: 600 }}>
+          <span style={{ fontSize: 11.5, color: '#E4E8D3', fontWeight: 600 }}>
             {t('gov.ministry')}
           </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ fontSize: 10.5, color: '#cbd5e1', fontWeight: 700 }} className="hidden sm:block">
-            <span style={{ color: '#ffedd5', background: 'rgba(255, 153, 51, 0.25)', padding: '2px 8px', border: '1px solid #ff9933' }}>
+          <div style={{ fontSize: 10.5, color: '#DDD8CC', fontWeight: 700 }} className="hidden sm:block">
+            <span style={{ color: '#ffedd5', background: 'rgba(212, 136, 58, 0.15)', padding: '2px 8px', border: '1px solid #D4883A' }}>
               NIC MEGHRAJ SECURE GATEWAY
             </span>
           </div>
@@ -118,9 +118,9 @@ export default function LoginPage() {
           <button
             onClick={toggleLang}
             style={{
-              background: '#ffffff',
-              border: '1px solid #ff9933',
-              color: '#0b3b60',
+              background: '#FCFBF8',
+              border: '1px solid #D4883A',
+              color: '#4F5935',
               fontSize: 11,
               fontWeight: 800,
               padding: '3px 12px',
@@ -132,7 +132,7 @@ export default function LoginPage() {
             }}
             title={lang === 'hi' ? 'Switch portal to English' : 'पोर्टल को हिंदी में बदलें'}
           >
-            <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#ea580c' }}>translate</span>
+            <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#C58A32' }}>translate</span>
             <span>{lang === 'hi' ? 'English' : 'हिन्दी'}</span>
           </button>
         </div>
@@ -151,15 +151,15 @@ export default function LoginPage() {
         <div style={{ width: '100%', maxWidth: 480 }}>
           {/* Official Government of India Logo & Ministry Header */}
           <div style={{ textAlign: 'center', marginBottom: 16, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <GovtOfIndiaLogo size={56} color="#0b3b60" showGovtText={true} textColor="#0b3b60" />
+            <GovtOfIndiaLogo size={56} color="#4F5935" showGovtText={true} textColor="#4F5935" />
             <div style={{ marginTop: 10 }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#0b3b60', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#4F5935', letterSpacing: '0.04em' }}>
                 {t('gov.ncpor')}
               </div>
-              <h1 style={{ fontSize: 18, fontWeight: 900, color: '#0f172a', marginTop: 3, letterSpacing: '-0.01em' }}>
+              <h1 style={{ fontSize: 18, fontWeight: 900, color: '#252820', marginTop: 3, letterSpacing: '-0.01em' }}>
                 {t('login.portal_title')}
               </h1>
-              <div style={{ fontSize: 11, color: '#475569', fontWeight: 600 }}>
+              <div style={{ fontSize: 11, color: '#687066', fontWeight: 600 }}>
                 {t('app.subtitle')}
               </div>
             </div>
@@ -168,9 +168,9 @@ export default function LoginPage() {
           {/* Institutional Government Card */}
           <div
             style={{
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderTop: '4px solid #0b3b60',
+              background: '#FCFBF8',
+              border: '1px solid #DDD8CC',
+              borderTop: '4px solid #4F5935',
               boxShadow: '0 4px 15px -1px rgba(0, 0, 0, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04)',
               padding: '24px 28px',
             }}
@@ -181,27 +181,27 @@ export default function LoginPage() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                borderBottom: '1px solid #e2e8f0',
+                borderBottom: '1px solid #E9E5DC',
                 paddingBottom: 10,
                 marginBottom: 14,
               }}
             >
               <div>
-                <div style={{ fontSize: 14, fontWeight: 900, color: '#0b3b60', letterSpacing: '0.01em' }}>
+                <div style={{ fontSize: 14, fontWeight: 900, color: '#4F5935', letterSpacing: '0.01em' }}>
                   {t('login.heading')}
                 </div>
-                <div style={{ fontSize: 10.5, color: '#64748b', fontWeight: 600 }}>
+                <div style={{ fontSize: 10.5, color: '#687066', fontWeight: 600 }}>
                   {t('login.restricted_notice')}
                 </div>
               </div>
               <div
                 style={{
-                  background: '#fef2f2',
-                  border: '1px solid #fecaca',
+                  background: '#F5E8E8',
+                  border: '1px solid #D4A5A5',
                   padding: '3px 8px',
                   fontSize: 9,
                   fontWeight: 900,
-                  color: '#dc2626',
+                  color: '#B85A5A',
                   letterSpacing: '0.04em',
                 }}
               >
@@ -213,12 +213,12 @@ export default function LoginPage() {
             {error && (
               <div
                 style={{
-                  background: '#fef2f2',
+                  background: '#F5E8E8',
                   border: '1px solid #f87171',
                   padding: '8px 12px',
                   marginBottom: 14,
                   fontSize: 11.5,
-                  color: '#991b1b',
+                  color: '#8B4040',
                   fontWeight: 600,
                 }}
               >
@@ -234,7 +234,7 @@ export default function LoginPage() {
                     fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: '0.03em',
-                    color: '#334155',
+                    color: '#252820',
                     display: 'block',
                     marginBottom: 5,
                   }}
@@ -244,7 +244,7 @@ export default function LoginPage() {
                 <div style={{ position: 'relative' }}>
                   <span
                     className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2"
-                    style={{ fontSize: 18, color: '#64748b' }}
+                    style={{ fontSize: 18, color: '#687066' }}
                   >
                     badge
                   </span>
@@ -256,16 +256,16 @@ export default function LoginPage() {
                     placeholder="admin / operator"
                     style={{
                       width: '100%',
-                      background: '#f8fafc',
-                      border: '1.5px solid #cbd5e1',
-                      color: '#0f172a',
+                      background: '#F6F3ED',
+                      border: '1.5px solid #DDD8CC',
+                      color: '#252820',
                       fontSize: 13,
                       fontFamily: 'Inter',
                       padding: '8px 10px 8px 36px',
                       outline: 'none',
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = '#0b3b60')}
-                    onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
+                    onFocus={(e) => (e.target.style.borderColor = '#4F5935')}
+                    onBlur={(e) => (e.target.style.borderColor = '#DDD8CC')}
                   />
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function LoginPage() {
                     fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: '0.03em',
-                    color: '#334155',
+                    color: '#252820',
                     display: 'block',
                     marginBottom: 5,
                   }}
@@ -287,7 +287,7 @@ export default function LoginPage() {
                 <div style={{ position: 'relative' }}>
                   <span
                     className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2"
-                    style={{ fontSize: 18, color: '#64748b' }}
+                    style={{ fontSize: 18, color: '#687066' }}
                   >
                     lock
                   </span>
@@ -299,16 +299,16 @@ export default function LoginPage() {
                     placeholder="••••••••••••"
                     style={{
                       width: '100%',
-                      background: '#f8fafc',
-                      border: '1.5px solid #cbd5e1',
-                      color: '#0f172a',
+                      background: '#F6F3ED',
+                      border: '1.5px solid #DDD8CC',
+                      color: '#252820',
                       fontSize: 13,
                       fontFamily: 'Inter',
                       padding: '8px 10px 8px 36px',
                       outline: 'none',
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = '#0b3b60')}
-                    onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
+                    onFocus={(e) => (e.target.style.borderColor = '#4F5935')}
+                    onBlur={(e) => (e.target.style.borderColor = '#DDD8CC')}
                   />
                 </div>
               </div>
@@ -320,7 +320,7 @@ export default function LoginPage() {
                     fontSize: 11,
                     fontWeight: 700,
                     letterSpacing: '0.03em',
-                    color: '#334155',
+                    color: '#252820',
                     display: 'block',
                     marginBottom: 5,
                   }}
@@ -335,30 +335,30 @@ export default function LoginPage() {
                     placeholder="Captcha Code"
                     style={{
                       flex: 1,
-                      background: '#f8fafc',
-                      border: '1.5px solid #cbd5e1',
-                      color: '#0f172a',
+                      background: '#F6F3ED',
+                      border: '1.5px solid #DDD8CC',
+                      color: '#252820',
                       fontSize: 13,
                       fontFamily: 'Inter',
                       padding: '8px 12px',
                       outline: 'none',
                       textTransform: 'uppercase',
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = '#0b3b60')}
-                    onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
+                    onFocus={(e) => (e.target.style.borderColor = '#4F5935')}
+                    onBlur={(e) => (e.target.style.borderColor = '#DDD8CC')}
                   />
 
                   {/* Stylized Captcha Canvas Box */}
                   <div
                     style={{
-                      background: '#e0f2fe',
-                      border: '1px solid #7dd3fc',
+                      background: '#E4E8D3',
+                      border: '1px solid #D5D9C8',
                       padding: '5px 12px',
                       fontFamily: 'Courier New, monospace',
                       fontSize: 18,
                       fontWeight: 900,
                       letterSpacing: '4px',
-                      color: '#0369a1',
+                      color: '#4F5935',
                       userSelect: 'none',
                       textDecoration: 'line-through',
                       fontStyle: 'italic',
@@ -374,9 +374,9 @@ export default function LoginPage() {
                     type="button"
                     onClick={refreshCaptcha}
                     style={{
-                      background: '#f1f5f9',
-                      border: '1px solid #cbd5e1',
-                      color: '#475569',
+                      background: '#F6F3ED',
+                      border: '1px solid #DDD8CC',
+                      color: '#687066',
                       padding: '7px 8px',
                       cursor: 'pointer',
                     }}
@@ -393,9 +393,9 @@ export default function LoginPage() {
                 disabled={loading}
                 style={{
                   width: '100%',
-                  background: loading ? '#64748b' : '#0b3b60',
+                  background: loading ? '#687066' : '#4F5935',
                   border: 'none',
-                  color: '#ffffff',
+                  color: '#FCFBF8',
                   fontSize: 12.5,
                   fontWeight: 800,
                   letterSpacing: '0.05em',
@@ -411,7 +411,7 @@ export default function LoginPage() {
                   transition: 'background 0.15s',
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#ff9933' }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#D4883A' }}>
                   verified_user
                 </span>
                 <span>{loading ? t('login.authenticating') : t('login.button')}</span>
@@ -423,12 +423,12 @@ export default function LoginPage() {
               style={{
                 marginTop: 16,
                 paddingTop: 14,
-                borderTop: '1px solid #e2e8f0',
+                borderTop: '1px solid #E9E5DC',
                 fontSize: 10.5,
-                color: '#64748b',
+                color: '#687066',
               }}
             >
-              <div style={{ fontWeight: 700, color: '#334155', marginBottom: 6 }}>
+              <div style={{ fontWeight: 700, color: '#252820', marginBottom: 6 }}>
                 {t('login.dev_helper')}
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
@@ -437,9 +437,9 @@ export default function LoginPage() {
                   onClick={() => setQuickCreds('admin', 'admin123')}
                   style={{
                     flex: 1,
-                    background: '#f8fafc',
-                    border: '1px solid #cbd5e1',
-                    color: '#0b3b60',
+                    background: '#F6F3ED',
+                    border: '1px solid #DDD8CC',
+                    color: '#4F5935',
                     padding: '6px 8px',
                     fontSize: 10,
                     cursor: 'pointer',
@@ -447,10 +447,10 @@ export default function LoginPage() {
                     textAlign: 'left',
                     fontWeight: 700,
                   }}
-                  onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.borderColor = '#0b3b60')}
-                  onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.borderColor = '#cbd5e1')}
+                  onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.borderColor = '#4F5935')}
+                  onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.borderColor = '#DDD8CC')}
                 >
-                  <span style={{ fontWeight: 800, color: '#ea580c' }}>Admin:</span> admin / admin123
+                  <span style={{ fontWeight: 800, color: '#C58A32' }}>Admin:</span> admin / admin123
                 </button>
               </div>
             </div>
@@ -465,7 +465,7 @@ export default function LoginPage() {
               alignItems: 'center',
               gap: 14,
               fontSize: 10,
-              color: '#64748b',
+              color: '#687066',
               fontWeight: 800,
               letterSpacing: '0.04em',
             }}

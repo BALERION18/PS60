@@ -16,7 +16,7 @@ export default function StationTabs({ active, onSelect }: Props) {
   const bharati = stations?.find((s) => s.station_id === 'bharati')
 
   const dotColor = (s: typeof maitri) =>
-    !s ? '#94a3b8' : s.link_state === 'UP' ? '#16a34a' : s.link_state === 'DEGRADED' ? '#d97706' : '#dc2626'
+    !s ? '#94a3b8' : s.link_state === 'UP' ? '#6F8747' : s.link_state === 'DEGRADED' ? '#C58A32' : '#B85A5A'
 
   const stateText = (s: typeof maitri) =>
     !s ? 'UNKNOWN' : s.link_state === 'UP' ? t('station.online') : s.link_state === 'DEGRADED' ? t('station.degraded') : t('station.offline')
@@ -36,9 +36,10 @@ export default function StationTabs({ active, onSelect }: Props) {
       <div
         style={{
           display: 'flex',
-          background: '#ffffff',
-          border: '1px solid #cbd5e1',
+          background: '#FCFBF8',
+          border: '1px solid #DDD8CC',
           boxShadow: '0 1px 2px 0 rgba(0,0,0,0.04)',
+          borderRadius: 12,
           padding: 4,
           gap: 6,
           flex: 1,
@@ -69,13 +70,13 @@ export default function StationTabs({ active, onSelect }: Props) {
                 flexDirection: 'column',
                 alignItems: 'flex-start',
                 padding: '5px 12px',
-                background: isSelected ? '#0b3b60' : '#f8fafc',
-                border: isSelected ? '1px solid #0b3b60' : '1px solid #e2e8f0',
-                borderLeft: isSelected ? '3px solid #ff9933' : '3px solid transparent',
+                background: isSelected ? '#4F5935' : '#F6F3ED',
+                border: isSelected ? '1px solid #4F5935' : '1px solid #E9E5DC',
+                borderLeft: isSelected ? '3px solid #D4883A' : '3px solid transparent',
                 cursor: 'pointer',
                 fontFamily: 'Inter',
                 transition: 'all 0.15s',
-                borderRadius: 2,
+                borderRadius: 8,
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
@@ -94,7 +95,7 @@ export default function StationTabs({ active, onSelect }: Props) {
                       fontSize: 13,
                       fontWeight: 800,
                       letterSpacing: '0.02em',
-                      color: isSelected ? '#ffffff' : '#0f172a',
+                      color: isSelected ? '#ffffff' : '#252820',
                     }}
                   >
                     {name}
@@ -105,9 +106,9 @@ export default function StationTabs({ active, onSelect }: Props) {
                     style={{
                       fontSize: 8.5,
                       fontWeight: 800,
-                      color: '#166534',
-                      background: '#dcfce7',
-                      border: '1px solid #86efac',
+                      color: '#6F8747',
+                      background: '#E4E8D3',
+                      border: '1px solid #C5D4A8',
                       padding: '1px 6px',
                       borderRadius: 2,
                     }}
@@ -117,10 +118,10 @@ export default function StationTabs({ active, onSelect }: Props) {
                 )}
               </div>
 
-              <div style={{ display: 'flex', gap: 8, marginTop: 3, fontSize: 10.5, color: isSelected ? '#cbd5e1' : '#64748b' }}>
+              <div style={{ display: 'flex', gap: 8, marginTop: 3, fontSize: 10.5, color: isSelected ? '#E9E5DC' : '#8A9088' }}>
                 <span>{coords}</span>
                 <span>•</span>
-                <span style={{ color: isSelected ? '#86efac' : '#16a34a', fontWeight: 700 }}>
+                <span style={{ color: isSelected ? '#C5D4A8' : '#6F8747', fontWeight: 700 }}>
                   ● {stateText(status)}
                 </span>
               </div>

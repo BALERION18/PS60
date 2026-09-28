@@ -21,7 +21,7 @@ export default function FuelSparkline({ values, color = '#ea580c', label = 'FUEL
   const pointStr = pts.map((v, i) => `${i * xStep},${toY(v)}`).join(' ')
 
   return (
-    <div style={{ position: 'relative', flex: 1, minHeight: 56, borderBottom: '1px solid #e2e8f0', borderLeft: '1px solid #e2e8f0', background: '#f8fafc', padding: '4px' }}>
+    <div style={{ position: 'relative', flex: 1, minHeight: 56, borderBottom: '1px solid #E9E5DC', borderLeft: '1px solid #E9E5DC', background: '#F6F3ED', padding: '4px' }}>
       <span style={{ position: 'absolute', top: 3, right: 6, fontSize: 9.5, fontWeight: 700, color: '#334155', letterSpacing: '0.04em', zIndex: 2 }}>
         {label}
       </span>

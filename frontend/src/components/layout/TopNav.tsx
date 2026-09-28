@@ -37,14 +37,14 @@ export default function TopNav() {
       {/* ── Tier 1: Accessibility & Government of India National Bar (GIGW 3.0 Standard) ── */}
       <div
         style={{
-          background: '#f8fafc',
-          borderBottom: '1px solid #e2e8f0',
+          background: '#FCFBF8',
+          borderBottom: '1px solid #E9E5DC',
           padding: '3px 20px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           fontSize: 11,
-          color: '#334155',
+          color: '#687066',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -55,14 +55,14 @@ export default function TopNav() {
               height: 12,
               display: 'flex',
               flexDirection: 'column',
-              border: '1px solid #cbd5e1',
+              border: '1px solid #DDD8CC',
               overflow: 'hidden',
               flexShrink: 0,
             }}
           >
             <div style={{ flex: 1, background: '#FF9933' }} />
             <div style={{ flex: 1, background: '#FFFFFF', position: 'relative' }}>
-              <div style={{ width: 3, height: 3, borderRadius: '50%', background: '#0B3B60', margin: 'auto' }} />
+              <div style={{ width: 3, height: 3, borderRadius: '50%', background: '#4F5935', margin: 'auto' }} />
             </div>
             <div style={{ flex: 1, background: '#138808' }} />
           </div>
@@ -82,7 +82,7 @@ export default function TopNav() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           {/* Dynamic Indian Standard Time */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#0b3b60', fontFamily: 'Inter', fontWeight: 700, fontSize: 10.5 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#4F5935', fontFamily: 'Inter', fontWeight: 700, fontSize: 10.5 }}>
             <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#ea580c' }}>schedule</span>
             <span>{timeStr || 'LIVE IST'}</span>
           </div>
@@ -91,7 +91,7 @@ export default function TopNav() {
           <button
             onClick={toggleLang}
             style={{
-              background: '#0b3b60',
+              background: '#4F5935',
               border: '1px solid #082842',
               color: '#ffffff',
               fontSize: 11,
@@ -106,7 +106,7 @@ export default function TopNav() {
             }}
             title={lang === 'hi' ? 'Switch portal to English' : 'पोर्टल को हिंदी में बदलें'}
           >
-            <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#ff9933' }}>translate</span>
+            <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#D4883A' }}>translate</span>
             <span>{lang === 'hi' ? 'English' : 'हिन्दी'}</span>
           </button>
         </div>
@@ -120,7 +120,7 @@ export default function TopNav() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          borderBottom: '2px solid #FF9933',
+          borderBottom: '2px solid #D4883A',
         }}
       >
         {/* Left: Ministry Hierarchy & Application Brand */}
@@ -139,7 +139,7 @@ export default function TopNav() {
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             {/* Tier A: Organisation Name */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#0369a1', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#76804D', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 {t('gov.ncpor')}
               </span>
               <span style={{ fontSize: 9, fontWeight: 700, background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', padding: '1px 6px', borderRadius: 3 }}>
@@ -154,7 +154,7 @@ export default function TopNav() {
                 alt="HIMANTAR"
                 style={{ height: 24, width: 'auto', objectFit: 'contain', display: 'block' }}
               />
-              <span style={{ fontSize: 13.5, fontWeight: 800, color: '#0b3b60', letterSpacing: '-0.01em' }}>
+              <span style={{ fontSize: 13.5, fontWeight: 800, color: '#252820', letterSpacing: '-0.01em' }}>
                 {t('app.title')}
               </span>
             </div>
@@ -175,16 +175,16 @@ export default function TopNav() {
               display: 'flex',
               alignItems: 'center',
               gap: 10,
-              background: '#f8fafc',
-              border: '1px solid #cbd5e1',
+              background: '#F6F3ED',
+              border: '1px solid #DDD8CC',
               padding: '5px 12px',
             }}
           >
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#0b3b60', lineHeight: 1.1 }}>
+              <div style={{ fontSize: 12, fontWeight: 800, color: '#4F5935', lineHeight: 1.1 }}>
                 {user?.username ? user.username.toUpperCase() : 'OFFICER'}
               </div>
-              <div style={{ fontSize: 9, fontWeight: 700, color: '#ea580c', letterSpacing: '0.04em' }}>
+              <div style={{ fontSize: 9, fontWeight: 700, color: '#C58A32', letterSpacing: '0.04em' }}>
                 {t('header.hq')}
               </div>
             </div>

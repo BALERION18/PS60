@@ -23,21 +23,21 @@ export default function SeismicCard({ stationId }: Props) {
       label: 'DATA COMPRESSION',
       value: '88.2% SAVED',
       sub: '8.4x Compacted at Edge',
-      color: '#0b3b60',
+      color: '#4F5935',
     },
     {
       icon: 'inventory_2',
       label: 'LOCAL BACKUP',
       value: '30 DAYS',
       sub: 'Zero Data Loss Risk',
-      color: '#0b3b60',
+      color: '#4F5935',
     },
     {
       icon: 'cloud_sync',
       label: 'UPLINK SPEED',
       value: '42 kbps',
       sub: 'Hourly Batched Sync',
-      color: '#0b3b60',
+      color: '#4F5935',
     },
   ]
 
@@ -61,14 +61,14 @@ export default function SeismicCard({ stationId }: Props) {
       label: 'FOOD RATIONS',
       value: '290 DAYS',
       sub: '95% Winter Supply',
-      color: '#0b3b60',
+      color: '#4F5935',
     },
     {
       icon: 'group',
       label: 'WINTER CREW',
       value: '48 ON SITE',
       sub: 'Safe Autonomy: 246 Days',
-      color: '#0b3b60',
+      color: '#4F5935',
     },
   ]
 
@@ -78,9 +78,11 @@ export default function SeismicCard({ stationId }: Props) {
     <div
       style={{
         width: '100%',
-        background: '#ffffff',
-        border: '1px solid #cbd5e1',
-        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
+        background: '#FCFBF8',
+        border: '1px solid #DDD8CC',
+        borderTop: '3px solid #4F5935',
+        borderRadius: 12,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         display: 'flex',
         flexDirection: 'column',
         minHeight: 185,
@@ -88,28 +90,24 @@ export default function SeismicCard({ stationId }: Props) {
         overflow: 'hidden',
       }}
     >
-      {/* Official Government Header Strip */}
-      <div
-        style={{
-          background: '#0b3b60',
-          borderBottom: '2px solid #ff9933',
-          padding: '6px 12px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 8,
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, flex: 1 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#ff9933', flexShrink: 0 }}>
+      {/* Card Header Strip */}
+      <div style={{
+        padding: '12px 16px 8px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 8,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, flex: 1 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#4F5935', flexShrink: 0 }}>
             {viewMode === 'sync' ? 'satellite_alt' : 'shield_with_heart'}
           </span>
           <span
             style={{
-              fontSize: 11.5,
-              fontWeight: 800,
-              color: '#ffffff',
-              letterSpacing: '0.04em',
+              fontSize: 12,
+              fontWeight: 700,
+              color: '#252820',
+              letterSpacing: '0.02em',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -126,12 +124,12 @@ export default function SeismicCard({ stationId }: Props) {
             style={{
               fontSize: 8.5,
               fontWeight: 800,
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.35)',
-              color: '#ffffff',
+              background: '#F6F3ED',
+              border: '1px solid #E9E5DC',
+              color: '#687066',
               padding: '2px 6px',
               cursor: 'pointer',
-              borderRadius: 2,
+              borderRadius: 4,
               whiteSpace: 'nowrap',
             }}
           >
@@ -140,12 +138,12 @@ export default function SeismicCard({ stationId }: Props) {
           <span
             style={{
               fontSize: 8.5,
-              color: '#ffedd5',
-              background: 'rgba(255, 153, 51, 0.25)',
-              border: '1px solid rgba(255, 153, 51, 0.5)',
+              color: '#4F5935',
+              background: '#E4E8D3',
+              border: '1px solid #C5D4A8',
               padding: '1px 6px',
               fontWeight: 800,
-              borderRadius: 2,
+              borderRadius: 4,
               whiteSpace: 'nowrap',
             }}
           >
@@ -154,7 +152,7 @@ export default function SeismicCard({ stationId }: Props) {
         </div>
       </div>
 
-      {/* Official Government 4-Tile Parameter Grid (Matches MetMastCard) */}
+      {/* Grid */}
       <div
         style={{
           flex: 1,
@@ -162,15 +160,16 @@ export default function SeismicCard({ stationId }: Props) {
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: 8,
-          background: '#f8fafc',
+          background: '#F6F3ED',
         }}
       >
         {metrics.map(({ icon, label, value, sub, color }) => (
           <div
             key={label}
             style={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
+              background: '#FCFBF8',
+              border: '1px solid #E9E5DC',
+              borderRadius: 8,
               padding: '7px 10px',
               display: 'flex',
               flexDirection: 'column',
@@ -179,17 +178,17 @@ export default function SeismicCard({ stationId }: Props) {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
-              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: '#64748b' }}>
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: '#687066' }}>
                 {label}
               </span>
-              <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#94a3b8' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#8A9088' }}>
                 {icon}
               </span>
             </div>
-            <div style={{ fontSize: 15, fontWeight: 800, color, fontFamily: 'Inter', letterSpacing: '-0.01em' }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: color === '#16a34a' ? '#6F8747' : color === '#0284c7' ? '#8278A4' : color === '#4F5935' ? '#4F5935' : color, fontFamily: 'Inter', letterSpacing: '-0.01em' }}>
               {value}
             </div>
-            <div style={{ fontSize: 8.5, fontWeight: 600, color: '#64748b', marginTop: 1 }}>
+            <div style={{ fontSize: 8.5, fontWeight: 600, color: '#687066', marginTop: 1 }}>
               {sub}
             </div>
           </div>
@@ -199,14 +198,14 @@ export default function SeismicCard({ stationId }: Props) {
       {/* Official Government Verification Strip */}
       <div
         style={{
-          background: '#f1f5f9',
-          borderTop: '1px solid #e2e8f0',
+          background: '#F6F3ED',
+          borderTop: '1px solid #E9E5DC',
           padding: '4px 10px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           fontSize: 8.5,
-          color: '#475569',
+          color: '#687066',
         }}
       >
         <span>
@@ -214,7 +213,7 @@ export default function SeismicCard({ stationId }: Props) {
             ? `● DTN Polar Store & Forward • ${stationName}`
             : `● 45th Expedition • Winter Lockout Ready`}
         </span>
-        <span style={{ color: '#15803d', fontWeight: 700 }}>
+        <span style={{ color: '#6F8747', fontWeight: 700 }}>
           {viewMode === 'sync' ? '✓ ISRO Verified' : '✓ Resources Safe'}
         </span>
       </div>

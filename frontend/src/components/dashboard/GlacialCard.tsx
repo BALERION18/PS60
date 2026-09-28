@@ -42,37 +42,35 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
     <div
       style={{
         width: '100%',
-        background: '#ffffff',
-        border: '1px solid #cbd5e1',
-        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
+        background: '#FCFBF8',
+        border: '1px solid #DDD8CC',
+        borderTop: '3px solid #76804D',
+        borderRadius: 12,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         display: 'flex',
         flexDirection: 'column',
         minHeight: 185,
+        overflow: 'hidden',
       }}
     >
-      {/* Official Government Header Strip */}
-      <div
-        style={{
-          background: '#0b3b60',
-          borderBottom: '2px solid #ff9933',
-          padding: '6px 10px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 8,
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0, flex: 1 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#ff9933', flexShrink: 0 }}>
+      {/* Card Header Strip */}
+      <div style={{
+        padding: '12px 16px 8px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 8,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, flex: 1 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#76804D', flexShrink: 0 }}>
             {viewMode === 'gpr' ? 'radar' : 'water_drop'}
           </span>
           <span
             style={{
-              fontSize: 11.5,
-              fontWeight: 800,
-              color: '#ffffff',
-              letterSpacing: '0.03em',
+              fontSize: 12,
+              fontWeight: 700,
+              color: '#252820',
+              letterSpacing: '0.02em',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -89,12 +87,12 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
             style={{
               fontSize: 8.5,
               fontWeight: 800,
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.35)',
-              color: '#ffffff',
+              background: '#F6F3ED',
+              border: '1px solid #E9E5DC',
+              color: '#687066',
               padding: '2px 6px',
               cursor: 'pointer',
-              borderRadius: 2,
+              borderRadius: 4,
               whiteSpace: 'nowrap',
             }}
           >
@@ -103,12 +101,12 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
           <span
             style={{
               fontSize: 8.5,
-              color: '#ffedd5',
-              background: 'rgba(255, 153, 51, 0.25)',
-              border: '1px solid rgba(255, 153, 51, 0.5)',
+              color: '#6F8747',
+              background: '#E4E8D3',
+              border: '1px solid #C5D4A8',
               padding: '1px 5px',
               fontWeight: 800,
-              borderRadius: 2,
+              borderRadius: 4,
               whiteSpace: 'nowrap',
             }}
           >
@@ -119,18 +117,18 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
 
       {viewMode === 'gpr' ? (
         /* ── OFFICIAL GOVERNMENT SCIENTIFIC GRAPH (Light Theme, Clear Grid & Labels) ── */
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#FCFBF8' }}>
           {/* Government Legend Ribbon */}
           <div
             style={{
-              background: '#f8fafc',
-              borderBottom: '1px solid #e2e8f0',
+              background: '#F6F3ED',
+              borderBottom: '1px solid #E9E5DC',
               padding: '5px 10px',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               fontSize: 9.5,
-              color: '#334155',
+              color: '#687066',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -143,7 +141,7 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
                 <span>Solid Ice (15–142m)</span>
               </span>
               <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <span style={{ width: 10, height: 4, background: '#ea580c', display: 'inline-block' }} />
+                <span style={{ width: 10, height: 4, background: '#C58A32', display: 'inline-block' }} />
                 <span>Bedrock (142m)</span>
               </span>
             </div>
@@ -151,9 +149,9 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
               style={{
                 fontSize: 8.5,
                 fontWeight: 800,
-                color: '#166534',
-                background: '#dcfce7',
-                border: '1px solid #86efac',
+                color: '#6F8747',
+                background: '#E4E8D3',
+                border: '1px solid #C5D4A8',
                 padding: '1px 6px',
                 borderRadius: 2,
               }}
@@ -163,12 +161,12 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
           </div>
 
           {/* Clean Scientific Graph Canvas (Government Standard Light Paper Format) */}
-          <div style={{ flex: 1, position: 'relative', minHeight: 92, background: '#f8fafc', borderBottom: '1px solid #e2e8f0', overflow: 'hidden' }}>
+          <div style={{ flex: 1, position: 'relative', minHeight: 92, background: '#F6F3ED', borderBottom: '1px solid #E9E5DC', overflow: 'hidden' }}>
             <svg style={{ width: '100%', height: '100%' }} viewBox="0 0 320 88" preserveAspectRatio="none">
               <defs>
                 {/* Government Grid Pattern */}
                 <pattern id="radar-grid" width="30" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M 30 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" strokeWidth="0.8" />
+                  <path d="M 30 0 L 0 0 0 20" fill="none" stroke="#E9E5DC" strokeWidth="0.8" />
                 </pattern>
                 {/* Surface Snow Tint */}
                 <linearGradient id="gov-snow-fill" x1="0" y1="0" x2="0" y2="1">
@@ -189,18 +187,18 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
 
               {/* Grid Background */}
               <rect x="36" y="6" width="280" height="74" fill="url(#radar-grid)" />
-              <line x1="36" y1="6" x2="36" y2="80" stroke="#cbd5e1" strokeWidth="1.2" />
-              <line x1="36" y1="80" x2="316" y2="80" stroke="#cbd5e1" strokeWidth="1.2" />
+              <line x1="36" y1="6" x2="36" y2="80" stroke="#DDD8CC" strokeWidth="1.2" />
+              <line x1="36" y1="80" x2="316" y2="80" stroke="#DDD8CC" strokeWidth="1.2" />
 
               {/* Y-Axis Reference Guide Lines */}
-              <line x1="36" y1="14" x2="316" y2="14" stroke="#cbd5e1" strokeDasharray="3,3" strokeWidth="0.8" />
-              <line x1="36" y1="42" x2="316" y2="42" stroke="#cbd5e1" strokeDasharray="3,3" strokeWidth="0.8" />
-              <line x1="36" y1="68" x2="316" y2="68" stroke="#cbd5e1" strokeDasharray="3,3" strokeWidth="0.8" />
+              <line x1="36" y1="14" x2="316" y2="14" stroke="#DDD8CC" strokeDasharray="3,3" strokeWidth="0.8" />
+              <line x1="36" y1="42" x2="316" y2="42" stroke="#DDD8CC" strokeDasharray="3,3" strokeWidth="0.8" />
+              <line x1="36" y1="68" x2="316" y2="68" stroke="#DDD8CC" strokeDasharray="3,3" strokeWidth="0.8" />
 
               {/* Y-Axis Labels (Depth in Metres) */}
-              <text x="32" y="17" fill="#475569" fontSize="8" fontWeight="700" fontFamily="Inter" textAnchor="end">0 m</text>
-              <text x="32" y="45" fill="#475569" fontSize="8" fontWeight="700" fontFamily="Inter" textAnchor="end">-70 m</text>
-              <text x="32" y="71" fill="#ea580c" fontSize="8" fontWeight="800" fontFamily="Inter" textAnchor="end">-142 m</text>
+              <text x="32" y="17" fill="#687066" fontSize="8" fontWeight="700" fontFamily="Inter" textAnchor="end">0 m</text>
+              <text x="32" y="45" fill="#687066" fontSize="8" fontWeight="700" fontFamily="Inter" textAnchor="end">-70 m</text>
+              <text x="32" y="71" fill="#C58A32" fontSize="8" fontWeight="800" fontFamily="Inter" textAnchor="end">-142 m</text>
 
               {/* Layer 1: Top Snow Layer (0 to 15m) */}
               <path
@@ -235,15 +233,15 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
               <path
                 d="M 36 67 C 110 70, 200 64, 316 67"
                 fill="none"
-                stroke="#ea580c"
+                stroke="#C58A32"
                 strokeWidth="2.4"
                 strokeLinecap="round"
               />
 
               {/* X-Axis Distance Labels */}
-              <text x="40" y="78" fill="#64748b" fontSize="7" fontWeight="600" fontFamily="Inter">0 m (Base Start)</text>
-              <text x="176" y="78" fill="#64748b" fontSize="7" fontWeight="600" fontFamily="Inter" textAnchor="middle">100 m</text>
-              <text x="312" y="78" fill="#64748b" fontSize="7" fontWeight="600" fontFamily="Inter" textAnchor="end">200 m (End)</text>
+              <text x="40" y="78" fill="#8A9088" fontSize="7" fontWeight="600" fontFamily="Inter">0 m (Base Start)</text>
+              <text x="176" y="78" fill="#8A9088" fontSize="7" fontWeight="600" fontFamily="Inter" textAnchor="middle">100 m</text>
+              <text x="312" y="78" fill="#8A9088" fontSize="7" fontWeight="600" fontFamily="Inter" textAnchor="end">200 m (End)</text>
             </svg>
 
             {/* Official Station Perimeter Watermark */}
@@ -254,9 +252,9 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
                 right: 10,
                 fontSize: 8,
                 fontWeight: 700,
-                color: '#0b3b60',
-                background: 'rgba(255, 255, 255, 0.9)',
-                border: '1px solid #cbd5e1',
+                color: '#4F5935',
+                background: 'rgba(252, 251, 248, 0.9)',
+                border: '1px solid #DDD8CC',
                 padding: '1px 5px',
                 borderRadius: 2,
               }}
@@ -265,10 +263,10 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
             </div>
           </div>
 
-          {/* Simple Government Metrics Bar (Plain, Easy Words) */}
+          {/* Simple Metrics Bar */}
           <div
             style={{
-              background: '#ffffff',
+              background: '#FCFBF8',
               padding: '6px 10px',
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
@@ -276,66 +274,66 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
               textAlign: 'center',
             }}
           >
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 2 }}>
-              <div style={{ fontSize: 8.5, color: '#64748b', fontWeight: 700 }}>ICE THICKNESS</div>
-              <div style={{ fontSize: 13, color: '#0b3b60', fontWeight: 800 }}>142.4 Metres</div>
-              <div style={{ fontSize: 8, color: '#16a34a', fontWeight: 600 }}>Solid & Stable Ice</div>
+            <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', padding: '4px 6px', borderRadius: 8 }}>
+              <div style={{ fontSize: 8.5, color: '#687066', fontWeight: 700 }}>ICE THICKNESS</div>
+              <div style={{ fontSize: 13, color: '#4F5935', fontWeight: 800 }}>142.4 Metres</div>
+              <div style={{ fontSize: 8, color: '#6F8747', fontWeight: 600 }}>Solid & Stable Ice</div>
             </div>
 
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 2 }}>
-              <div style={{ fontSize: 8.5, color: '#64748b', fontWeight: 700 }}>GROUND CRACKS</div>
-              <div style={{ fontSize: 13, color: '#16a34a', fontWeight: 800 }}>None (Zero)</div>
-              <div style={{ fontSize: 8, color: '#16a34a', fontWeight: 600 }}>100% Safe Ground</div>
+            <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', padding: '4px 6px', borderRadius: 8 }}>
+              <div style={{ fontSize: 8.5, color: '#687066', fontWeight: 700 }}>GROUND CRACKS</div>
+              <div style={{ fontSize: 13, color: '#6F8747', fontWeight: 800 }}>None (Zero)</div>
+              <div style={{ fontSize: 8, color: '#6F8747', fontWeight: 600 }}>100% Safe Ground</div>
             </div>
 
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '4px 6px', borderRadius: 2 }}>
-              <div style={{ fontSize: 8.5, color: '#64748b', fontWeight: 700 }}>BEDROCK DEPTH</div>
-              <div style={{ fontSize: 13, color: '#ea580c', fontWeight: 800 }}>-142.4 Metres</div>
-              <div style={{ fontSize: 8, color: '#64748b', fontWeight: 600 }}>Solid Continental Rock</div>
+            <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', padding: '4px 6px', borderRadius: 8 }}>
+              <div style={{ fontSize: 8.5, color: '#687066', fontWeight: 700 }}>BEDROCK DEPTH</div>
+              <div style={{ fontSize: 13, color: '#C58A32', fontWeight: 800 }}>-142.4 Metres</div>
+              <div style={{ fontSize: 8, color: '#687066', fontWeight: 600 }}>Solid Continental Rock</div>
             </div>
           </div>
 
           {/* Official Verification Footer */}
           <div
             style={{
-              background: '#f1f5f9',
-              borderTop: '1px solid #e2e8f0',
+              background: '#F6F3ED',
+              borderTop: '1px solid #E9E5DC',
               padding: '3px 10px',
               fontSize: 8.5,
-              color: '#475569',
+              color: '#687066',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
             <span>● 400 MHz High-Resolution Radar Survey (GSI & NCPOR)</span>
-            <span style={{ color: '#15803d', fontWeight: 700 }}>✓ Certified Safe Foundation</span>
+            <span style={{ color: '#6F8747', fontWeight: 700 }}>✓ Certified Safe Foundation</span>
           </div>
         </div>
       ) : (
         /* ── LIFE SUPPORT & WATER VIEW ── */
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#FCFBF8' }}>
           {/* Source Banner */}
           <div
             style={{
-              background: '#f0fdf4',
-              borderBottom: '1px solid #dcfce7',
+              background: '#E4E8D3',
+              borderBottom: '1px solid #C5D4A8',
               padding: '5px 10px',
               fontSize: 9.5,
               fontWeight: 700,
-              color: '#166534',
+              color: '#4F5935',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#16a34a' }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#6F8747' }}>
                 verified
               </span>
               <span>{lssData.source}</span>
             </div>
-            <span style={{ fontSize: 8.5, background: '#bbf7d0', padding: '1px 6px', borderRadius: 2, color: '#14532d', fontWeight: 800 }}>
+            <span style={{ fontSize: 8.5, background: '#C5D4A8', padding: '1px 6px', borderRadius: 4, color: '#4F5935', fontWeight: 800 }}>
               SAFE TO DRINK
             </span>
           </div>
@@ -343,19 +341,19 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
           {/* Water Storage Bar */}
           <div style={{ padding: '8px 12px 6px 12px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-              <span style={{ fontSize: 9.5, fontWeight: 700, color: '#64748b', letterSpacing: '0.03em' }}>
+              <span style={{ fontSize: 9.5, fontWeight: 700, color: '#687066', letterSpacing: '0.03em' }}>
                 {t('lss.storage')}
               </span>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#0284c7', fontFamily: 'Inter' }}>
+              <span style={{ fontSize: 11, fontWeight: 800, color: '#8278A4', fontFamily: 'Inter' }}>
                 {lssData.reserveL} ({lssData.percent}% Full) • {lssData.days}
               </span>
             </div>
-            <div style={{ width: '100%', height: 6, background: '#e2e8f0', borderRadius: 3, overflow: 'hidden' }}>
+            <div style={{ width: '100%', height: 6, background: '#E9E5DC', borderRadius: 3, overflow: 'hidden' }}>
               <div
                 style={{
                   width: `${lssData.percent}%`,
                   height: '100%',
-                  background: 'linear-gradient(90deg, #0284c7, #38bdf8)',
+                  background: 'linear-gradient(90deg, #8278A4, #B8944A)',
                   borderRadius: 3,
                 }}
               />
@@ -365,54 +363,54 @@ export default function GlacialCard({ stationId = 'maitri' }: Props) {
           {/* 3 Simple Telemetry Tiles */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, padding: '0 10px 8px 10px', flex: 1 }}>
             {/* Tile 1: Pipe Freeze Guard */}
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '5px 8px', borderRadius: 2 }}>
-              <div style={{ fontSize: 8.5, fontWeight: 700, color: '#64748b' }}>
+            <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', padding: '5px 8px', borderRadius: 8 }}>
+              <div style={{ fontSize: 8.5, fontWeight: 700, color: '#687066' }}>
                 {t('lss.heating')}
               </div>
-              <div style={{ fontSize: 11, fontWeight: 800, color: '#16a34a', marginTop: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#6F8747', marginTop: 1 }}>
                 {lssData.heatState}
               </div>
-              <div style={{ fontSize: 8, color: '#64748b' }}>No ice in pipe</div>
+              <div style={{ fontSize: 8, color: '#687066' }}>No ice in pipe</div>
             </div>
 
             {/* Tile 2: Room Temperature */}
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '5px 8px', borderRadius: 2 }}>
-              <div style={{ fontSize: 8.5, fontWeight: 700, color: '#64748b' }}>
+            <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', padding: '5px 8px', borderRadius: 8 }}>
+              <div style={{ fontSize: 8.5, fontWeight: 700, color: '#687066' }}>
                 {t('lss.indoor_temp')}
               </div>
-              <div style={{ fontSize: 11, fontWeight: 800, color: '#0f172a', marginTop: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#252820', marginTop: 1 }}>
                 {lssData.habitatTemp}
               </div>
-              <div style={{ fontSize: 8, color: '#64748b' }}>{lssData.habitatZone}</div>
+              <div style={{ fontSize: 8, color: '#687066' }}>{lssData.habitatZone}</div>
             </div>
 
             {/* Tile 3: Fresh Air */}
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '5px 8px', borderRadius: 2 }}>
-              <div style={{ fontSize: 8.5, fontWeight: 700, color: '#64748b' }}>
+            <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', padding: '5px 8px', borderRadius: 8 }}>
+              <div style={{ fontSize: 8.5, fontWeight: 700, color: '#687066' }}>
                 {t('lss.air_quality')}
               </div>
-              <div style={{ fontSize: 11, fontWeight: 800, color: '#0f172a', marginTop: 1 }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: '#252820', marginTop: 1 }}>
                 {lssData.airO2}
               </div>
-              <div style={{ fontSize: 8, color: '#16a34a', fontWeight: 600 }}>{lssData.airSub}</div>
+              <div style={{ fontSize: 8, color: '#6F8747', fontWeight: 600 }}>{lssData.airSub}</div>
             </div>
           </div>
 
           {/* Clean Government Verified Footer */}
           <div
             style={{
-              background: '#f1f5f9',
-              borderTop: '1px solid #e2e8f0',
+              background: '#F6F3ED',
+              borderTop: '1px solid #E9E5DC',
               padding: '3px 10px',
               fontSize: 8.5,
-              color: '#475569',
+              color: '#687066',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
           >
             <span>● 100% Pure Drinking Water (Govt Tested)</span>
-            <span style={{ color: '#0284c7', fontWeight: 700 }}>✓ {lssData.division}</span>
+            <span style={{ color: '#4F5935', fontWeight: 700 }}>✓ {lssData.division}</span>
           </div>
         </div>
       )}

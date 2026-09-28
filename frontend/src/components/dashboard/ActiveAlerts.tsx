@@ -5,10 +5,10 @@ import type { AlertOut } from '../../api/hq'
 interface Props { stationId: string }
 
 const SEV_COLOR: Record<string, string> = {
-  CRITICAL: '#dc2626',
-  HIGH: '#d97706',
-  MEDIUM: '#0284c7',
-  LOW: '#64748b',
+  CRITICAL: '#B85A5A',
+  HIGH: '#C58A32',
+  MEDIUM: '#76804D',
+  LOW: '#8A9088',
 }
 
 function timeLabel(iso: string) {
@@ -29,46 +29,40 @@ export default function ActiveAlerts({ stationId }: Props) {
   return (
     <div
       style={{
-        background: '#ffffff',
-        border: '1px solid #cbd5e1',
-        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
+        background: '#FCFBF8',
+        border: '1px solid #DDD8CC',
+        borderTop: '3px solid #B85A5A',
+        borderRadius: 12,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
-      {/* Official Header Strip */}
-      <div
-        style={{
-          background: '#0b3b60',
-          borderBottom: '2px solid #ff9933',
-          padding: '6px 12px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 15, color: '#ff9933' }}>
-            notifications_active
-          </span>
-          <span style={{ fontSize: 11.5, fontWeight: 800, color: '#ffffff', letterSpacing: '0.04em' }}>
-            {t('alerts.title')}
-          </span>
+      {/* Card Header Strip */}
+      <div style={{
+        padding: '12px 16px 8px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 18, color: '#B85A5A' }}>notifications_active</span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#252820', letterSpacing: '0.02em' }}>{t('alerts.title')}</span>
         </div>
         {data && (
-          <span style={{ fontSize: 10, color: '#f8fafc', fontWeight: 700 }}>
-            {t('alerts.total')}: <span style={{ color: '#ffedd5', background: 'rgba(255, 153, 51, 0.25)', padding: '1px 5px' }}>{data.total}</span>
+          <span style={{ fontSize: 10, color: '#687066', fontWeight: 700 }}>
+            {t('alerts.total')}: <span style={{ color: '#B85A5A', background: '#F6F3ED', padding: '1px 5px', borderRadius: 4, border: '1px solid #E9E5DC' }}>{data.total}</span>
           </span>
         )}
       </div>
 
       <div style={{ padding: '8px 10px', display: 'flex', flexDirection: 'column', gap: 4 }}>
         {isLoading && (
-          <div style={{ fontSize: 11, color: '#64748b', padding: '4px 0' }}>{t('alerts.loading')}</div>
+          <div style={{ fontSize: 11, color: '#687066', padding: '4px 0' }}>{t('alerts.loading')}</div>
         )}
 
         {!isLoading && alerts.length === 0 && (
-          <div style={{ fontSize: 11, color: '#16a34a', padding: '6px 8px', background: '#f0fdf4', border: '1px solid #bbf7d0', fontWeight: 600 }}>
+          <div style={{ fontSize: 11, color: '#6F8747', padding: '6px 8px', background: '#E4E8D3', border: '1px solid #C5D4A8', fontWeight: 600, borderRadius: 8 }}>
             ✓ {t('alerts.none')}
           </div>
         )}
@@ -77,9 +71,10 @@ export default function ActiveAlerts({ stationId }: Props) {
           <div
             key={alert.alert_id}
             style={{
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              borderLeft: `4px solid ${SEV_COLOR[alert.severity] ?? '#64748b'}`,
+              background: '#FCFBF8',
+              border: '1px solid #E9E5DC',
+              borderLeft: `4px solid ${SEV_COLOR[alert.severity] ?? '#8A9088'}`,
+              borderRadius: 8,
               padding: '6px 10px',
               display: 'flex',
               alignItems: 'center',
@@ -94,9 +89,9 @@ export default function ActiveAlerts({ stationId }: Props) {
                   fontSize: 8.5,
                   fontWeight: 800,
                   color: '#ffffff',
-                  background: SEV_COLOR[alert.severity] ?? '#64748b',
+                  background: SEV_COLOR[alert.severity] ?? '#8A9088',
                   padding: '2px 6px',
-                  borderRadius: 2,
+                  borderRadius: 4,
                   letterSpacing: '0.04em',
                   flexShrink: 0,
                 }}
@@ -105,15 +100,15 @@ export default function ActiveAlerts({ stationId }: Props) {
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ fontSize: 9.5, fontWeight: 700, color: '#64748b', fontFamily: 'monospace' }}>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, color: '#687066', fontFamily: 'monospace' }}>
                     {timeLabel(alert.triggered_at)} IST
                   </span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#0f172a' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: '#252820' }}>
                     {alert.description}
                   </span>
                 </div>
                 {alert.asset_id && (
-                  <div style={{ fontSize: 9, color: '#64748b', marginTop: 1 }}>
+                  <div style={{ fontSize: 9, color: '#687066', marginTop: 1 }}>
                     Asset: {alert.asset_id} • Domain: {alert.domain}
                   </div>
                 )}
@@ -126,9 +121,9 @@ export default function ActiveAlerts({ stationId }: Props) {
               disabled={isPending}
               title="Acknowledge Alert"
               style={{
-                background: '#ffffff',
-                border: '1px solid #0b3b60',
-                color: '#0b3b60',
+                background: '#FCFBF8',
+                border: '1px solid #76804D',
+                color: '#76804D',
                 fontSize: 9,
                 fontWeight: 800,
                 letterSpacing: '0.04em',
@@ -137,18 +132,18 @@ export default function ActiveAlerts({ stationId }: Props) {
                 flexShrink: 0,
                 fontFamily: 'Inter',
                 transition: 'all 0.15s',
-                borderRadius: 2,
+                borderRadius: 4,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 3,
               }}
               onMouseOver={(e) => {
-                (e.currentTarget as HTMLElement).style.background = '#0b3b60'
+                (e.currentTarget as HTMLElement).style.background = '#76804D'
                 ;(e.currentTarget as HTMLElement).style.color = '#ffffff'
               }}
               onMouseOut={(e) => {
-                (e.currentTarget as HTMLElement).style.background = '#ffffff'
-                ;(e.currentTarget as HTMLElement).style.color = '#0b3b60'
+                (e.currentTarget as HTMLElement).style.background = '#FCFBF8'
+                ;(e.currentTarget as HTMLElement).style.color = '#76804D'
               }}
             >
               <span className="material-symbols-outlined" style={{ fontSize: 12 }}>check</span>

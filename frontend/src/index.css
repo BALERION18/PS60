@@ -2,61 +2,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* Color palette — exact copy from code.html */
-  --color-surface-container: #122131;
-  --color-tertiary-fixed: #f5dfc3;
-  --color-outline-variant: #45464c;
-  --color-on-primary-fixed: #161b28;
-  --color-surface-dim: #051424;
-  --color-secondary-fixed: #dee2f1;
-  --color-on-surface: #d4e4fa;
-  --color-surface-container-lowest: #010f1f;
-  --color-tertiary: #d8c4a8;
-  --color-on-secondary-fixed-variant: #424752;
-  --color-surface-container-high: #1c2b3c;
-  --color-on-tertiary-container: #96846b;
-  --color-outline: #909096;
-  --color-surface-bright: #2c3a4c;
-  --color-secondary: #c2c6d4;
-  --color-tertiary-container: #281d0b;
-  --color-inverse-on-surface: #233143;
-  --color-on-primary-container: #828697;
-  --color-inverse-surface: #d4e4fa;
-  --color-on-error-container: #ffdad6;
-  --color-background: #051424;
-  --color-on-tertiary: #3b2e1b;
-  --color-error-container: #93000a;
-  --color-tertiary-fixed-dim: #d8c4a8;
-  --color-primary-fixed: #dee2f4;
-  --color-error: #ffb4ab;
-  --color-on-primary-fixed-variant: #424655;
-  --color-on-secondary: #2b303b;
-  --color-on-secondary-fixed: #171c26;
-  --color-on-error: #690005;
-  --color-surface-tint: #c2c6d8;
-  --color-on-secondary-container: #b4b8c6;
-  --color-primary: #c2c6d8;
-  --color-on-surface-variant: #c6c6cc;
-  --color-on-background: #d4e4fa;
-  --color-primary-container: #1a1f2c;
-  --color-secondary-fixed-dim: #c2c6d4;
-  --color-primary-fixed-dim: #c2c6d8;
-  --color-surface: #051424;
-  --color-surface-container-highest: #273647;
-  --color-surface-variant: #273647;
-  --color-on-primary: #2b303e;
-  --color-surface-container-low: #0d1c2d;
-  --color-secondary-container: #444955;
-  --color-inverse-primary: #595e6d;
-  --color-accent: #00a3ad;
-  /* Government of India brand tokens */
-  --color-goi-saffron: #FF9933;
+  /* ── HIMANTAR Premium Warm Palette ── */
+  --color-canvas: #E9E3D7;
+  --color-lavender: #F0ECF6;
+  --color-surface: #FCFBF8;
+  --color-surface-soft: #F6F3ED;
+  --color-olive: #76804D;
+  --color-olive-deep: #4F5935;
+  --color-olive-soft: #E4E8D3;
+  --color-text: #252820;
+  --color-text-secondary: #687066;
+  --color-text-muted: #8A9088;
+  --color-border: #DDD8CC;
+  --color-border-soft: #E9E5DC;
+  --color-success: #6F8747;
+  --color-warning: #C58A32;
+  --color-danger: #B85A5A;
+  --color-info: #8278A4;
+  /* Government identity (restrained) */
+  --color-goi-saffron: #D4883A;
   --color-goi-white: #FFFFFF;
-  --color-goi-green: #138808;
-  --color-goi-navy: #0B2545;
-  --color-goi-deep: #071626;
-  --color-goi-border: #1E3A5F;
-  --color-goi-gold: #E5A93C;
+  --color-goi-green: #5C7A3A;
+  --color-goi-navy: #3D4F3C;
+  --color-goi-deep: #2A3429;
+  --color-goi-border: #C5C0B4;
+  --color-goi-gold: #B8944A;
 }
 
 * { box-sizing: border-box; }
@@ -123,8 +93,8 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #f0f4f8;
-  color: #0f172a;
+  background: var(--color-canvas);
+  color: #252820;
   min-height: 100vh;
   margin: 0;
   display: flex;
@@ -139,9 +109,9 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #e2e8f0; }
-::-webkit-scrollbar-thumb { background: #94a3b8; }
-::-webkit-scrollbar-thumb:hover { background: #64748b; }
+::-webkit-scrollbar-track { background: #E9E5DC; }
+::-webkit-scrollbar-thumb { background: #B5B0A4; }
+::-webkit-scrollbar-thumb:hover { background: #8A9088; }
 
 /* Responsive Bento Grid System */
 .bento-grid {
@@ -194,19 +164,19 @@ body {
 }
 
 /* Segmented control */
-.seg-active { background: #0b3b60 !important; color: #ffffff !important; font-weight: 700; }
-.seg-inactive { background: #ffffff; color: #475569; }
-.seg-inactive:hover { color: #0b3b60; background: #e2e8f0; }
+.seg-active { background: #4F5935 !important; color: #ffffff !important; font-weight: 700; }
+.seg-inactive { background: #FCFBF8; color: #687066; }
+.seg-inactive:hover { color: #4F5935; background: #F6F3ED; }
 
 /* Station tab */
-.station-active  { background: #ffffff; border: 1px solid #0b3b60; color: #0b3b60; }
-.station-inactive { background: #f8fafc; border: 1px solid transparent; color: #64748b; }
-.station-inactive:hover { color: #0b3b60; background: #e2e8f0; }
+.station-active  { background: #FCFBF8; border: 1px solid #76804D; color: #252820; }
+.station-inactive { background: #F6F3ED; border: 1px solid transparent; color: #8A9088; }
+.station-inactive:hover { color: #4F5935; background: #E4E8D3; }
 
 /* Nav */
-.nav-active   { background: #0b3b60; color: #ffffff; border-left: 3px solid #ff9933; }
-.nav-inactive { color: #cbd5e1; }
-.nav-inactive:hover { background: #0f2d4a; color: #ffffff; }
+.nav-active   { background: #E4E8D3; color: #252820; border-left: 3px solid #76804D; }
+.nav-inactive { color: #8A9088; }
+.nav-inactive:hover { background: #F6F3ED; color: #252820; }
 
 /* Alert strip */
 .alert-strip { overflow-x: auto; white-space: nowrap; }
@@ -247,30 +217,30 @@ body {
 .pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
 
 /* Alert rows */
-.alert-critical { border-left: 3px solid #dc2626; }
-.alert-warning  { border-left: 3px solid #d97706; }
-.alert-info     { border-left: 3px solid #0284c7; }
-.alert-row:hover { background: #f1f5f9; }
+.alert-critical { border-left: 3px solid #B85A5A; }
+.alert-warning  { border-left: 3px solid #C58A32; }
+.alert-info     { border-left: 3px solid #76804D; }
+.alert-row:hover { background: #F6F3ED; }
 
 /* Status badges */
-.badge-nominal { color: #00a3ad; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; }
-.badge-rec     { color: #ffb4ab; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; }
+.badge-nominal { color: #6F8747; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; }
+.badge-rec     { color: #B85A5A; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; }
 
 /* Time range */
-.time-active   { background: #2c3a4c; color: #d4e4fa; border: 1px solid #45464c; }
-.time-inactive { color: #909096; border: 1px solid transparent; }
-.time-inactive:hover { color: #d4e4fa; background: #1c2b3c; }
+.time-active   { background: #4F5935; color: #E4E8D3; border: 1px solid #76804D; }
+.time-inactive { color: #8A9088; border: 1px solid transparent; }
+.time-inactive:hover { color: #E4E8D3; background: #4F5935; }
 
 /* Schematic overlays */
 .schematic-overlay {
   position: absolute;
   background: #ffffff;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #DDD8CC;
   padding: 6px 10px;
   pointer-events: none;
   min-width: 140px;
 }
-.schematic-overlay-active { border-color: #c2c6d8; }
+.schematic-overlay-active { border-color: #DDD8CC; }
 
 main {
   overflow-y: visible;

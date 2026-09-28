@@ -331,8 +331,9 @@ export default function SchematicPanel({ stationId }: Props) {
       ref={containerRef}
       style={{
         width: '100%',
-        background: '#ffffff',
-        border: '1px solid #cbd5e1',
+        background: '#FCFBF8',
+        border: '1px solid #DDD8CC',
+        borderRadius: 12,
         boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.06)',
         position: 'relative',
         display: 'flex',
@@ -361,13 +362,13 @@ export default function SchematicPanel({ stationId }: Props) {
           alignItems: 'center',
           gap: 4,
           padding: '4px 8px',
-          background: '#f8fafc',
-          borderBottom: '1px solid #cbd5e1',
+          background: '#F6F3ED',
+          borderBottom: '1px solid #DDD8CC',
           overflowX: 'auto',
           whiteSpace: 'nowrap',
         }}
       >
-        <span style={{ fontSize: 9.5, fontWeight: 800, color: '#0b3b60', textTransform: 'uppercase', marginRight: 4 }}>
+        <span style={{ fontSize: 9.5, fontWeight: 800, color: '#4F5935', textTransform: 'uppercase', marginRight: 4 }}>
           Buildings:
         </span>
 
@@ -381,10 +382,10 @@ export default function SchematicPanel({ stationId }: Props) {
               onMouseLeave={() => setHoveredPartId(null)}
               onClick={() => handleSelectPart(part.id)}
               style={{
-                background: isSelected ? '#0b3b60' : isHovered ? '#f1f5f9' : '#ffffff',
-                color: isSelected ? '#ffffff' : isHovered ? '#0b3b60' : '#334155',
-                border: isSelected ? '1px solid #0b3b60' : '1px solid #cbd5e1',
-                borderBottom: isSelected ? '2px solid #ff9933' : '1px solid #cbd5e1',
+                background: isSelected ? '#4F5935' : isHovered ? '#F6F3ED' : '#FCFBF8',
+                color: isSelected ? '#ffffff' : isHovered ? '#4F5935' : '#252820',
+                border: isSelected ? '1px solid #4F5935' : '1px solid #DDD8CC',
+                borderBottom: isSelected ? '2px solid #D4883A' : '1px solid #DDD8CC',
                 padding: '3px 7px',
                 fontSize: 10,
                 fontWeight: isSelected ? 800 : 600,
@@ -392,10 +393,10 @@ export default function SchematicPanel({ stationId }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 4,
-                borderRadius: 2,
+                borderRadius: 6,
               }}
             >
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: isSelected ? '#ff9933' : '#15803d' }} />
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: isSelected ? '#D4883A' : '#6F8747' }} />
               <span>{part.simpleTag}</span>
             </button>
           )
@@ -407,12 +408,13 @@ export default function SchematicPanel({ stationId }: Props) {
               onClick={() => setSelectedPartId(null)}
               style={{
                 background: '#fee2e2',
-                color: '#991b1b',
+                color: '#B85A5A',
                 border: '1px solid #fca5a5',
                 padding: '3px 8px',
                 fontSize: 10,
                 fontWeight: 800,
                 cursor: 'pointer',
+                borderRadius: 6,
               }}
             >
               Reset
@@ -423,9 +425,9 @@ export default function SchematicPanel({ stationId }: Props) {
             onClick={() => setShowAllPins((v) => !v)}
             title="Toggle pin markers"
             style={{
-              background: showAllPins ? '#e0f2fe' : '#ffffff',
-              border: showAllPins ? '1px solid #0284c7' : '1px solid #cbd5e1',
-              color: showAllPins ? '#0369a1' : '#64748b',
+              background: showAllPins ? '#E4E8D3' : '#FCFBF8',
+              border: showAllPins ? '1px solid #76804D' : '1px solid #DDD8CC',
+              color: showAllPins ? '#4F5935' : '#687066',
               padding: '3px 7px',
               fontSize: 10,
               fontWeight: 700,
@@ -433,6 +435,7 @@ export default function SchematicPanel({ stationId }: Props) {
               display: 'flex',
               alignItems: 'center',
               gap: 3,
+              borderRadius: 6,
             }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
@@ -445,9 +448,9 @@ export default function SchematicPanel({ stationId }: Props) {
             onClick={() => setIsFullscreen((v) => !v)}
             title={isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
             style={{
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              color: '#334155',
+              background: '#FCFBF8',
+              border: '1px solid #DDD8CC',
+              color: '#252820',
               padding: '3px 7px',
               fontSize: 10,
               fontWeight: 700,
@@ -455,6 +458,7 @@ export default function SchematicPanel({ stationId }: Props) {
               display: 'flex',
               alignItems: 'center',
               gap: 3,
+              borderRadius: 6,
             }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
@@ -517,9 +521,9 @@ export default function SchematicPanel({ stationId }: Props) {
                 style={{
                   width: '100%',
                   height: '100%',
-                  border: isActive ? '2px solid #ff9933' : '1px dashed transparent',
-                  background: isActive ? 'rgba(11, 59, 96, 0.35)' : 'transparent',
-                  boxShadow: isActive ? '0 0 14px rgba(255, 153, 51, 0.7), inset 0 0 10px rgba(255, 153, 51, 0.25)' : 'none',
+                  border: isActive ? '2px solid #D4883A' : '1px dashed transparent',
+                  background: isActive ? 'rgba(79, 89, 53, 0.35)' : 'transparent',
+                  boxShadow: isActive ? '0 0 14px rgba(212, 136, 58, 0.5), inset 0 0 10px rgba(212, 136, 58, 0.25)' : 'none',
                   position: 'relative',
                   borderRadius: 2,
                 }}
@@ -530,13 +534,13 @@ export default function SchematicPanel({ stationId }: Props) {
                       position: 'absolute',
                       top: -18,
                       left: 0,
-                      background: '#0b3b60',
+                      background: '#4F5935',
                       color: '#ffffff',
                       fontSize: 9.5,
                       fontWeight: 800,
                       padding: '1px 6px',
                       whiteSpace: 'nowrap',
-                      borderLeft: '2px solid #ff9933',
+                      borderLeft: '2px solid #D4883A',
                     }}
                   >
                     {part.simpleTag}
@@ -577,7 +581,7 @@ export default function SchematicPanel({ stationId }: Props) {
                       width: isActive ? 22 : 18,
                       height: isActive ? 22 : 18,
                       borderRadius: '50%',
-                      background: '#38bdf8',
+                      background: '#B8944A',
                       opacity: isActive ? 0.85 : 0.45,
                     }}
                   />
@@ -586,7 +590,7 @@ export default function SchematicPanel({ stationId }: Props) {
                       width: isActive ? 14 : 11,
                       height: isActive ? 14 : 11,
                       borderRadius: '50%',
-                      background: '#38bdf8',
+                      background: '#B8944A',
                       border: '2px solid #ffffff',
                       boxShadow: '0 2px 5px rgba(0,0,0,0.35)',
                     }}
@@ -607,27 +611,29 @@ export default function SchematicPanel({ stationId }: Props) {
               zIndex: 45,
               width: 255,
               background: '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderLeft: '4px solid #ff9933',
-              boxShadow: '0 6px 18px rgba(11, 59, 96, 0.16)',
-              color: '#0f172a',
+              border: '1px solid #DDD8CC',
+              borderLeft: '4px solid #D4883A',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+              color: '#252820',
               pointerEvents: selectedPartId ? 'auto' : 'none',
               padding: '10px 12px',
+              borderRadius: 8,
             }}
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <span style={{ fontSize: 9.5, fontWeight: 800, color: '#ff9933', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: 9.5, fontWeight: 800, color: '#C58A32', textTransform: 'uppercase' }}>
                 {activePart.simpleTag}
               </span>
               <span
                 style={{
                   fontSize: 9,
                   fontWeight: 800,
-                  color: '#15803d',
-                  background: '#f0fdf4',
+                  color: '#6F8747',
+                  background: '#E4E8D3',
                   padding: '1px 5px',
-                  border: '1px solid #bbf7d0',
+                  border: '1px solid #C5D4A8',
+                  borderRadius: 4,
                 }}
               >
                 ● {activePart.status}
@@ -635,12 +641,12 @@ export default function SchematicPanel({ stationId }: Props) {
             </div>
 
             {/* Simple Title */}
-            <div style={{ fontSize: 12.5, fontWeight: 900, color: '#0b3b60', lineHeight: 1.2, marginBottom: 4 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 900, color: '#4F5935', lineHeight: 1.2, marginBottom: 4 }}>
               {activePart.name}
             </div>
 
             {/* Easy one-line explanation */}
-            <div style={{ fontSize: 10.5, color: '#475569', lineHeight: 1.35, marginBottom: 8 }}>
+            <div style={{ fontSize: 10.5, color: '#687066', lineHeight: 1.35, marginBottom: 8 }}>
               {activePart.about}
             </div>
 
@@ -650,15 +656,16 @@ export default function SchematicPanel({ stationId }: Props) {
                 <div
                   key={i}
                   style={{
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
+                    background: '#F6F3ED',
+                    border: '1px solid #E9E5DC',
                     padding: '4px 6px',
+                    borderRadius: 4,
                   }}
                 >
-                  <div style={{ fontSize: 9, color: '#64748b' }}>{s.label}</div>
-                  <div style={{ fontSize: 11.5, fontWeight: 800, color: '#0f172a', marginTop: 1 }}>{s.value}</div>
+                  <div style={{ fontSize: 9, color: '#687066' }}>{s.label}</div>
+                  <div style={{ fontSize: 11.5, fontWeight: 800, color: '#252820', marginTop: 1 }}>{s.value}</div>
                   {s.note && (
-                    <div style={{ fontSize: 8.5, color: s.good ? '#15803d' : '#64748b', fontWeight: 600 }}>
+                    <div style={{ fontSize: 8.5, color: s.good ? '#6F8747' : '#8A9088', fontWeight: 600 }}>
                       {s.note}
                     </div>
                   )}
@@ -674,13 +681,14 @@ export default function SchematicPanel({ stationId }: Props) {
                     setSelectedPartId(null)
                   }}
                   style={{
-                    background: '#f1f5f9',
-                    border: '1px solid #cbd5e1',
-                    color: '#475569',
+                    background: '#F6F3ED',
+                    border: '1px solid #DDD8CC',
+                    color: '#687066',
                     fontSize: 9.5,
                     fontWeight: 700,
                     padding: '2px 6px',
                     cursor: 'pointer',
+                    borderRadius: 4,
                   }}
                 >
                   ✕ Close
@@ -697,19 +705,20 @@ export default function SchematicPanel({ stationId }: Props) {
             bottom: 6,
             left: 8,
             zIndex: 15,
-            background: 'rgba(255, 255, 255, 0.94)',
-            border: '1px solid #cbd5e1',
-            borderLeft: '3px solid #138808',
+            background: 'rgba(252, 251, 248, 0.94)',
+            border: '1px solid #DDD8CC',
+            borderLeft: '3px solid #6F8747',
             padding: '2px 8px',
             fontSize: 9,
             fontWeight: 800,
-            color: '#0b3b60',
+            color: '#4F5935',
             display: 'flex',
             alignItems: 'center',
             gap: 6,
+            borderRadius: 4,
           }}
         >
-          <span style={{ color: '#138808' }}>●</span>
+          <span style={{ color: '#6F8747' }}>●</span>
           <span>
             {isMaitri
               ? 'Maitri Station, Antarctica (70°S, 11°E) • Hover on any building to view info'
@@ -723,9 +732,9 @@ export default function SchematicPanel({ stationId }: Props) {
         <div
           style={{
             padding: '10px 14px',
-            background: '#ffffff',
-            borderTop: '2px solid #ff9933',
-            color: '#0f172a',
+            background: '#FCFBF8',
+            borderTop: '2px solid #D4883A',
+            color: '#252820',
             display: 'flex',
             flexDirection: 'column',
             gap: 6,
@@ -733,18 +742,18 @@ export default function SchematicPanel({ stationId }: Props) {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ background: '#0b3b60', color: '#ffffff', fontSize: 9, fontWeight: 800, padding: '1px 6px' }}>
+              <span style={{ background: '#4F5935', color: '#ffffff', fontSize: 9, fontWeight: 800, padding: '1px 6px', borderRadius: 4 }}>
                 {activePart.simpleTag}
               </span>
-              <span style={{ fontSize: 12.5, fontWeight: 900, color: '#0b3b60' }}>{activePart.name}</span>
-              <span style={{ fontSize: 10, color: '#15803d', fontWeight: 700 }}>● {activePart.status}</span>
+              <span style={{ fontSize: 12.5, fontWeight: 900, color: '#4F5935' }}>{activePart.name}</span>
+              <span style={{ fontSize: 10, color: '#6F8747', fontWeight: 700 }}>● {activePart.status}</span>
             </div>
             <button
               onClick={() => setSelectedPartId(null)}
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#64748b',
+                color: '#8A9088',
                 fontSize: 11,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -756,10 +765,10 @@ export default function SchematicPanel({ stationId }: Props) {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
             {activePart.stats.map((s, i) => (
-              <div key={i} style={{ background: '#f8fafc', padding: '6px 10px', border: '1px solid #e2e8f0', borderLeft: '3px solid #0b3b60' }}>
-                <div style={{ fontSize: 9, color: '#64748b' }}>{s.label}</div>
-                <div style={{ fontSize: 13, fontWeight: 900, color: '#0f172a', marginTop: 1 }}>{s.value}</div>
-                {s.note && <div style={{ fontSize: 8.5, color: '#15803d', fontWeight: 600 }}>{s.note}</div>}
+              <div key={i} style={{ background: '#F6F3ED', padding: '6px 10px', border: '1px solid #E9E5DC', borderLeft: '3px solid #76804D', borderRadius: 6 }}>
+                <div style={{ fontSize: 9, color: '#687066' }}>{s.label}</div>
+                <div style={{ fontSize: 13, fontWeight: 900, color: '#252820', marginTop: 1 }}>{s.value}</div>
+                {s.note && <div style={{ fontSize: 8.5, color: '#6F8747', fontWeight: 600 }}>{s.note}</div>}
               </div>
             ))}
           </div>

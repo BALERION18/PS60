@@ -12,7 +12,7 @@ export default function GovtOfIndiaLogo({
   size = 50,
   className = '',
   showGovtText = true,
-  textColor = '#0b3b60',
+  textColor = '#4F5935',
 }: GovtOfIndiaLogoProps) {
   return (
     <div

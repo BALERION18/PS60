@@ -18,7 +18,7 @@ export default function Footer() {
   return (
     <footer
       style={{
-        background: '#0b3b60',
+        background: '#2A3429',
         color: '#ffffff',
         flexShrink: 0,
         display: 'flex',
@@ -34,7 +34,7 @@ export default function Footer() {
       {/* ── Tier 1: Government Portal Links Ribbon ── */}
       <div
         style={{
-          background: '#082842',
+          background: '#232B22',
           borderBottom: '1px solid #0f3d63',
           padding: '6px 20px',
           display: 'flex',
@@ -46,7 +46,7 @@ export default function Footer() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#ffedd5', fontWeight: 700 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#ff9933' }}>link</span>
+          <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#D4883A' }}>link</span>
           <span>{t('footer.quick_links')}:</span>
         </div>
 
@@ -62,12 +62,12 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: '#cbd5e1',
+                color: '#B5B0A4',
                 textDecoration: 'none',
                 transition: 'color 0.15s',
               }}
-              onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.color = '#ff9933')}
-              onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.color = '#cbd5e1')}
+              onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.color = '#D4883A')}
+              onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.color = '#B5B0A4')}
             >
               {item.label}
             </a>
@@ -79,7 +79,7 @@ export default function Footer() {
       {/* ── Tier 3: Official Ownership & Telemetry ── */}
       <div
         style={{
-          background: '#072138',
+          background: '#1E2620',
           padding: '8px 20px',
           display: 'flex',
           justifyContent: 'space-between',
@@ -91,22 +91,22 @@ export default function Footer() {
         {/* Left: NCPOR Logo + Official Ministry Copyright */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <img src="/ncpor_logo.png" alt="NCPOR Logo" style={{ height: 32, width: 32, objectFit: 'contain' }} />
-          <div style={{ fontSize: 10, color: '#cbd5e1', lineHeight: 1.3 }}>
+          <div style={{ fontSize: 10, color: '#B5B0A4', lineHeight: 1.3 }}>
             <div>
               <span style={{ fontWeight: 800, color: '#ffffff' }}>
                 {t('footer.copyright')}
               </span>
-              <span style={{ color: '#64748b', margin: '0 6px' }}>|</span>
+              <span style={{ color: '#8A9088', margin: '0 6px' }}>|</span>
               <span>{t('footer.ministry')}</span>
             </div>
-            <div style={{ color: '#94a3b8', fontSize: 9.5 }}>
+            <div style={{ color: '#8A9088', fontSize: 9.5 }}>
               {t('footer.designed_by')}
             </div>
           </div>
         </div>
 
         {/* Right: Real-time Telemetry Status */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, color: '#cbd5e1' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, color: '#B5B0A4' }}>
           {dash && (
             <span>
               {t('footer.open_alerts')}:{' '}
