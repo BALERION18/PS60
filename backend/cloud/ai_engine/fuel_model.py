@@ -488,6 +488,21 @@ class FuelForecastModel:
         if instance._metadata and instance._metadata.val_scores:
             instance._val_mae = instance._metadata.val_scores.get("mae_litres", 0.0)
 
+        # Restore last training date from the fitted Prophet model's history
+        try:
+            if instance._model is not None and hasattr(instance._model, "history"):
+                import pandas as pd
+                history = getattr(instance._model, "history", None)
+                if history is not None and len(history) > 0:
+                    instance._last_train_date = pd.Timestamp(history["ds"].max())
+        except Exception:
+            pass
+
+        # Fallback: use today so forecast still works
+        if instance._last_train_date is None:
+            import pandas as pd
+            instance._last_train_date = pd.Timestamp.now(tz="UTC")
+
         log.info(
             "fuel_model.loaded",
             station_id = station_id,
