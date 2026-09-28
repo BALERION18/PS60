@@ -311,7 +311,7 @@ function SensorCard({ sensor, onClick }: { sensor: IoTSensor; onClick: () => voi
             letterSpacing: '0.04em',
           }}
         >
-          {meta.emoji} {catLabel}
+          <span className="material-symbols-outlined" style={{ fontSize: 13 }}>{meta.icon}</span> {catLabel}
         </span>
         {/* Online/Offline pill */}
         <span
