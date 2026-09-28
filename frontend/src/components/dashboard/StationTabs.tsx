@@ -1,0 +1,135 @@
+import { useStations } from '../../hooks/useStations'
+import { useLanguage } from '../../context/LanguageContext'
+
+interface Props {
+  active: string
+  onSelect: (s: string) => void
+  timeRange?: string
+  onTimeRange?: (t: string) => void
+}
+
+export default function StationTabs({ active, onSelect }: Props) {
+  const { data: stations } = useStations()
+  const { t } = useLanguage()
+
+  const maitri = stations?.find((s) => s.station_id === 'maitri')
+  const bharati = stations?.find((s) => s.station_id === 'bharati')
+
+  const dotColor = (s: typeof maitri) =>
+    !s ? '#94a3b8' : s.link_state === 'UP' ? '#6F8747' : s.link_state === 'DEGRADED' ? '#C58A32' : '#B85A5A'
+
+  const stateText = (s: typeof maitri) =>
+    !s ? 'UNKNOWN' : s.link_state === 'UP' ? t('station.online') : s.link_state === 'DEGRADED' ? t('station.degraded') : t('station.offline')
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+        gap: 12,
+        flexWrap: 'wrap',
+      }}
+    >
+      {/* Station Selector Tabs */}
+      <div
+        style={{
+          display: 'flex',
+          background: '#FCFBF8',
+          border: '1px solid #DDD8CC',
+          boxShadow: '0 1px 2px 0 rgba(0,0,0,0.04)',
+          borderRadius: 12,
+          padding: 4,
+          gap: 6,
+          flex: 1,
+        }}
+      >
+        {[
+          {
+            id: 'maitri',
+            name: t('station.maitri'),
+            coords: t('station.maitri_coords'),
+            status: maitri,
+          },
+          {
+            id: 'bharati',
+            name: t('station.bharati'),
+            coords: t('station.bharati_coords'),
+            status: bharati,
+          },
+        ].map(({ id, name, coords, status }) => {
+          const isSelected = active === id
+          return (
+            <button
+              key={id}
+              onClick={() => onSelect(id)}
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                padding: '5px 12px',
+                background: isSelected ? '#4F5935' : '#F6F3ED',
+                border: isSelected ? '1px solid #4F5935' : '1px solid #E9E5DC',
+                borderLeft: isSelected ? '3px solid #D4883A' : '3px solid transparent',
+                cursor: 'pointer',
+                fontFamily: 'Inter',
+                transition: 'all 0.15s',
+                borderRadius: 8,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span
+                    className="rounded-full"
+                    style={{
+                      width: 8,
+                      height: 8,
+                      background: dotColor(status),
+                      display: 'inline-block',
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 800,
+                      letterSpacing: '0.02em',
+                      color: isSelected ? '#ffffff' : '#252820',
+                    }}
+                  >
+                    {name}
+                  </span>
+                </div>
+                {isSelected && (
+                  <span
+                    style={{
+                      fontSize: 8.5,
+                      fontWeight: 800,
+                      color: '#6F8747',
+                      background: '#E4E8D3',
+                      border: '1px solid #C5D4A8',
+                      padding: '1px 6px',
+                      borderRadius: 2,
+                    }}
+                  >
+                    ACTIVE STATION
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', gap: 8, marginTop: 3, fontSize: 10.5, color: isSelected ? '#E9E5DC' : '#8A9088' }}>
+                <span>{coords}</span>
+                <span>•</span>
+                <span style={{ color: isSelected ? '#C5D4A8' : '#6F8747', fontWeight: 700 }}>
+                  ● {stateText(status)}
+                </span>
+              </div>
+            </button>
+          )
+        })}
+      </div>
+
+    </div>
+  )
+}

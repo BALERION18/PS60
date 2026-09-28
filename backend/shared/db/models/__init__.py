@@ -1,0 +1,1 @@
+# VajraX SQLAlchemy models

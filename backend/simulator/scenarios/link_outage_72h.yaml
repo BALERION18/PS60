@@ -1,0 +1,104 @@
+# Scenario: 72-hour satellite link outage — both stations
+# Used in: tests/e2e/test_link_outage_72h.py
+#
+# This is the hardest test of the offline-first design.
+# The link is severed for 72 simulated hours. During that time:
+#   - Both stations must continue local operations normally
+#   - CRITICAL alerts must be raised and persisted locally
+#   - The outbound queue grows; low-priority items are dropped when full
+#   - On reconnect, CRITICAL alerts and black-box frames are delivered first
+#   - No duplicate alerts appear in Cloud after reconnect
+#   - Total Cloud CRITICAL alert count == Total Edge CRITICAL alert count
+#
+# Injected during outage (at T+60s real, after link drops):
+#   - Fire alert on Bharati (CRITICAL — must survive 72h outage and deliver on reconnect)
+#   - Generator fault on Maitri (CRITICAL — same)
+#
+# Expected outcomes:
+#   1. Edge continues operating with zero degradation during outage
+#   2. Black-box window opens locally for both CRITICAL events
+#   3. On reconnect: CRITICAL alerts delivered before telemetry batches
+#   4. Cloud alert count for CRITICAL == Edge alert count for CRITICAL (no loss, no dup)
+#   5. Black-box hash chains valid end-to-end
+#   6. Routine telemetry for the oldest periods gracefully dropped (queue overflow)
+#   7. Publisher reports 0 errors after reconnect drain is complete
+
+name: link_outage_72h
+stations: [maitri, bharati]
+duration_real_seconds: 300   # accelerated scenario (72h sim = 5 min real)
+
+link_sim:
+  outage_start_second: 10
+  outage_duration_simulated_hours: 72
+  outage_real_seconds: 240   # 240s real ≈ 72h simulated (at 1080× speed)
+
+steps:
+  - at_second: 5
+    action: baseline
+    description: "Normal operations — link up"
+
+  - at_second: 10
+    action: link_outage
+    station_id: all
+    duration_seconds: 240   # link down for 240 real seconds
+    description: "Satellite link severs — both stations enter offline mode"
+
+  - at_second: 60
+    action: inject_anomaly
+    station_id: bharati
+    anomaly: fire_zone_1
+    description: "Fire detected on Bharati DURING outage — must be queued locally"
+
+  - at_second: 90
+    action: inject_anomaly
+    station_id: maitri
+    anomaly: generator_fault
+    description: "Generator fault on Maitri DURING outage — must be queued locally"
+
+  - at_second: 120
+    action: clear_anomaly
+    station_id: bharati
+    anomaly: fire_zone_1
+    description: "Fire suppressed — alert resolved locally, resolution queued"
+
+  - at_second: 150
+    action: clear_anomaly
+    station_id: maitri
+    anomaly: generator_fault
+    description: "Generator restarted — alert resolved locally"
+
+  # Link restores at T+250s (end of 240s outage)
+  # Test harness waits for drain to complete before asserting
+
+assertions:
+  - type: edge_operational_during_outage
+    description: "Edge /health returns 200 throughout the outage"
+
+  - type: critical_alert_delivery_after_reconnect
+    station_id: bharati
+    domain: environment
+    severity: CRITICAL
+    description: "Fire alert delivered to Cloud after reconnect"
+
+  - type: critical_alert_delivery_after_reconnect
+    station_id: maitri
+    domain: energy
+    severity: CRITICAL
+    description: "Generator fault alert delivered to Cloud after reconnect"
+
+  - type: no_duplicate_alerts
+    description: "Cloud alert count == Edge alert count for CRITICAL/HIGH (no duplicates)"
+
+  - type: priority_delivery_order
+    description: "CRITICAL alerts arrive before telemetry batches in Cloud DB"
+
+  - type: black_box_hash_chain_valid
+    station_id: bharati
+    description: "Bharati fire black-box hash chain valid"
+
+  - type: black_box_hash_chain_valid
+    station_id: maitri
+    description: "Maitri generator black-box hash chain valid"
+
+  - type: telemetry_gap_acceptable
+    description: "Cloud accepts data arriving in bulk; continuous aggregates still computed"

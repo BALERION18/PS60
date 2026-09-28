@@ -1,0 +1,100 @@
+import { useState } from 'react'
+import TopNav from '../components/layout/TopNav'
+import AlertStrip from '../components/layout/AlertStrip'
+import Sidebar from '../components/layout/Sidebar'
+import Footer from '../components/layout/Footer'
+import StationTabs from '../components/dashboard/StationTabs'
+import SchematicPanel from '../components/dashboard/SchematicPanel'
+import WeatherCard from '../components/dashboard/WeatherCard'
+import EnergyCard from '../components/dashboard/EnergyCard'
+import ActiveAlerts from '../components/dashboard/ActiveAlerts'
+import MetMastCard from '../components/dashboard/MetMastCard'
+import GlacialCard from '../components/dashboard/GlacialCard'
+import SeismicCard from '../components/dashboard/SeismicCard'
+import { useLanguage } from '../context/LanguageContext'
+
+export default function DashboardPage() {
+  const [activeStation, setActiveStation] = useState<string>('maitri')
+  const [timeRange, setTimeRange] = useState<string>('1H')
+  const { t } = useLanguage()
+
+  function toggleStation() {
+    setActiveStation(s => s === 'maitri' ? 'bharati' : 'maitri')
+  }
+
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#E9E3D7' }}>
+      <TopNav />
+      <AlertStrip />
+
+      <div style={{ display: 'flex', flex: 1 }}>
+        <Sidebar activeStation={activeStation} onSwitchStation={toggleStation} />
+
+        <main id="main-content" style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', background: '#E9E3D7' }}>
+          <div style={{ flex: 1, padding: '8px 12px 20px 12px' }}>
+            {/* Official Government Breadcrumbs Bar */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                fontSize: 10.5,
+                color: '#687066',
+                marginBottom: 8,
+                padding: '4px 10px',
+                background: '#FCFBF8',
+                border: '1px solid #DDD8CC',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#4F5935' }}>home</span>
+                <span style={{ color: '#4F5935', fontWeight: 700 }}>{t('crumb.home')}</span>
+                <span>&gt;</span>
+                <span style={{ color: '#4F5935', fontWeight: 600 }}>{t('crumb.polar_division')}</span>
+                <span>&gt;</span>
+                <span style={{ color: '#4F5935', fontWeight: 800 }}>{t('crumb.twin')}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 9.5, color: '#6F8747', background: '#E4E8D3', padding: '2px 8px', fontWeight: 800, border: '1px solid #C5D4A8', borderRadius: 2 }}>
+                  🟢 2/2 STATIONS LIVE
+                </span>
+              </div>
+            </div>
+
+            <StationTabs
+              active={activeStation}
+              onSelect={setActiveStation}
+              timeRange={timeRange}
+              onTimeRange={setTimeRange}
+            />
+
+            {/* Bento Grid */}
+            {/* New Dashboard composition: hero + operational rail */}
+            <div style={{ display: 'flex', gap: 12, marginTop: 12, flexWrap: 'wrap' }}>
+              {/* Digital Twin – dominant visual (≈60%) */}
+              <div style={{ flex: 3, minWidth: 0 }}>
+                <SchematicPanel stationId={activeStation} />
+              </div>
+              {/* Operational rail – stacked cards (weather, energy, alerts) */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <WeatherCard stationId={activeStation} />
+                <EnergyCard stationId={activeStation} />
+                <ActiveAlerts stationId={activeStation} />
+              </div>
+            </div>
+
+            {/* Supporting telemetry grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12, marginTop: 16 }}>
+              <MetMastCard stationId={activeStation} />
+              <GlacialCard stationId={activeStation} />
+              <SeismicCard stationId={activeStation} />
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <Footer />
+    </div>
+  )
+}

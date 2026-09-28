@@ -1,0 +1,398 @@
+# VajraX Station Configuration — Maitri Research Station
+# Schirmacher Oasis, Dronning Maud Land, Antarctica
+# DO NOT hardcode station_id in application code — always read from this file.
+
+station_id: maitri
+display_name: "Maitri Research Station"
+location: "Schirmacher Oasis, Dronning Maud Land, Antarctica"
+latitude: -70.7683
+longitude: 11.8268
+elevation_m: 130.0
+timezone: UTC
+
+heartbeat_timeout_minutes: 15
+
+black_box:
+  trigger_severities: [CRITICAL]
+  pre_event_window_s: 300    # 5 minutes
+  post_resolution_tail_s: 900 # 15 minutes
+
+sync:
+  heartbeat_interval_s: 60
+  max_queue_size_bytes: 1073741824  # 1 GB
+  queue_retention_days: 30
+  telemetry_batch_window_s:
+    energy: 300       # 5 minutes
+    weather: 900      # 15 minutes
+    environment: 900  # 15 minutes
+    logistics: 3600   # 1 hour
+  priority_map:
+    black_box: 0
+    alert_critical: 1
+    alert_high: 1
+    alert_medium: 2
+    alert_low: 2
+    telemetry: 3
+
+# -----------------------------------------------------------------------
+# Local API Authentication (offline-capable pre-provisioned keys)
+# Format: ROLE.hex_secret (32-byte hex = 256-bit entropy)
+# Rotate at each resupply expedition. Store this file with restricted perms.
+# Generate new keys: python3 -m edge.auth.local_auth  OR  make keygen-edge
+# -----------------------------------------------------------------------
+local_api_keys:
+  - "CREW.4a7f2b91e3c0d85a1f6e9b2c4d7e0f3a1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d"
+  - "OPERATOR.d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a391e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7"
+  - "ADMIN.f1e2d3c4b5a6978869504132a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1"
+
+# -----------------------------------------------------------------------
+# Sensors
+# -----------------------------------------------------------------------
+sensors:
+  # Energy — Generator 1
+  - sensor_id: maitri.energy.gen1.fuel_pct
+    domain: energy
+    asset_id: maitri.gen1
+    metric_name: fuel_level_percent
+    unit: pct
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 100.0
+
+  - sensor_id: maitri.energy.gen1.power_output_kw
+    domain: energy
+    asset_id: maitri.gen1
+    metric_name: power_output_kw
+    unit: kW
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 150.0
+
+  - sensor_id: maitri.energy.gen1.fuel_consumption_lph
+    domain: energy
+    asset_id: maitri.gen1
+    metric_name: fuel_consumption_lph
+    unit: L/h
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 30.0
+
+  - sensor_id: maitri.energy.gen1.oil_pressure_bar
+    domain: energy
+    asset_id: maitri.gen1
+    metric_name: oil_pressure_bar
+    unit: bar
+    sampling_interval_s: 10
+    nominal_min: 3.0
+    nominal_max: 6.0
+
+  - sensor_id: maitri.energy.gen1.coolant_temp_c
+    domain: energy
+    asset_id: maitri.gen1
+    metric_name: coolant_temp_c
+    unit: degC
+    sampling_interval_s: 10
+    nominal_min: 70.0
+    nominal_max: 100.0
+
+  - sensor_id: maitri.energy.gen1.status
+    domain: energy
+    asset_id: maitri.gen1
+    metric_name: generator_status
+    unit: enum  # 0=OFF, 1=RUNNING, 2=FAULT
+    sampling_interval_s: 10
+
+  # Energy — Generator 2 (backup)
+  - sensor_id: maitri.energy.gen2.fuel_pct
+    domain: energy
+    asset_id: maitri.gen2
+    metric_name: fuel_level_percent
+    unit: pct
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 100.0
+
+  - sensor_id: maitri.energy.gen2.power_output_kw
+    domain: energy
+    asset_id: maitri.gen2
+    metric_name: power_output_kw
+    unit: kW
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 150.0
+
+  - sensor_id: maitri.energy.gen2.status
+    domain: energy
+    asset_id: maitri.gen2
+    metric_name: generator_status
+    unit: enum
+    sampling_interval_s: 10
+
+  # Energy — Power distribution
+  - sensor_id: maitri.energy.grid.total_load_kw
+    domain: energy
+    asset_id: maitri.grid
+    metric_name: total_load_kw
+    unit: kW
+    sampling_interval_s: 10
+    nominal_min: 0.0
+    nominal_max: 200.0
+
+  # Weather
+  - sensor_id: maitri.weather.aws.ambient_temp_c
+    domain: weather
+    asset_id: maitri.aws
+    metric_name: ambient_temp_c
+    unit: degC
+    sampling_interval_s: 60
+    nominal_min: -60.0
+    nominal_max: 10.0
+
+  - sensor_id: maitri.weather.aws.wind_speed_ms
+    domain: weather
+    asset_id: maitri.aws
+    metric_name: wind_speed_ms
+    unit: m/s
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 80.0
+
+  - sensor_id: maitri.weather.aws.wind_direction_deg
+    domain: weather
+    asset_id: maitri.aws
+    metric_name: wind_direction_deg
+    unit: deg
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 360.0
+
+  - sensor_id: maitri.weather.aws.pressure_hpa
+    domain: weather
+    asset_id: maitri.aws
+    metric_name: pressure_hpa
+    unit: hPa
+    sampling_interval_s: 60
+    nominal_min: 950.0
+    nominal_max: 1040.0
+
+  - sensor_id: maitri.weather.aws.humidity_pct
+    domain: weather
+    asset_id: maitri.aws
+    metric_name: relative_humidity_pct
+    unit: pct
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 100.0
+
+  - sensor_id: maitri.weather.aws.visibility_km
+    domain: weather
+    asset_id: maitri.aws
+    metric_name: visibility_km
+    unit: km
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 50.0
+
+  # Environment — Air quality (main building)
+  - sensor_id: maitri.environment.aq1.co2_ppm
+    domain: environment
+    asset_id: maitri.main_building
+    metric_name: co2_ppm
+    unit: ppm
+    sampling_interval_s: 60
+    nominal_min: 350.0
+    nominal_max: 1500.0
+
+  - sensor_id: maitri.environment.aq1.co_ppm
+    domain: environment
+    asset_id: maitri.main_building
+    metric_name: co_ppm
+    unit: ppm
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 35.0  # OSHA PEL
+
+  - sensor_id: maitri.environment.aq1.pm25_ugm3
+    domain: environment
+    asset_id: maitri.main_building
+    metric_name: pm25_ugm3
+    unit: ug/m3
+    sampling_interval_s: 60
+    nominal_min: 0.0
+    nominal_max: 35.0
+
+  # Environment — Fire detection (zones 1-3)
+  - sensor_id: maitri.environment.fire_z1.state
+    domain: environment
+    asset_id: maitri.main_building
+    metric_name: fire_state
+    unit: enum  # 0=CLEAR, 1=ACTIVE, 2=FAULT
+    sampling_interval_s: 10
+
+  - sensor_id: maitri.environment.fire_z2.state
+    domain: environment
+    asset_id: maitri.lab_building
+    metric_name: fire_state
+    unit: enum
+    sampling_interval_s: 10
+
+  - sensor_id: maitri.environment.fire_z3.state
+    domain: environment
+    asset_id: maitri.generator_room
+    metric_name: fire_state
+    unit: enum
+    sampling_interval_s: 10
+
+  # Environment — Seismic
+  - sensor_id: maitri.environment.seismic.magnitude
+    domain: environment
+    asset_id: maitri.seismic_station
+    metric_name: seismic_magnitude
+    unit: richter
+    sampling_interval_s: 1  # event-driven; 0.0 between events
+    nominal_min: 0.0
+    nominal_max: 10.0
+
+# -----------------------------------------------------------------------
+# Alert threshold rules
+# -----------------------------------------------------------------------
+threshold_rules:
+  # Fuel — Generator 1
+  - sensor_id: maitri.energy.gen1.fuel_pct
+    metric_name: fuel_level_percent
+    condition: lte
+    threshold_value: 30.0
+    severity: HIGH
+    description_template: "Generator 1 fuel low: {value:.1f}% (threshold: {threshold}%)"
+
+  - sensor_id: maitri.energy.gen1.fuel_pct
+    metric_name: fuel_level_percent
+    condition: lte
+    threshold_value: 15.0
+    severity: CRITICAL
+    description_template: "Generator 1 fuel CRITICAL: {value:.1f}% (threshold: {threshold}%)"
+
+  # Generator 1 fault
+  - sensor_id: maitri.energy.gen1.status
+    metric_name: generator_status
+    condition: eq
+    threshold_value: 2.0
+    severity: CRITICAL
+    description_template: "Generator 1 FAULT detected"
+
+  # Oil pressure low
+  - sensor_id: maitri.energy.gen1.oil_pressure_bar
+    metric_name: oil_pressure_bar
+    condition: lt
+    threshold_value: 3.0
+    severity: HIGH
+    description_template: "Generator 1 oil pressure low: {value:.2f} bar"
+
+  # Coolant overtemp
+  - sensor_id: maitri.energy.gen1.coolant_temp_c
+    metric_name: coolant_temp_c
+    condition: gte
+    threshold_value: 105.0
+    severity: CRITICAL
+    description_template: "Generator 1 coolant overtemperature: {value:.1f}°C"
+
+  # Grid overload
+  - sensor_id: maitri.energy.grid.total_load_kw
+    metric_name: total_load_kw
+    condition: gte
+    threshold_value: 180.0
+    severity: HIGH
+    description_template: "Grid load critically high: {value:.1f} kW (limit: {threshold} kW)"
+
+  # Weather — wind
+  - sensor_id: maitri.weather.aws.wind_speed_ms
+    metric_name: wind_speed_ms
+    condition: gte
+    threshold_value: 25.0
+    severity: MEDIUM
+    description_template: "High winds: {value:.1f} m/s"
+
+  - sensor_id: maitri.weather.aws.wind_speed_ms
+    metric_name: wind_speed_ms
+    condition: gte
+    threshold_value: 45.0
+    severity: HIGH
+    description_template: "Storm-force winds: {value:.1f} m/s — blizzard conditions"
+
+  # Air quality
+  - sensor_id: maitri.environment.aq1.co_ppm
+    metric_name: co_ppm
+    condition: gte
+    threshold_value: 35.0
+    severity: HIGH
+    description_template: "CO concentration above OSHA PEL: {value:.1f} ppm"
+
+  - sensor_id: maitri.environment.aq1.co_ppm
+    metric_name: co_ppm
+    condition: gte
+    threshold_value: 100.0
+    severity: CRITICAL
+    description_template: "CO concentration CRITICAL: {value:.1f} ppm — evacuate immediately"
+
+  # Fire detection
+  - sensor_id: maitri.environment.fire_z1.state
+    metric_name: fire_state
+    condition: eq
+    threshold_value: 1.0
+    severity: CRITICAL
+    description_template: "FIRE DETECTED — Zone 1 (Main Building)"
+
+  - sensor_id: maitri.environment.fire_z2.state
+    metric_name: fire_state
+    condition: eq
+    threshold_value: 1.0
+    severity: CRITICAL
+    description_template: "FIRE DETECTED — Zone 2 (Lab Building)"
+
+  - sensor_id: maitri.environment.fire_z3.state
+    metric_name: fire_state
+    condition: eq
+    threshold_value: 1.0
+    severity: CRITICAL
+    description_template: "FIRE DETECTED — Zone 3 (Generator Room)"
+
+  # Seismic
+  - sensor_id: maitri.environment.seismic.magnitude
+    metric_name: seismic_magnitude
+    condition: gte
+    threshold_value: 3.0
+    severity: MEDIUM
+    description_template: "Seismic event: M{value:.1f}"
+
+  - sensor_id: maitri.environment.seismic.magnitude
+    metric_name: seismic_magnitude
+    condition: gte
+    threshold_value: 4.5
+    severity: HIGH
+    description_template: "Significant seismic event: M{value:.1f}"
+
+  - sensor_id: maitri.environment.seismic.magnitude
+    metric_name: seismic_magnitude
+    condition: gte
+    threshold_value: 6.0
+    severity: CRITICAL
+    description_template: "MAJOR SEISMIC EVENT: M{value:.1f} — initiate safety protocols"
+
+# -----------------------------------------------------------------------
+# Rate-of-change rules
+# -----------------------------------------------------------------------
+rate_of_change_rules:
+  - sensor_id: maitri.energy.gen1.fuel_pct
+    max_rate_per_minute: 2.0  # pct/min — abnormal if fuel drops > 2% per minute
+    severity: HIGH
+    description_template: "Abnormal fuel consumption rate: {rate:.2f}%/min"
+
+# -----------------------------------------------------------------------
+# Composite rules
+# -----------------------------------------------------------------------
+composite_rules:
+  - rule_id: maitri.composite.gen1_blackout
+    description: "Generator 1 output drops to zero while load is non-zero"
+    condition_expression: "gen1_output <= 0 and grid_load > 5"
+    severity: CRITICAL
+    description_template: "Generator 1 blackout: output={gen1_output:.1f} kW, load={grid_load:.1f} kW"

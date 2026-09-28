@@ -1,0 +1,41 @@
+# Scenario: Nominal 24-hour operations — both stations
+# Used in: tests/e2e/test_nominal_24h.py
+#
+# Purpose:
+#   Verify that over 24 hours of simulated time, both stations produce
+#   readings continuously with no anomalies injected, no spurious alerts
+#   are generated, and Cloud data matches Edge data (sampled verification).
+#
+# Expected outcomes:
+#   - Zero CRITICAL or HIGH alerts
+#   - Sensor readings within nominal ranges for all sensors
+#   - Cloud receives telemetry batches at configured intervals
+#   - Publisher stats show 0 failed sends
+
+name: nominal_operations
+stations: [maitri, bharati]
+duration_simulated_hours: 24
+real_duration_seconds: 120   # accelerated: 24h sim = 2 min real (60× speed)
+
+steps: []  # No anomaly injections — pure baseline
+
+assertions:
+  - type: alert_count
+    severity: [CRITICAL, HIGH]
+    expected_max: 0
+    description: "No critical or high alerts during nominal operations"
+
+  - type: telemetry_continuity
+    domains: [energy, weather, environment]
+    max_gap_seconds: 120
+    description: "No sensor goes stale for more than 2× its sampling interval"
+
+  - type: fuel_range
+    station_id: maitri
+    sensor_id: maitri.energy.gen1.fuel_pct
+    expected_min: 70.0  # fuel only decreases ~15% in 24h at nominal consumption
+    expected_max: 100.0
+
+  - type: cloud_sync_count
+    expected_min_batches: 4
+    description: "At least 4 telemetry batches received per station over 24h"

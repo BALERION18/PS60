@@ -1,0 +1,30 @@
+syntax = "proto3";
+package vajrax;
+import "sensor.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "vajrax/proto";
+
+// Phase of a black-box capture window relative to the triggering event.
+enum BlackBoxPhase {
+  BLACK_BOX_PHASE_UNSPECIFIED = 0;
+  BLACK_BOX_PHASE_PRE_EVENT = 1;    // captured before the trigger alert
+  BLACK_BOX_PHASE_ACTIVE = 2;       // captured while alert is open
+  BLACK_BOX_PHASE_POST_RESOLUTION = 3; // 15 min tail after alert resolved
+}
+
+// A single tamper-evident frame within a black-box window.
+// Frames are hash-chained: prev_hash = SHA-256 of the previous frame's serialized bytes.
+// The first frame's prev_hash = SHA-256(trigger_alert_id UTF-8 bytes).
+message BlackBoxFrame {
+  string event_id = 1;         // shared across all frames of the same window
+  string station_id = 2;
+  string trigger_alert_id = 3;
+  uint32 frame_index = 4;      // 0-based, monotonically increasing within the window
+  repeated SensorReading readings = 5;
+  BlackBoxPhase phase = 6;
+  bytes prev_hash = 7;         // SHA-256 bytes of previous frame
+  bytes frame_hash = 8;        // SHA-256 of this frame's serialized bytes (excluding frame_hash field)
+  google.protobuf.Timestamp timestamp_utc = 9;
+  bool is_partial_pre_event = 10; // true if pre-event window was truncated (cold start)
+  bool window_closed = 11;     // true on the final frame of the window
+}

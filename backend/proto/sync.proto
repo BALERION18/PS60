@@ -1,0 +1,32 @@
+syntax = "proto3";
+package vajrax;
+import "enums.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "vajrax/proto";
+
+// The outer envelope wrapping ALL messages sent over the satellite link.
+// The payload bytes are a serialized Protobuf of the type indicated by message_type.
+// The signature is an Ed25519 signature over the raw payload bytes,
+// computed with the station's private key.
+message SyncEnvelope {
+  string station_id = 1;
+  MessageType message_type = 2;
+  bytes payload = 3;           // zstd-compressed serialized inner message
+  bytes signature = 4;         // Ed25519 signature over uncompressed payload bytes
+  string proto_version = 5;    // semver string, e.g. "1.0.0"
+  uint64 sequence_number = 6;  // monotonically increasing per station
+  google.protobuf.Timestamp envelope_at = 7;
+  bool payload_compressed = 8; // true if payload is zstd-compressed
+}
+
+// Periodic heartbeat sent from Edge to Cloud to indicate link health.
+message LinkHeartbeat {
+  string station_id = 1;
+  google.protobuf.Timestamp edge_timestamp_utc = 2;
+  uint64 queue_depth_bytes = 3;  // total bytes pending in outbound queue
+  uint32 queue_item_count = 4;
+  bool services_healthy = 5;     // false if any Edge service is degraded
+  LinkState link_state = 6;      // Edge's own assessment of link quality
+  uint32 open_critical_alerts = 7;
+  uint32 open_high_alerts = 8;
+}

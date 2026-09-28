@@ -1,0 +1,269 @@
+/* Tailwind v4 — all design tokens from the original HTML */
+@import "tailwindcss";
+
+@theme {
+  /* ── HIMANTAR Premium Warm Palette ── */
+  --color-canvas: #E9E3D7;
+  --color-lavender: #F0ECF6;
+  --color-surface: #FCFBF8;
+  --color-surface-soft: #F6F3ED;
+  --color-olive: #76804D;
+  --color-olive-deep: #4F5935;
+  --color-olive-soft: #E4E8D3;
+  --color-text: #252820;
+  --color-text-secondary: #687066;
+  --color-text-muted: #8A9088;
+  --color-border: #DDD8CC;
+  --color-border-soft: #E9E5DC;
+  --color-success: #6F8747;
+  --color-warning: #C58A32;
+  --color-danger: #B85A5A;
+  --color-info: #8278A4;
+  /* Government identity (restrained) */
+  --color-goi-saffron: #D4883A;
+  --color-goi-white: #FFFFFF;
+  --color-goi-green: #5C7A3A;
+  --color-goi-navy: #3D4F3C;
+  --color-goi-deep: #2A3429;
+  --color-goi-border: #C5C0B4;
+  --color-goi-gold: #B8944A;
+}
+
+* { box-sizing: border-box; }
+
+/* Tricolour Ribbon */
+.tricolour-ribbon {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #FF9933 0%,
+    #FF9933 33.33%,
+    #FFFFFF 33.33%,
+    #FFFFFF 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+  flex-shrink: 0;
+}
+
+.tricolour-bottom {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #FF9933 0%,
+    #FF9933 33.33%,
+    #FFFFFF 33.33%,
+    #FFFFFF 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+  flex-shrink: 0;
+}
+
+/* Sharp corners on structural containers, allow clean radius for pills & indicators */
+.rounded-full { border-radius: 9999px !important; }
+.rounded-pill { border-radius: 12px !important; }
+.rounded-badge { border-radius: 3px !important; }
+
+html {
+  font-size: 13.5px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 1600px) {
+  html {
+    font-size: 14.5px;
+  }
+}
+
+@media (max-width: 1280px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 960px) {
+  html {
+    font-size: 12.5px;
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--color-canvas);
+  color: #252820;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #E9E5DC; }
+::-webkit-scrollbar-thumb { background: #B5B0A4; }
+::-webkit-scrollbar-thumb:hover { background: #8A9088; }
+
+/* Responsive Bento Grid System */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.bento-schematic {
+  grid-column: span 8;
+  min-width: 0;
+}
+
+.bento-side-stack {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bento-bottom-card {
+  grid-column: span 4;
+  min-width: 0;
+}
+
+@media (max-width: 1080px) {
+  .bento-schematic {
+    grid-column: span 12;
+  }
+  .bento-side-stack {
+    grid-column: span 12;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 10px;
+  }
+  .bento-bottom-card {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 720px) {
+  .bento-side-stack {
+    grid-template-columns: 1fr;
+  }
+  .bento-bottom-card {
+    grid-column: span 12;
+  }
+}
+
+/* Segmented control */
+.seg-active { background: #4F5935 !important; color: #ffffff !important; font-weight: 700; }
+.seg-inactive { background: #FCFBF8; color: #687066; }
+.seg-inactive:hover { color: #4F5935; background: #F6F3ED; }
+
+/* Station tab */
+.station-active  { background: #FCFBF8; border: 1px solid #76804D; color: #252820; }
+.station-inactive { background: #F6F3ED; border: 1px solid transparent; color: #8A9088; }
+.station-inactive:hover { color: #4F5935; background: #E4E8D3; }
+
+/* Nav */
+.nav-active   { background: #E4E8D3; color: #252820; border-left: 3px solid #76804D; }
+.nav-inactive { color: #8A9088; }
+.nav-inactive:hover { background: #F6F3ED; color: #252820; }
+
+/* Alert strip */
+.alert-strip { overflow-x: auto; white-space: nowrap; }
+.alert-strip::-webkit-scrollbar { height: 0; }
+
+/* Continuous Running Marquee for Government Latest Bulletins */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee-scroll 35s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Seismic animation */
+@keyframes seismic-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.seismic-line { animation: seismic-scroll 8s linear infinite; }
+
+/* Pulse dot */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+.pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
+
+/* Alert rows */
+.alert-critical { border-left: 3px solid #B85A5A; }
+.alert-warning  { border-left: 3px solid #C58A32; }
+.alert-info     { border-left: 3px solid #76804D; }
+.alert-row:hover { background: #F6F3ED; }
+
+/* Status badges */
+.badge-nominal { color: #6F8747; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; }
+.badge-rec     { color: #B85A5A; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; }
+
+/* Time range */
+.time-active   { background: #4F5935; color: #E4E8D3; border: 1px solid #76804D; }
+.time-inactive { color: #8A9088; border: 1px solid transparent; }
+.time-inactive:hover { color: #E4E8D3; background: #4F5935; }
+
+/* Schematic overlays */
+.schematic-overlay {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #DDD8CC;
+  padding: 6px 10px;
+  pointer-events: none;
+  min-width: 140px;
+}
+.schematic-overlay-active { border-color: #DDD8CC; }
+
+main {
+  overflow-y: visible;
+}
+
+/* Sidebar collapse on smaller screens */
+@media (max-width: 1200px) {
+  .sidebar-label { display: none; }
+  .sidebar-emblem { display: none; }
+  .sidebar-bottom { display: none; }
+}
+
+/* Radar beam scan animation */
+@keyframes radar-beam {
+  0% {
+    left: 42px;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    left: calc(100% - 16px);
+    opacity: 0.3;
+  }
+}
