@@ -40,7 +40,7 @@ const CATEGORY_CONFIG = [
   {
     key: 'food' as const,
     label: 'Food Rations',
-    icon: '🍲',
+    icon: 'restaurant',
     color: '#6F8747',
     bg: '#E4E8D3',
     border: '#C5D4A8',
@@ -49,7 +49,7 @@ const CATEGORY_CONFIG = [
   {
     key: 'fuel' as const,
     label: 'Fuel & Diesel',
-    icon: '⛽',
+    icon: 'local_gas_station',
     color: '#C58A32',
     bg: '#FCFBF87ed',
     border: '#D5C490',
@@ -58,7 +58,7 @@ const CATEGORY_CONFIG = [
   {
     key: 'medical' as const,
     label: 'Medical Supplies',
-    icon: '🏥',
+    icon: 'medical_services',
     color: '#B85A5A',
     bg: '#F5E8E8',
     border: '#D4A5A5',
@@ -67,7 +67,7 @@ const CATEGORY_CONFIG = [
   {
     key: 'spares' as const,
     label: 'Spare Parts',
-    icon: '⚙️',
+    icon: 'build',
     color: '#8278A4',
     bg: '#F0ECF6',
     border: '#D5CDE0',
@@ -110,7 +110,7 @@ function AuditBadge({
           borderRadius: 3,
         }}
       >
-        ⏳ {label}: PENDING
+        PENDING — {label}
       </span>
     )
   }
@@ -126,7 +126,7 @@ function AuditBadge({
         borderRadius: 3,
       }}
     >
-      {verified ? '✅' : '❌'} {label}: {verified ? 'VERIFIED' : 'NOT VERIFIED'}
+      {verified ? 'VERIFIED' : 'NOT VERIFIED'} — {label}
     </span>
   )
 }
@@ -182,7 +182,7 @@ function TrackingItemRow({ item }: { item: AuditItemDetail }) {
             border: isLow ? '1px solid #D4A5A5' : '1px solid #C5D4A8',
           }}
         >
-          {isLow ? '⚠️ REORDER' : '✅ SAFE'}
+          {isLow ? 'REORDER' : 'SAFE'}
         </span>
       </td>
     </tr>
@@ -256,7 +256,7 @@ function CategorySection({
         onClick={() => setExpanded((v) => !v)}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 20 }}>{config.icon}</span>
+          <span className="material-symbols-outlined" style={{ fontSize: 22, color: config.color }}>{config.icon}</span>
           <div>
             <div style={{ fontSize: 13, fontWeight: 900, color: config.color, textTransform: 'uppercase' }}>
               {config.label}
@@ -361,7 +361,7 @@ function CategorySection({
                   borderRadius: 2,
                 }}
               >
-                {audit?.verified ? '✅ COUNT VERIFIED' : '⚠️ AWAITING VERIFICATION'}
+                {audit?.verified ? 'COUNT VERIFIED' : 'AWAITING VERIFICATION'}
               </div>
             </div>
 
@@ -549,7 +549,7 @@ export default function LogisticsPage() {
 
   function handleAuditCount(itemId: string) {
     setNotificationMsg(
-      `[${new Date().toLocaleTimeString('en-GB')}] ✅ Stock count confirmed for: ${itemId}`,
+      `[${new Date().toLocaleTimeString('en-GB')}] Stock count confirmed for: ${itemId}`,
     )
     setTimeout(() => setNotificationMsg(null), 5000)
   }
@@ -558,7 +558,7 @@ export default function LogisticsPage() {
     e.preventDefault()
     if (!reqItemName.trim()) return
     setNotificationMsg(
-      `[${new Date().toLocaleTimeString('en-GB')}] 📋 Supply request sent to NCPOR Goa Logistics Office.`,
+      `[${new Date().toLocaleTimeString('en-GB')}] Supply request sent to NCPOR Goa Logistics Office.`,
     )
     setShowRequisitionModal(false)
     setReqItemName('')

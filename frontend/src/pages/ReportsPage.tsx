@@ -106,10 +106,10 @@ export default function ReportsPage() {
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
-      setDownloadMsg(`✅ Downloaded: ${result.filename}`)
+      setDownloadMsg(`Downloaded: ${result.filename}`)
       setTimeout(() => setDownloadMsg(null), 5000)
     } catch {
-      setDownloadMsg('❌ Download failed — please try again')
+      setDownloadMsg('Download failed — please try again')
       setTimeout(() => setDownloadMsg(null), 4000)
     } finally {
       setIsDownloading(false)
@@ -138,8 +138,8 @@ export default function ReportsPage() {
             {/* Header */}
             <div style={{ background: '#4F5935', color: '#FCFBF8', padding: '10px 16px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 800 }}>📄 OFFICIAL REPORTS — NCPOR DOCUMENT MANAGEMENT SYSTEM</div>
-                <div style={{ fontSize: 10, color: '#8A9088', marginTop: 2 }}>Live data from Neon DB • GIGW 3.0 Compliant • VajraX Digital Twin Platform</div>
+                <div style={{ fontSize: 13, fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined" style={{ fontSize: 18 }}>description</span> OFFICIAL REPORTS — NCPOR DOCUMENT MANAGEMENT SYSTEM</div>
+                <div style={{ fontSize: 10, color: '#8A9088', marginTop: 2 }}>Live data from Neon DB • HIMADRI Digital Platform</div>
               </div>
               <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                 {/* Station filter */}
@@ -154,7 +154,7 @@ export default function ReportsPage() {
 
             {/* Download notification */}
             {downloadMsg && (
-              <div style={{ background: downloadMsg.startsWith('✅') ? '#E4E8D3' : '#F5E8E8', border: `1px solid ${downloadMsg.startsWith('✅') ? '#C5D4A8' : '#D4A5A5'}`, padding: '8px 14px', marginBottom: 10, fontSize: 11, fontWeight: 700, color: downloadMsg.startsWith('✅') ? '#6F8747' : '#B85A5A' }}>
+              <div style={{ background: downloadMsg.startsWith('Downloaded') ? '#E4E8D3' : '#F5E8E8', border: `1px solid ${downloadMsg.startsWith('Downloaded') ? '#C5D4A8' : '#D4A5A5'}`, padding: '8px 14px', marginBottom: 10, fontSize: 11, fontWeight: 700, color: downloadMsg.startsWith('Downloaded') ? '#6F8747' : '#B85A5A' }}>
                 {downloadMsg}
               </div>
             )}
@@ -180,7 +180,7 @@ export default function ReportsPage() {
 
             {error && !isLoading && (
               <div style={{ background: '#F5E8E8', border: '1px solid #D4A5A5', padding: '16px', color: '#B85A5A', fontSize: 12, fontWeight: 700 }}>
-                ❌ Failed to load report. Check that the backend is running.
+                Failed to load report. Check that the backend is running.
               </div>
             )}
 

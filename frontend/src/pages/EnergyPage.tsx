@@ -7,6 +7,7 @@ import Footer from '../components/layout/Footer'
 import { useLanguage } from '../context/LanguageContext'
 import { useSensors } from '../hooks/useSensors'
 import { useInventory } from '../hooks/useInventory'
+import PageSection from '../components/ui/PageSection'
 
 export default function EnergyPage() {
   const navigate = useNavigate()
@@ -25,6 +26,8 @@ export default function EnergyPage() {
   const [activeTelemetryGen, setActiveTelemetryGen] = useState<number>(1)
   const [isDiagnosticScanning, setIsDiagnosticScanning] = useState<boolean>(false)
   const [diagnosticReport, setDiagnosticReport] = useState<string | null>(null)
+  const [secKpi,  setSecKpi]  = useState(true)
+  const [secTabs, setSecTabs] = useState(true)
 
   // ── Live sensor + inventory data from Neon ────────────────────────────────
   const { data: energySensors } = useSensors(activeStation, 'energy')
@@ -73,7 +76,7 @@ export default function EnergyPage() {
   }
 
   function triggerGenAction(genId: number, action: string) {
-    setActionMessage(`[${new Date().toLocaleTimeString('en-GB')}] ⚙️ Dispatch Command: Generator DG-${genId} -> ${action.toUpperCase()} signal transmitted to station microgrid PLC.`)
+    setActionMessage(`[${new Date().toLocaleTimeString('en-GB')}] Dispatch Command: Generator DG-${genId} -> ${action.toUpperCase()} signal transmitted to station microgrid PLC.`)
     setTimeout(() => setActionMessage(null), 5000)
   }
 
@@ -177,7 +180,8 @@ export default function EnergyPage() {
             )}
 
             {/* Top Microgrid KPI Cards */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 12 }}>
+            <PageSection icon="bolt" title="Microgrid KPIs" badge="4 INDICATORS" badgeColor="#C58A32" accentColor="#C58A32" open={secKpi} onToggle={() => setSecKpi(v => !v)} bodyBg="#FCFBF8" bodyPadding={10}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               {/* KPI 1: Active Station Load */}
               <div style={{ background: '#FCFBF8', border: '1px solid #DDD8CC', borderTop: '3px solid #4F5935', padding: '10px 14px', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
@@ -208,7 +212,7 @@ export default function EnergyPage() {
                   <span style={{ fontSize: 12, fontWeight: 700, color: '#687066' }}>kW from Nature</span>
                 </div>
                 <div style={{ fontSize: 10, color: '#687066', fontWeight: 600, marginTop: 4 }}>
-                  ☀️ Sun Panels: {solarGen} kW • 💨 Wind Turbines: {windGen} kW
+                  Solar: {solarGen} kW • Wind: {windGen} kW
                 </div>
               </div>
 
@@ -246,14 +250,16 @@ export default function EnergyPage() {
                 </div>
               </div>
             </div>
+            </PageSection>
 
             {/* Sub-Navigation Tabs */}
+            <PageSection icon="manufacturing" title={`Energy Details — ${activeTab === 'overview' ? 'Generator Health' : activeTab === 'generators' ? 'Generator Fleet' : activeTab === 'fuel' ? 'Fuel Storage' : 'Fuel Predictor'}`} badge={activeTab.toUpperCase()} badgeColor="#4F5935" accentColor="#4F5935" open={secTabs} onToggle={() => setSecTabs(v => !v)} bodyBg="#FCFBF8" bodyPadding={12}>
             <div style={{ display: 'flex', gap: 4, borderBottom: '2px solid #DDD8CC', marginBottom: 12, background: '#FCFBF8', padding: '4px 8px 0 8px' }}>
               {[
-                { id: 'overview', label: lang === 'hi' ? '⚡ जनरेटर स्वास्थ्य व बिजली सारांश' : '⚡ Generator Health & Power Overview', icon: 'speed' },
-                { id: 'generators', label: lang === 'hi' ? '⚙️ सभी 4 जनरेटर (DG 1-4)' : '⚙️ All 4 Generators (DG 1-4)', icon: 'manufacturing' },
-                { id: 'fuel', label: lang === 'hi' ? '🛢️ ईंधन टैंक व स्टोरेज' : '🛢️ Fuel Tanks & Storage', icon: 'propane_tank' },
-                { id: 'prediction', label: lang === 'hi' ? '⛽ ईंधन कैलकुलेटर (Fuel Predictor)' : '⛽ Fuel Predictor', icon: 'psychology' },
+                { id: 'overview', label: lang === 'hi' ? 'जनरेटर स्वास्थ्य व बिजली सारांश' : 'Generator Health & Power Overview', icon: 'speed' },
+                { id: 'generators', label: lang === 'hi' ? 'सभी 4 जनरेटर (DG 1-4)' : 'All 4 Generators (DG 1-4)', icon: 'manufacturing' },
+                { id: 'fuel', label: lang === 'hi' ? 'ईंधन टैंक व स्टोरेज' : 'Fuel Tanks & Storage', icon: 'propane_tank' },
+                { id: 'prediction', label: lang === 'hi' ? 'ईंधन कैलकुलेटर (Fuel Predictor)' : 'Fuel Predictor', icon: 'psychology' },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -274,6 +280,7 @@ export default function EnergyPage() {
                     transition: 'all 0.15s',
                   }}
                 >
+                  <span className="material-symbols-outlined" style={{ fontSize: 15 }}>{tab.icon}</span>
                   <span>{tab.label}</span>
                 </button>
               ))}
@@ -336,8 +343,8 @@ export default function EnergyPage() {
                     {/* Gauge 1: Vibration */}
                     <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', borderLeft: '4px solid #76804D', padding: 10 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935' }}>
-                          📳 Vibration
+                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>vibration</span> Vibration
                         </span>
                         <span style={{ fontSize: 9, fontWeight: 800, color: '#4A6030', background: '#E4E8D3', padding: '1px 5px', borderRadius: 2 }}>
                           Smooth
@@ -373,8 +380,8 @@ export default function EnergyPage() {
                     {/* Gauge 2: Coolant Temp */}
                     <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', borderLeft: '4px solid #6F8747', padding: 10 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935' }}>
-                          🌡️ Coolant Temp
+                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>thermostat</span> Coolant Temp
                         </span>
                         <span style={{ fontSize: 9, fontWeight: 800, color: '#4A6030', background: '#E4E8D3', padding: '1px 5px', borderRadius: 2 }}>
                           Normal
@@ -408,8 +415,8 @@ export default function EnergyPage() {
                     {/* Gauge 3: Oil Pressure */}
                     <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', borderLeft: '4px solid #C58A32', padding: 10 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935' }}>
-                          🛢️ Oil Pressure
+                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>opacity</span> Oil Pressure
                         </span>
                         <span style={{ fontSize: 9, fontWeight: 800, color: '#4A6030', background: '#E4E8D3', padding: '1px 5px', borderRadius: 2 }}>
                           Good
@@ -443,8 +450,8 @@ export default function EnergyPage() {
                     {/* Gauge 4: Exhaust Temp */}
                     <div style={{ background: '#F6F3ED', border: '1px solid #E9E5DC', borderLeft: '4px solid #8278A4', padding: 10 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935' }}>
-                          🔥 Exhaust Temp
+                        <span style={{ fontSize: 11, fontWeight: 800, color: '#4F5935', display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <span className="material-symbols-outlined" style={{ fontSize: 14 }}>local_fire_department</span> Exhaust Temp
                         </span>
                         <span style={{ fontSize: 9, fontWeight: 800, color: '#4A6030', background: '#E4E8D3', padding: '1px 5px', borderRadius: 2 }}>
                           Balanced
@@ -732,7 +739,7 @@ export default function EnergyPage() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 14 }}>
                 <div style={{ background: '#FCFBF8', border: '1px solid #DDD8CC', padding: 16, boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
                   <h3 style={{ fontSize: 13, fontWeight: 900, color: '#4F5935', marginTop: 0, marginBottom: 4 }}>
-                    ⛽ FUEL PREDICTOR
+                    FUEL PREDICTOR
                   </h3>
                   <div style={{ fontSize: 10.5, color: '#687066', marginBottom: 14 }}>
                     Move the sliders to see how cold weather and crew size change diesel fuel usage.
@@ -800,7 +807,7 @@ export default function EnergyPage() {
                 {/* Resupply Mission Tracker */}
                 <div style={{ background: '#FCFBF8', border: '1px solid #DDD8CC', padding: 16, boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
                   <h4 style={{ fontSize: 12, fontWeight: 900, color: '#4F5935', marginTop: 0, marginBottom: 8 }}>
-                    🚢 NEXT RESUPPLY SHIP
+                    NEXT RESUPPLY SHIP
                   </h4>
                   <div style={{ fontSize: 10.5, color: '#687066', lineHeight: 1.5, marginBottom: 12 }}>
                     Supply Ship: <strong>MV Vasiliy Golovnin</strong>
@@ -820,6 +827,7 @@ export default function EnergyPage() {
                 </div>
               </div>
             )}
+            </PageSection>
           </div>
         </main>
       </div>

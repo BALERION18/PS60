@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLanguage } from '../context/LanguageContext'
-import GovtOfIndiaLogo from '../components/ui/GovtOfIndiaLogo'
 
 export default function LoginPage() {
   const { login } = useAuth()
@@ -64,10 +63,7 @@ export default function LoginPage() {
         fontFamily: 'Inter, sans-serif',
       }}
     >
-      {/* ── Tier 1: National Tricolour Ribbon ── */}
-      <div className="tricolour-ribbon" />
-
-      {/* ── Tier 2: Official Government Top Accessibility Bar ── */}
+      {/* ── Tm bop Bar: NCPOR + Language Switch ── */}
       <div
         style={{
           background: '#2A3429',
@@ -79,41 +75,16 @@ export default function LoginPage() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {/* Mini Tricolour Flag */}
-          <div
-            style={{
-              width: 18,
-              height: 12,
-              display: 'flex',
-              flexDirection: 'column',
-              border: '1px solid #DDD8CC',
-              overflow: 'hidden',
-              flexShrink: 0,
-            }}
-          >
-            <div style={{ flex: 1, background: '#D4883A' }} />
-            <div style={{ flex: 1, background: '#FCFBF8', position: 'relative' }}>
-              <div style={{ width: 3, height: 3, borderRadius: '50%', background: '#4F5935', margin: 'auto' }} />
-            </div>
-            <div style={{ flex: 1, background: '#138808' }} />
-          </div>
-
           <span style={{ fontSize: 12, fontWeight: 800, color: '#FCFBF8', letterSpacing: '0.02em' }}>
-            {t('gov.title')}
+            {t('gov.ncpor')}
           </span>
-          <span style={{ color: '#93c5fd' }}>•</span>
+          <span style={{ color: '#D4883A' }}>•</span>
           <span style={{ fontSize: 11.5, color: '#E4E8D3', fontWeight: 600 }}>
             {t('gov.ministry')}
           </span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ fontSize: 10.5, color: '#DDD8CC', fontWeight: 700 }} className="hidden sm:block">
-            <span style={{ color: '#ffedd5', background: 'rgba(212, 136, 58, 0.15)', padding: '2px 8px', border: '1px solid #D4883A' }}>
-              NIC MEGHRAJ SECURE GATEWAY
-            </span>
-          </div>
-
           {/* Language Switch Button */}
           <button
             onClick={toggleLang}
@@ -128,7 +99,6 @@ export default function LoginPage() {
               display: 'flex',
               alignItems: 'center',
               gap: 5,
-              boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
             }}
             title={lang === 'hi' ? 'Switch portal to English' : 'पोर्टल को हिंदी में बदलें'}
           >
@@ -149,15 +119,19 @@ export default function LoginPage() {
         }}
       >
         <div style={{ width: '100%', maxWidth: 480 }}>
-          {/* Official Government of India Logo & Ministry Header */}
+          {/* HIMADRI Logo & Header */}
           <div style={{ textAlign: 'center', marginBottom: 16, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <GovtOfIndiaLogo size={56} color="#4F5935" showGovtText={true} textColor="#4F5935" />
+            <img
+              src="/himadri_logo.png"
+              alt="HIMADRI — Antarctic Data Display"
+              style={{ height: 80, width: 80, objectFit: 'contain', display: 'block' }}
+            />
             <div style={{ marginTop: 10 }}>
               <div style={{ fontSize: 12, fontWeight: 800, color: '#4F5935', letterSpacing: '0.04em' }}>
                 {t('gov.ncpor')}
               </div>
               <h1 style={{ fontSize: 18, fontWeight: 900, color: '#252820', marginTop: 3, letterSpacing: '-0.01em' }}>
-                {t('login.portal_title')}
+                HIMADRI
               </h1>
               <div style={{ fontSize: 11, color: '#687066', fontWeight: 600 }}>
                 {t('app.subtitle')}
@@ -418,7 +392,7 @@ export default function LoginPage() {
               </button>
             </form>
 
-            {/* Quick Test Credentials Helper */}
+            {/* Quick Login Credentials */}
             <div
               style={{
                 marginTop: 16,
@@ -434,7 +408,7 @@ export default function LoginPage() {
               <div style={{ display: 'flex', gap: 8 }}>
                 <button
                   type="button"
-                  onClick={() => setQuickCreds('admin', 'admin123')}
+                  onClick={() => setQuickCreds('admin', 'admin@himadri')}
                   style={{
                     flex: 1,
                     background: '#F6F3ED',
@@ -450,7 +424,7 @@ export default function LoginPage() {
                   onMouseOver={(e) => ((e.currentTarget as HTMLElement).style.borderColor = '#4F5935')}
                   onMouseOut={(e) => ((e.currentTarget as HTMLElement).style.borderColor = '#DDD8CC')}
                 >
-                  <span style={{ fontWeight: 800, color: '#C58A32' }}>Admin:</span> admin / admin123
+                  <span style={{ fontWeight: 800, color: '#C58A32' }}>Admin:</span> admin / admin@himadri
                 </button>
               </div>
             </div>
@@ -470,17 +444,14 @@ export default function LoginPage() {
               letterSpacing: '0.04em',
             }}
           >
-            <span>DIGITAL INDIA</span>
+            <span>HIMADRI</span>
             <span>•</span>
-            <span>GIGW 3.0 COMPLIANT</span>
+            <span>NCPOR • MoES</span>
             <span>•</span>
-            <span>NIC SECURE INFRASTRUCTURE</span>
+            <span>ANTARCTIC RESEARCH</span>
           </div>
         </div>
       </main>
-
-      {/* ── Tier 3: National Tricolour Ribbon at bottom ── */}
-      <div className="tricolour-bottom" />
     </div>
   )
 }

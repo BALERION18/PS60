@@ -6,6 +6,7 @@ import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { useStations } from '../hooks/useStations'
 import { useLanguage } from '../context/LanguageContext'
+import PageSection from '../components/ui/PageSection'
 
 export default function StationsPage() {
   const navigate = useNavigate()
@@ -15,6 +16,8 @@ export default function StationsPage() {
   const [selectedStation, setSelectedStation] = useState<'maitri' | 'bharati'>('maitri')
   const [activeTab, setActiveTab] = useState<'topology' | 'nodes' | 'diagnostics' | 'security'>('topology')
   const [pingRunning, setPingRunning] = useState(false)
+  const [secKpi,  setSecKpi]  = useState(true)
+  const [secTabs, setSecTabs] = useState(true)
   const [pingLogs, setPingLogs] = useState<string[]>([
     'HQ Gateway (Goa HQ Earth Station): System initialized',
     'ISRO GSAT-30 Satellite: Signal lock strong (100% link health)',
@@ -120,7 +123,8 @@ export default function StationsPage() {
           </div>
 
           {/* Top Network KPI Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10, marginBottom: 12 }}>
+          <PageSection icon="hub" title="Network Overview — KPIs" badge="4 INDICATORS" badgeColor="#4F5935" accentColor="#4F5935" open={secKpi} onToggle={() => setSecKpi(v => !v)} bodyBg="#FCFBF8" bodyPadding={10}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 10 }}>
             {/* Card 1: Station Status */}
             <div style={{ background: '#FCFBF8', border: '1px solid #DDD8CC', borderTop: '3px solid #4F5935', padding: '10px 14px', boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
@@ -186,14 +190,16 @@ export default function StationsPage() {
               </div>
             </div>
           </div>
+          </PageSection>
 
           {/* Navigation Sub-Tabs */}
+          <PageSection icon="satellite_alt" title="Station Network — Detailed Views" badge={activeTab.toUpperCase()} badgeColor="#76804D" accentColor="#76804D" open={secTabs} onToggle={() => setSecTabs(v => !v)} bodyBg="#FCFBF8" bodyPadding={12}>
           <div style={{ display: 'flex', gap: 4, borderBottom: '2px solid #DDD8CC', marginBottom: 12, background: '#FCFBF8', padding: '4px 8px 0 8px' }}>
             {[
-              { id: 'topology', label: lang === 'hi' ? '🛰️ स्टेशन नेटवर्क' : '🛰️ Station Network', icon: 'route' },
-              { id: 'nodes', label: lang === 'hi' ? '🏢 स्टेशन कंप्यूटर' : '🏢 Station Computers', icon: 'dns' },
-              { id: 'diagnostics', label: lang === 'hi' ? '⚡ पिंग जांच' : '⚡ Ping Test', icon: 'troubleshoot' },
-              { id: 'security', label: lang === 'hi' ? '🔐 सुरक्षा व रिकॉर्ड' : '🔐 Security & Logs', icon: 'security' },
+              { id: 'topology', label: lang === 'hi' ? 'स्टेशन नेटवर्क' : 'Station Network', icon: 'route' },
+              { id: 'nodes', label: lang === 'hi' ? 'स्टेशन कंप्यूटर' : 'Station Computers', icon: 'dns' },
+              { id: 'diagnostics', label: lang === 'hi' ? 'पिंग जांच' : 'Ping Test', icon: 'troubleshoot' },
+              { id: 'security', label: lang === 'hi' ? 'सुरक्षा व रिकॉर्ड' : 'Security & Logs', icon: 'security' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -214,6 +220,7 @@ export default function StationsPage() {
                   transition: 'all 0.15s',
                 }}
               >
+                <span className="material-symbols-outlined" style={{ fontSize: 15 }}>{tab.icon}</span>
                 <span>{tab.label}</span>
               </button>
             ))}
@@ -494,7 +501,7 @@ export default function StationsPage() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 10.5 }}>
                   <div style={{ background: '#F6F3ED', padding: 10, border: '1px solid #E9E5DC' }}>
-                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4 }}>🖥️ Station Computer</div>
+                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 5 }}><span className="material-symbols-outlined" style={{ fontSize: 15 }}>computer</span> Station Computer</div>
                     <div style={{ color: '#687066', lineHeight: 1.5 }}>
                       • <strong>Polar PC:</strong> Runs 24/7 in severe cold (-40°C)<br />
                       • <strong>Local Memory:</strong> Stores 1 year of data safely on site<br />
@@ -503,7 +510,7 @@ export default function StationsPage() {
                   </div>
 
                   <div style={{ background: '#F6F3ED', padding: 10, border: '1px solid #E9E5DC' }}>
-                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4 }}>📡 Satellite & Internet</div>
+                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 5 }}><span className="material-symbols-outlined" style={{ fontSize: 15 }}>satellite_alt</span> Satellite & Internet</div>
                     <div style={{ color: '#687066', lineHeight: 1.5 }}>
                       • <strong>Main Satellite:</strong> Direct link to ISRO GSAT-30<br />
                       • <strong>Backup Link:</strong> Auto-connects to emergency link in 10 sec<br />
@@ -512,20 +519,20 @@ export default function StationsPage() {
                   </div>
 
                   <div style={{ background: '#F6F3ED', padding: 10, border: '1px solid #E9E5DC' }}>
-                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4 }}>⚙️ Quick Actions</div>
+                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 5 }}><span className="material-symbols-outlined" style={{ fontSize: 15 }}>build</span> Quick Actions</div>
                     <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
                       <button
                         onClick={() => handleQueueFlush('maitri')}
                         disabled={flushState['maitri']}
                         style={{ background: '#4F5935', color: '#FCFBF8', border: 'none', padding: '5px 12px', fontSize: 10, fontWeight: 800, cursor: 'pointer', borderRadius: 2 }}
                       >
-                        {flushState['maitri'] ? 'Syncing...' : '🔄 Sync Data Now'}
+                        {flushState['maitri'] ? 'Syncing...' : 'Sync Data Now'}
                       </button>
                       <button
                         onClick={() => alert('Maitri Station Certificate: Valid & Verified by NCPOR (Expires Dec 2027)')}
                         style={{ background: '#FCFBF8', color: '#4F5935', border: '1px solid #4F5935', padding: '5px 12px', fontSize: 10, fontWeight: 800, cursor: 'pointer', borderRadius: 2 }}
                       >
-                        📄 View Certificate
+                        View Certificate
                       </button>
                     </div>
                   </div>
@@ -547,7 +554,7 @@ export default function StationsPage() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10, fontSize: 10.5 }}>
                   <div style={{ background: '#F6F3ED', padding: 10, border: '1px solid #E9E5DC' }}>
-                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4 }}>🖥️ Station Computer</div>
+                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 5 }}><span className="material-symbols-outlined" style={{ fontSize: 15 }}>computer</span> Station Computer</div>
                     <div style={{ color: '#687066', lineHeight: 1.5 }}>
                       • <strong>High-Speed PC:</strong> Runs 24/7 with dual backup power<br />
                       • <strong>Local Memory:</strong> Stores 1 year of data safely on site<br />
@@ -556,7 +563,7 @@ export default function StationsPage() {
                   </div>
 
                   <div style={{ background: '#F6F3ED', padding: 10, border: '1px solid #E9E5DC' }}>
-                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4 }}>📡 Satellite & Internet</div>
+                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 5 }}><span className="material-symbols-outlined" style={{ fontSize: 15 }}>satellite_alt</span> Satellite & Internet</div>
                     <div style={{ color: '#687066', lineHeight: 1.5 }}>
                       • <strong>Main Satellite:</strong> High-speed polar satellite link<br />
                       • <strong>Backup Link:</strong> Emergency satellite always on standby<br />
@@ -565,20 +572,20 @@ export default function StationsPage() {
                   </div>
 
                   <div style={{ background: '#F6F3ED', padding: 10, border: '1px solid #E9E5DC' }}>
-                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4 }}>⚙️ Quick Actions</div>
+                    <div style={{ fontWeight: 800, color: '#4F5935', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 5 }}><span className="material-symbols-outlined" style={{ fontSize: 15 }}>build</span> Quick Actions</div>
                     <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
                       <button
                         onClick={() => handleQueueFlush('bharati')}
                         disabled={flushState['bharati']}
                         style={{ background: '#4F5935', color: '#FCFBF8', border: 'none', padding: '5px 12px', fontSize: 10, fontWeight: 800, cursor: 'pointer', borderRadius: 2 }}
                       >
-                        {flushState['bharati'] ? 'Syncing...' : '🔄 Sync Data Now'}
+                        {flushState['bharati'] ? 'Syncing...' : 'Sync Data Now'}
                       </button>
                       <button
                         onClick={() => alert('Bharati Station Certificate: Valid & Verified by NCPOR (Expires Dec 2027)')}
                         style={{ background: '#FCFBF8', color: '#4F5935', border: '1px solid #4F5935', padding: '5px 12px', fontSize: 10, fontWeight: 800, cursor: 'pointer', borderRadius: 2 }}
                       >
-                        📄 View Certificate
+                        View Certificate
                       </button>
                     </div>
                   </div>
@@ -643,9 +650,9 @@ export default function StationsPage() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {[
-                    { id: 'nominal', title: '☀️ Normal Weather', desc: 'Fast satellite link, zero delay (~560ms)' },
-                    { id: 'blizzard', title: '🌨️ Blizzard Storm', desc: 'Weak signal: sends life-saving alerts first' },
-                    { id: 'blackout', title: '⚡ Satellite Blackout', desc: 'Link cut: station runs offline on local AI' },
+                    { id: 'nominal', title: 'Normal Weather', desc: 'Fast satellite link, zero delay (~560ms)' },
+                    { id: 'blizzard', title: 'Blizzard Storm', desc: 'Weak signal: sends life-saving alerts first' },
+                    { id: 'blackout', title: 'Satellite Blackout', desc: 'Link cut: station runs offline on local AI' },
                   ].map((mode) => (
                     <button
                       key={mode.id}
@@ -682,7 +689,7 @@ export default function StationsPage() {
               {/* Government Data Protection */}
               <div style={{ background: '#FCFBF8', border: '1px solid #DDD8CC', padding: 16, boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
                 <h4 style={{ fontSize: 13, fontWeight: 900, color: '#4F5935', marginTop: 0, marginBottom: 6 }}>
-                  🔐 GOVERNMENT DATA PROTECTION
+                  GOVERNMENT DATA PROTECTION
                 </h4>
                 <div style={{ fontSize: 10.5, color: '#687066', marginBottom: 12 }}>
                   All station data is locked and safe before sending to satellite.
@@ -692,13 +699,13 @@ export default function StationsPage() {
                   <div style={{ background: '#F6F3ED', padding: 8, border: '1px solid #E9E5DC' }}>
                     <div style={{ fontWeight: 800, color: '#4F5935' }}>Maitri Station Security</div>
                     <div style={{ color: '#76804D', fontWeight: 700, marginTop: 2 }}>
-                      🔒 Verified & Locked (Hardware Security Chip)
+                      Verified &amp; Locked (Hardware Security Chip)
                     </div>
                   </div>
                   <div style={{ background: '#F6F3ED', padding: 8, border: '1px solid #E9E5DC' }}>
                     <div style={{ fontWeight: 800, color: '#4F5935' }}>Bharati Station Security</div>
                     <div style={{ color: '#6F8747', fontWeight: 700, marginTop: 2 }}>
-                      🔒 Verified & Locked (Hardware Security Chip)
+                      Verified &amp; Locked (Hardware Security Chip)
                     </div>
                   </div>
                   <div style={{ background: '#F6F3ED', padding: 8, border: '1px solid #E9E5DC' }}>
@@ -713,7 +720,7 @@ export default function StationsPage() {
               {/* Station Blackbox */}
               <div style={{ background: '#FCFBF8', border: '1px solid #DDD8CC', padding: 16, boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
                 <h4 style={{ fontSize: 13, fontWeight: 900, color: '#4F5935', marginTop: 0, marginBottom: 6 }}>
-                  🛡️ STATION BLACKBOX RECORDER
+                  STATION BLACKBOX RECORDER
                 </h4>
                 <div style={{ fontSize: 10.5, color: '#687066', marginBottom: 12 }}>
                   Permanently saves all alarms, fuel transfers, and crew orders so they cannot be changed.
@@ -735,13 +742,14 @@ export default function StationsPage() {
                   <div style={{ background: '#F6F3ED', padding: 8, border: '1px solid #E9E5DC' }}>
                     <div style={{ fontWeight: 800, color: '#4F5935' }}>Safety & Fraud Check</div>
                     <div style={{ color: '#6F8747', fontWeight: 800, marginTop: 2 }}>
-                      ✅ 100% Safe • Zero Data Modified or Hacked
+                      100% Safe • Zero Data Modified or Hacked
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           )}
+          </PageSection>
           </div>
         </main>
       </div>

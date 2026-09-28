@@ -95,10 +95,10 @@ export default function SettingsPage() {
 
             <div style={{ background: '#4F5935', color: '#FCFBF8', padding: '10px 16px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 800 }}>⚙️ SYSTEM SETTINGS — VAJRAX DIGITAL TWIN PLATFORM v3.02</div>
-                <div style={{ fontSize: 10, color: '#C5C0B4', marginTop: 2 }}>Administrator configuration console • NIC GOI Secured • Changes logged in immutable audit trail</div>
+                <div style={{ fontSize: 13, fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined" style={{ fontSize: 16 }}>settings</span> SYSTEM SETTINGS — HIMADRI DIGITAL PLATFORM v3.02</div>
+                <div style={{ fontSize: 10, color: '#C5C0B4', marginTop: 2 }}>Administrator configuration console • HIMADRI Secured • Changes logged in immutable audit trail</div>
               </div>
-              <div style={{ fontSize: 10, color: '#D4883A', fontWeight: 700 }}>🔒 ADMIN ACCESS LEVEL</div>
+              <div style={{ fontSize: 10, color: '#D4883A', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}><span className="material-symbols-outlined" style={{ fontSize: 14 }}>lock</span> ADMIN ACCESS LEVEL</div>
             </div>
 
             {saveMsg && (
@@ -149,7 +149,7 @@ export default function SettingsPage() {
                       <div style={{ fontSize: 11, fontWeight: 700, color: '#4F5935', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #F6F3ED', display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span className="material-symbols-outlined" style={{ fontSize: 16 }}>info</span>PLATFORM INFORMATION
                       </div>
-                      {[{ label: 'Platform Name', value: 'VajraX Antarctic Digital Twin v3.02' },{ label: 'Operator Organisation', value: 'National Centre for Polar and Ocean Research (NCPOR)' },{ label: 'Ministry', value: 'Ministry of Earth Sciences, Government of India' },{ label: 'Developed By', value: 'NIC India | NCPOR Polar Technology Group' },{ label: 'Certification', value: 'GIGW 3.0 Compliant • CERT-In Audited' },{ label: 'Data Classification', value: 'RESTRICTED / OFFICIAL USE ONLY' }].map(info => (
+                      {[{ label: 'Platform Name', value: 'HIMADRI Digital Platform v3.02' },{ label: 'Operator Organisation', value: 'National Centre for Polar and Ocean Research (NCPOR)' },{ label: 'Ministry', value: 'Ministry of Earth Sciences, Government of India' },{ label: 'Developed By', value: 'NIC India | NCPOR Polar Technology Group' },{ label: 'Certification', value: 'CERT-In Audited' },{ label: 'Data Classification', value: 'RESTRICTED / OFFICIAL USE ONLY' }].map(info => (
                         <div key={info.label} style={{ display: 'flex', gap: 12, padding: '7px 0', borderBottom: '1px solid #F6F3ED', fontSize: 11 }}>
                           <span style={{ color: '#687066', width: 200, flexShrink: 0 }}>{info.label}</span>
                           <span style={{ fontWeight: 700, color: '#252820' }}>{info.value}</span>
@@ -171,7 +171,7 @@ export default function SettingsPage() {
                     <Toggle on={true} onToggle={() => {}} label="mTLS Station-to-Cloud Authentication (Ed25519)" />
                     <Toggle on={true} onToggle={() => {}} label="CSRF Token Validation" />
                     <div style={{ margin: '16px 0', background: '#E4E8D3', border: '1px solid #D5D9C8', padding: '12px' }}>
-                      <div style={{ fontSize: 10, fontWeight: 700, color: '#4F5935', marginBottom: 6 }}>🔑 ENCRYPTION KEY STATUS</div>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: '#4F5935', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }}><span className="material-symbols-outlined" style={{ fontSize: 14 }}>key</span> ENCRYPTION KEY STATUS</div>
                       {[{ name: 'JWT Signing Key (HS256)', expiry: '2026-12-31', status: 'VALID' },{ name: 'Station Maitri Ed25519 Keypair', expiry: '2027-01-01', status: 'VALID' },{ name: 'Station Bharati Ed25519 Keypair', expiry: '2027-01-01', status: 'VALID' },{ name: 'TLS Certificate (*.ncpor.gov.in)', expiry: '2027-06-30', status: 'VALID' }].map(k => (
                         <div key={k.name} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, padding: '4px 0', borderBottom: '1px solid #E9E5DC' }}>
                           <span style={{ color: '#687066' }}>{k.name}</span>

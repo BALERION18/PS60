@@ -93,7 +93,7 @@ const MAITRI_PARTS: HotspotPart[] = [
     stats: [
       { label: 'Satellite Link', value: 'Online', note: 'ISRO GSAT-30 satellite', good: true },
       { label: 'Signal Strength', value: 'Strong (+14 dB)', note: 'Clear sky', good: true },
-      { label: 'Data Compression', value: '93% Saved', note: 'VajraX Protobuf speed', good: true },
+      { label: 'Data Compression', value: '93% Saved', note: 'HIMADRI Protobuf speed', good: true },
       { label: 'Snow De-icer', value: 'Heating On', note: 'Dish clear of ice', good: true },
     ],
   },
@@ -256,7 +256,7 @@ const BHARATI_PARTS: HotspotPart[] = [
     stats: [
       { label: 'Satellite Link', value: 'Online (Fast)', note: 'Ku-Band dish active', good: true },
       { label: 'Signal Strength', value: 'Strong (+16 dB)', note: 'Clear sky margin', good: true },
-      { label: 'Bandwidth Saved', value: '94% Saved', note: 'VajraX Protobuf speed', good: true },
+      { label: 'Bandwidth Saved', value: '94% Saved', note: 'HIMADRI Protobuf speed', good: true },
       { label: 'ISRO Tracking', value: 'Connected', note: 'GSAT-30 relay', good: true },
     ],
   },

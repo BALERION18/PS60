@@ -1,6 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
-import emblemOfIndia from '../../assets/emblem_of_india.svg'
 
 export default function Sidebar({
   activeStation: _activeStation,
@@ -42,7 +41,7 @@ export default function Sidebar({
         flexShrink: 0,
       }}
     >
-      {/* Official Wing Emblem Banner */}
+      {/* Wing Banner — text only */}
       <div
         className="sidebar-emblem"
         style={{
@@ -51,37 +50,15 @@ export default function Sidebar({
           background: '#F6F3ED',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div
-            style={{
-              width: 28,
-              height: 32,
-              background: '#ffffff',
-              border: '1px solid #DDD8CC',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-              padding: '2px',
-              borderRadius: 2,
-            }}
-          >
-            <img
-              src={emblemOfIndia}
-              alt="Emblem Logo of India"
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            />
+        <div>
+          <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em', color: '#C58A32' }}>
+            {t('nav.wing_title')}
           </div>
-          <div>
-            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em', color: '#C58A32' }}>
-              {t('nav.wing_title')}
-            </div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#252820', lineHeight: 1.15 }}>
-              {t('nav.wing_sub')}
-            </div>
-            <div style={{ fontSize: 8, fontWeight: 600, color: '#8A9088', letterSpacing: '0.03em' }}>
-              V3.02 • NIC GOI
-            </div>
+          <div style={{ fontSize: 12, fontWeight: 800, color: '#252820', lineHeight: 1.15 }}>
+            {t('nav.wing_sub')}
+          </div>
+          <div style={{ fontSize: 8, fontWeight: 600, color: '#8A9088', letterSpacing: '0.03em', marginTop: 2 }}>
+            HIMADRI • NCPOR
           </div>
         </div>
       </div>

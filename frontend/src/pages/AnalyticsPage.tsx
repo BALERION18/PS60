@@ -5,6 +5,7 @@ import AlertStrip from '../components/layout/AlertStrip'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { useAnalytics } from '../hooks/useAnalytics'
+import PageSection from '../components/ui/PageSection'
 
 type StationId = 'maitri' | 'bharati'
 type TabType = 'fuel' | 'energy' | 'anomaly' | 'maintenance' | 'expedition'
@@ -49,6 +50,7 @@ export default function AnalyticsPage() {
   const navigate = useNavigate()
   const [activeStation, setActiveStation] = useState<StationId>('maitri')
   const [activeTab, setActiveTab] = useState<TabType>('fuel')
+  const [secTabs, setSecTabs] = useState(true)
   useAnalytics(activeStation)
 
   const tabs: { id: TabType; label: string; icon: string }[] = [
@@ -81,13 +83,13 @@ export default function AnalyticsPage() {
                 <span>›</span><span style={{ color: '#C58A32', fontWeight: 800 }}>Predictive Analytics</span>
               </div>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <span style={{ fontSize: 10, color: '#8278A4', fontWeight: 700, background: '#f5f3ff', padding: '2px 8px', border: '1px solid #ddd6fe' }}>🤖 AI ENGINE ACTIVE</span>
+                <span style={{ fontSize: 10, color: '#8278A4', fontWeight: 700, background: '#f5f3ff', padding: '2px 8px', border: '1px solid #ddd6fe', display: 'inline-flex', alignItems: 'center', gap: 4 }}><span className="material-symbols-outlined" style={{ fontSize: 13 }}>psychology</span> AI ENGINE ACTIVE</span>
               </div>
             </div>
 
             <div style={{ background: 'linear-gradient(135deg, #4F5935 0%, #1a5276 100%)', color: '#FCFBF8', padding: '12px 16px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 800 }}>🤖 PREDICTIVE ANALYTICS — {activeStation === 'maitri' ? 'MAITRI' : 'BHARATI'} AI ENGINE v2.1</div>
+                <div style={{ fontSize: 13, fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined" style={{ fontSize: 18 }}>psychology</span> PREDICTIVE ANALYTICS — {activeStation === 'maitri' ? 'MAITRI' : 'BHARATI'} AI ENGINE v2.1</div>
                 <div style={{ fontSize: 10, color: '#8A9088', marginTop: 2 }}>Edge AI • LSTM Burn Models • Anomaly Detection • Maintenance Forecasting • Mission Planning</div>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
@@ -104,6 +106,8 @@ export default function AnalyticsPage() {
                 </button>
               ))}
             </div>
+
+            <PageSection icon="psychology" title={`AI Analytics — ${activeTab.toUpperCase()}`} badge="AI ACTIVE" badgeColor="#8278A4" accentColor="#8278A4" open={secTabs} onToggle={() => setSecTabs(v => !v)} bodyBg="#FCFBF8" bodyPadding={12}>
 
             {activeTab === 'fuel' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -322,6 +326,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
             )}
+            </PageSection>
           </div>
         </main>
       </div>

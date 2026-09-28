@@ -13,19 +13,19 @@ type StationId = 'maitri' | 'bharati'
 
 // ── Category config (colours + icons) ────────────────────────────────────────
 
-const CAT_META: Record<string, { color: string; bg: string; border: string; emoji: string }> = {
-  temperature:    { color: '#B85A5A', bg: '#F5E8E8', border: '#D4A5A5', emoji: '🌡️' },
-  pressure:       { color: '#8278A4', bg: '#F0ECF6', border: '#D5CDE0', emoji: '🔵' },
-  fuel:           { color: '#C58A32', bg: '#FCFBF87ed', border: '#D5C490', emoji: '⛽' },
-  seismic:        { color: '#92400e', bg: '#fefce8', border: '#D5C490', emoji: '🌍' },
-  wildlife:       { color: '#6F8747', bg: '#E4E8D3', border: '#C5D4A8', emoji: '🐧' },
-  radiation:      { color: '#C58A32', bg: '#fefce8', border: '#fef08a', emoji: '☀️' },
-  meteorological: { color: '#76804D', bg: '#E4E8D3', border: '#D5D9C8', emoji: '🌬️' },
-  structural:     { color: '#687066', bg: '#F6F3ED', border: '#DDD8CC', emoji: '🏗️' },
-  air_quality:    { color: '#0891b2', bg: '#ecfeff', border: '#a5f3fc', emoji: '💨' },
-  oceanographic:  { color: '#1d4ed8', bg: '#E4E8D3', border: '#D5D9C8', emoji: '🌊' },
-  fire_safety:    { color: '#8B4040', bg: '#F5E8E8', border: '#D4A5A5', emoji: '🔥' },
-  communications: { color: '#6d28d9', bg: '#f5f3ff', border: '#ddd6fe', emoji: '📡' },
+const CAT_META: Record<string, { color: string; bg: string; border: string; icon: string }> = {
+  temperature:    { color: '#B85A5A', bg: '#F5E8E8', border: '#D4A5A5', icon: 'thermostat' },
+  pressure:       { color: '#8278A4', bg: '#F0ECF6', border: '#D5CDE0', icon: 'speed' },
+  fuel:           { color: '#C58A32', bg: '#FCFBF87ed', border: '#D5C490', icon: 'local_gas_station' },
+  seismic:        { color: '#92400e', bg: '#fefce8', border: '#D5C490', icon: 'public' },
+  wildlife:       { color: '#6F8747', bg: '#E4E8D3', border: '#C5D4A8', icon: 'pets' },
+  radiation:      { color: '#C58A32', bg: '#fefce8', border: '#fef08a', icon: 'light_mode' },
+  meteorological: { color: '#76804D', bg: '#E4E8D3', border: '#D5D9C8', icon: 'air' },
+  structural:     { color: '#687066', bg: '#F6F3ED', border: '#DDD8CC', icon: 'foundation' },
+  air_quality:    { color: '#0891b2', bg: '#ecfeff', border: '#a5f3fc', icon: 'air' },
+  oceanographic:  { color: '#1d4ed8', bg: '#E4E8D3', border: '#D5D9C8', icon: 'waves' },
+  fire_safety:    { color: '#8B4040', bg: '#F5E8E8', border: '#D4A5A5', icon: 'local_fire_department' },
+  communications: { color: '#6d28d9', bg: '#f5f3ff', border: '#ddd6fe', icon: 'router' },
 }
 
 const DEFAULT_META = { color: '#687066', bg: '#F6F3ED', border: '#E9E5DC', emoji: '🔌' }
@@ -511,8 +511,8 @@ export default function InfrastructurePage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
                   <span className="material-symbols-outlined" style={{ fontSize: 28, color: '#D4883A' }}>sensors</span>
                   <div>
-                    <div style={{ fontSize: 16, fontWeight: 900, letterSpacing: '0.02em' }}>
-                      📡 ANTARCTIC IoT SENSOR TELEMETRY COMMAND
+                    <div style={{ fontSize: 16, fontWeight: 900, letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span className="material-symbols-outlined" style={{ fontSize: 20 }}>sensors</span> HIMADRI — SENSOR TELEMETRY COMMAND
                     </div>
                     <div style={{ fontSize: 10, color: '#8A9088', marginTop: 2 }}>
                       Real-time sensor monitoring for Maitri &amp; Bharati Research Stations • NCPOR / MoES
@@ -545,7 +545,7 @@ export default function InfrastructurePage() {
                       transition: 'all 0.15s',
                     }}
                   >
-                    {s === 'maitri' ? '🏔️ MAITRI' : '🌊 BHARATI'}
+                    {s === 'maitri' ? 'MAITRI' : 'BHARATI'}
                   </button>
                 ))}
               </div>
@@ -715,7 +715,7 @@ export default function InfrastructurePage() {
                         textTransform: 'uppercase',
                       }}
                     >
-                      {s === 'all' ? `All (${totalCount})` : s === 'online' ? `🟢 Online (${onlineCount})` : `🔴 Offline (${offlineCount})`}
+                      {s === 'all' ? `All (${totalCount})` : s === 'online' ? `Online (${onlineCount})` : `Offline (${offlineCount})`}
                     </button>
                   ))}
                 </div>
@@ -756,7 +756,7 @@ export default function InfrastructurePage() {
                         borderRadius: 3,
                       }}
                     >
-                      {meta.emoji} {cat.label} ({count})
+                      <span className="material-symbols-outlined" style={{ fontSize: 13 }}>{meta.icon}</span> {cat.label} ({count})
                     </button>
                   )
                 })}

@@ -12,8 +12,8 @@ interface AuthCtx {
 
 const AuthContext = createContext<AuthCtx | null>(null)
 
-const TOKEN_KEY = 'vajrax_token'
-const USER_KEY  = 'vajrax_user'
+const TOKEN_KEY = 'himadri_token'
+const USER_KEY  = 'himadri_user'
 
 function loadPersisted(): { token: string | null; user: UserOut | null } {
   try {
@@ -35,10 +35,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (username: string, password: string) => {
     // ── Dev / offline credentials (no backend DB required) ──────────────────
     const DEV_USERS: Record<string, { password: string; roles: string[] }> = {
-      admin:    { password: 'admin123',    roles: ['ADMIN'] },
-      operator: { password: 'operator123', roles: ['OPERATOR'] },
-      crew:     { password: 'crew123',     roles: ['CREW'] },
-      viewer:   { password: 'viewer123',   roles: ['VIEWER'] },
+      admin:    { password: 'admin@himadri',    roles: ['ADMIN'] },
+      operator: { password: 'operator@himadri', roles: ['OPERATOR'] },
+      crew:     { password: 'crew@himadri',     roles: ['CREW'] },
+      viewer:   { password: 'viewer@himadri',   roles: ['VIEWER'] },
     }
     const devUser = DEV_USERS[username.toLowerCase()]
     if (devUser && devUser.password === password) {

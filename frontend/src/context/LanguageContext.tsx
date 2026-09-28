@@ -15,9 +15,9 @@ export const DICTIONARY: Translations = {
   'gov.ministry': { en: 'Ministry of Earth Sciences', hi: 'पृथ्वी विज्ञान मंत्रालय' },
   'gov.ncpor': { en: 'National Centre for Polar and Ocean Research (NCPOR)', hi: 'राष्ट्रीय ध्रुवीय एवं समुद्री अनुसंधान केंद्र (एनसीपीओआर)' },
   'gov.ncpor_short': { en: 'NCPOR, Goa', hi: 'एनसीपीओआर, गोवा' },
-  'app.name': { en: 'HIMANTAR', hi: 'हिमांतर' },
-  'app.title': { en: 'Antarctic Digital Twin & Telemetry Command', hi: 'अंटार्कटिक डिजिटल ट्विन एवं टेलीमेट्री नियंत्रण' },
-  'app.subtitle': { en: 'Remote Management Platform (Maitri & Bharati) • Ministry of Earth Sciences, Govt. of India', hi: 'रिमोट प्रबंधन प्रणाली (मैत्री एवं भारती) • पृथ्वी विज्ञान मंत्रालय, भारत सरकार' },
+  'app.name': { en: 'HIMADRI', hi: 'हिमाद्री' },
+  'app.title': { en: 'Antarctic Data Display Portal', hi: 'अंटार्कटिक डेटा प्रदर्शन पोर्टल' },
+  'app.subtitle': { en: 'Maitri & Bharati Base Data Portal • Ministry of Earth Sciences, Govt. of India', hi: 'मैत्री और भारती बेस डेटा पोर्टल • पृथ्वी विज्ञान मंत्रालय, भारत सरकार' },
   'badge.restricted': { en: 'RESTRICTED / OFFICIAL USE ONLY', hi: 'प्रतिबंधित / केवल आधिकारिक उपयोग हेतु' },
   'badge.govt': { en: 'GOVT. OF INDIA', hi: 'भारत सरकार' },
   'header.stations_online': { en: 'Stations Online', hi: 'सक्रिय स्टेशन' },
@@ -47,7 +47,7 @@ export const DICTIONARY: Translations = {
   // Breadcrumbs
   'crumb.home': { en: 'Home', hi: 'मुख्य पृष्ठ' },
   'crumb.polar_division': { en: 'Polar Operations Division', hi: 'ध्रुवीय प्रचालन प्रभाग' },
-  'crumb.twin': { en: 'Antarctic Stations Real-time Digital Twin', hi: 'अंटार्कटिक स्टेशन रियल-टाइम डिजिटल ट्विन' },
+  'crumb.twin': { en: 'Antarctic Stations Live View', hi: 'अंटार्कटिक स्टेशन लाइव व्यू' },
 
   // Marquee Ticker
   'marquee.label': { en: 'LATEST BULLETINS', hi: 'नवीनतम सूचनाएं' },
@@ -84,7 +84,7 @@ export const DICTIONARY: Translations = {
   'nav.analytics': { en: 'Predictive Analytics', hi: 'पूर्वानुमान विश्लेषण' },
   'nav.analytics_sub': { en: 'AI & Burn Models', hi: 'एआई मॉडल व रुझान' },
   'nav.reports': { en: 'Official Reports', hi: 'सरकारी रिपोर्ट' },
-  'nav.reports_sub': { en: 'MoES & GIGW Logs', hi: 'दैनिक व मासिक लॉग' },
+  'nav.reports_sub': { en: 'MoES Logs', hi: 'दैनिक व मासिक लॉग' },
   'nav.settings': { en: 'System Settings', hi: 'प्रणाली सेटिंग्स' },
   'nav.settings_sub': { en: 'Link & Security Config', hi: 'सुरक्षा व कॉन्फ़िगरेशन' },
   'nav.switch_to': { en: 'SWITCH TO', hi: 'बदलें:' },
@@ -104,9 +104,9 @@ export const DICTIONARY: Translations = {
   'station.24h': { en: '24 Hours', hi: '24 घंटे' },
 
   // Schematic
-  'schematic.maitri_title': { en: 'MAITRI BASE — 3D DIGITAL TWIN & SENSORS', hi: 'मैत्री स्टेशन — 3D डिजिटल ट्विन व लाइव सेंसर' },
-  'schematic.bharati_title': { en: 'BHARATI BASE — 3D DIGITAL TWIN & SENSORS', hi: 'भारती स्टेशन — 3D डिजिटल ट्विन व लाइव सेंसर' },
-  'schematic.confidential': { en: 'OFFICIAL POLAR DIGITAL TWIN • MOES', hi: 'आधिकारिक डिजिटल ट्विन • पृथ्वी विज्ञान मंत्रालय' },
+  'schematic.maitri_title': { en: 'MAITRI BASE — LIVE SENSORS & TELEMETRY', hi: 'मैत्री स्टेशन — लाइव सेंसर व टेलीमेट्री' },
+  'schematic.bharati_title': { en: 'BHARATI BASE — LIVE SENSORS & TELEMETRY', hi: 'भारती स्टेशन — लाइव सेंसर व टेलीमेट्री' },
+  'schematic.confidential': { en: 'OFFICIAL POLAR MONITORING • MOES', hi: 'आधिकारिक ध्रुवीय निगरानी • पृथ्वी विज्ञान मंत्रालय' },
   'schematic.ext_sensors': { en: 'WEATHER SENSORS', hi: 'मौसम संवेदक' },
   'schematic.temp': { en: 'Temp', hi: 'तापमान' },
   'schematic.humidity': { en: 'Humidity', hi: 'आर्द्रता' },
@@ -185,7 +185,7 @@ export const DICTIONARY: Translations = {
   'footer.last_updated': { en: 'Last Updated', hi: 'अंतिम नवीनीकरण' },
   'footer.copyright': { en: '© 2026 National Centre for Polar and Ocean Research (NCPOR)', hi: '© 2026 राष्ट्रीय ध्रुवीय एवं समुद्री अनुसंधान केंद्र (एनसीपीओआर)' },
   'footer.ministry': { en: 'Ministry of Earth Sciences, Government of India', hi: 'पृथ्वी विज्ञान मंत्रालय, भारत सरकार' },
-  'footer.designed_by': { en: 'Designed, Developed & Maintained for NCPOR, MoES | GIGW 3.0 & NIC Compliant', hi: 'एनसीपीओआर, पृथ्वी विज्ञान मंत्रालय हेतु विकसित एवं संधारित | GIGW 3.0 एवं एनआईसी मानक अनुपालित' },
+  'footer.designed_by': { en: 'Designed & Developed for NCPOR, MoES | HIMADRI Platform', hi: 'एनसीपीओआर, पृथ्वी विज्ञान मंत्रालय हेतु विकसित | हिमाद्री प्लेटफॉर्म' },
   'footer.open_alerts': { en: 'Open Alerts', hi: 'सक्रिय अलर्ट' },
   'footer.hq_server': { en: 'HQ Gateway', hi: 'मुख्यालय गेटवे' },
   'footer.connected': { en: 'CONNECTED', hi: 'संलग्न' },
@@ -195,7 +195,7 @@ export const DICTIONARY: Translations = {
   // Login Page
   'login.heading': { en: 'OFFICER LOGIN PORTAL', hi: 'अधिकारी लॉगिन पोर्टल' },
   'login.subheading': { en: 'National Centre for Polar and Ocean Research (NCPOR), Goa', hi: 'राष्ट्रीय ध्रुवीय एवं समुद्री अनुसंधान केंद्र (एनसीपीओआर), गोवा' },
-  'login.portal_title': { en: 'Himantar: Antarctic Digital Twin Command System', hi: 'हिमांतर: अंटार्कटिक डिजिटल ट्विन कमान प्रणाली' },
+  'login.portal_title': { en: 'HIMADRI: Antarctic Data Display Portal', hi: 'हिमाद्री: अंटार्कटिक डेटा प्रदर्शन पोर्टल' },
   'login.restricted_notice': { en: 'CONFIDENTIAL • GOVT. OF INDIA SYSTEM', hi: 'गोपनीय • भारत सरकार प्रणाली' },
   'login.statutory_warning': {
     en: 'STATUTORY WARNING: Unauthorized access is strictly prohibited under the Information Technology Act, 2000 (Section 43 & 66). All network activities are actively logged, audited, and monitored by CERT-In and NIC security gateways.',
@@ -220,12 +220,12 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>(() => {
-    const saved = localStorage.getItem('himantar_lang') || localStorage.getItem('vajrax_lang')
+    const saved = localStorage.getItem('himadri_lang')
     return (saved === 'hi' || saved === 'en') ? saved : 'hi'
   })
 
   useEffect(() => {
-    localStorage.setItem('himantar_lang', lang)
+    localStorage.setItem('himadri_lang', lang)
     document.documentElement.lang = lang
   }, [lang])
 

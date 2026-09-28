@@ -34,7 +34,7 @@ export default function TopNav() {
       {/* ── Tier 1: National Tricolour Stripe ── */}
       <div className="tricolour-ribbon" />
 
-      {/* ── Tier 1: Accessibility & Government of India National Bar (GIGW 3.0 Standard) ── */}
+      {/* ── Tier 1: Top Bar ── */}
       <div
         style={{
           background: '#FCFBF8',
@@ -47,47 +47,14 @@ export default function TopNav() {
           color: '#687066',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {/* Mini Indian Flag Emblem */}
-          <div
-            style={{
-              width: 18,
-              height: 12,
-              display: 'flex',
-              flexDirection: 'column',
-              border: '1px solid #DDD8CC',
-              overflow: 'hidden',
-              flexShrink: 0,
-            }}
-          >
-            <div style={{ flex: 1, background: '#FF9933' }} />
-            <div style={{ flex: 1, background: '#FFFFFF', position: 'relative' }}>
-              <div style={{ width: 3, height: 3, borderRadius: '50%', background: '#4F5935', margin: 'auto' }} />
-            </div>
-            <div style={{ flex: 1, background: '#138808' }} />
-          </div>
-
-          <span style={{ fontWeight: 800, color: '#0f172a', letterSpacing: '0.02em' }}>
-            {t('gov.title')}
-          </span>
-          <span style={{ color: '#94a3b8' }}>|</span>
-          <span style={{ color: '#1e293b', fontWeight: 600 }}>
-            {t('gov.ministry')}
-          </span>
-          <span style={{ color: '#94a3b8' }} className="hidden md:inline">•</span>
-          <span style={{ color: '#475569' }} className="hidden md:inline">
-            {t('gov.ncpor_short')}
-          </span>
+        {/* Left: Date & Time with clock icon */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, color: '#4F5935', fontFamily: 'Inter', fontWeight: 700, fontSize: 10.5 }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#ea580c' }}>calendar_month</span>
+          <span>{timeStr || 'LIVE IST'}</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          {/* Dynamic Indian Standard Time */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#4F5935', fontFamily: 'Inter', fontWeight: 700, fontSize: 10.5 }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 13, color: '#ea580c' }}>schedule</span>
-            <span>{timeStr || 'LIVE IST'}</span>
-          </div>
-
-          {/* Language Switch Button */}
+        {/* Right: Language Switch */}
+        <div>
           <button
             onClick={toggleLang}
             style={{
@@ -96,11 +63,12 @@ export default function TopNav() {
               color: '#ffffff',
               fontSize: 11,
               fontWeight: 800,
-              padding: '2px 10px',
+              padding: '4px 14px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: 4,
+              borderRadius: 20,
               boxShadow: '0 1px 2px rgba(0,0,0,0.08)',
               transition: 'background 0.15s',
             }}
@@ -127,21 +95,18 @@ export default function TopNav() {
         <div
           onClick={() => navigate('/')}
           style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}
-          title="HIMANTAR Home"
+          title="HIMADRI Home"
         >
           {/* Official Circular NCPOR Logo */}
           <img
-            src="/ncpor_logo.png"
-            alt="NCPOR Logo"
-            style={{ height: 46, width: 46, objectFit: 'contain', display: 'block', flexShrink: 0 }}
+            src="/himadri_logo.png"
+            alt="HIMADRI Logo"
+            style={{ height: 62, width: 62, objectFit: 'contain', display: 'block', flexShrink: 0 }}
           />
 
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             {/* Tier A: Organisation Name */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: '#76804D', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                {t('gov.ncpor')}
-              </span>
               <span style={{ fontSize: 9, fontWeight: 700, background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', padding: '1px 6px', borderRadius: 3 }}>
                 MoES
               </span>
@@ -149,19 +114,15 @@ export default function TopNav() {
 
             {/* Tier B: Main Application Brand Logo & Title */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, lineHeight: 1.2 }}>
-              <img
-                src="/himantar_logo.png"
-                alt="HIMANTAR"
-                style={{ height: 24, width: 'auto', objectFit: 'contain', display: 'block' }}
-              />
+              <span style={{ fontSize: 16, fontWeight: 900, color: '#1e3a5f', letterSpacing: '0.04em' }}>
+                HIMADRI
+              </span>
               <span style={{ fontSize: 13.5, fontWeight: 800, color: '#252820', letterSpacing: '-0.01em' }}>
                 {t('app.title')}
               </span>
             </div>
-
-            {/* Tier C: Subtitle */}
-            <div style={{ fontSize: 10, fontWeight: 500, color: '#64748b', marginTop: 2, letterSpacing: '0.01em' }}>
-              {t('app.subtitle')}
+            <div style={{ fontSize: 10, color: '#64748b', fontWeight: 600, marginTop: 2, fontStyle: 'italic' }}>
+              Smarter Antarctic Station Management
             </div>
           </div>
         </div>
@@ -184,9 +145,6 @@ export default function TopNav() {
               <div style={{ fontSize: 12, fontWeight: 800, color: '#4F5935', lineHeight: 1.1 }}>
                 {user?.username ? user.username.toUpperCase() : 'OFFICER'}
               </div>
-              <div style={{ fontSize: 9, fontWeight: 700, color: '#C58A32', letterSpacing: '0.04em' }}>
-                {t('header.hq')}
-              </div>
             </div>
 
             <button
@@ -195,13 +153,14 @@ export default function TopNav() {
                 background: '#dc2626',
                 border: 'none',
                 color: '#ffffff',
-                padding: '4px 8px',
+                padding: '5px 14px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 gap: 4,
                 fontSize: 10,
                 fontWeight: 800,
+                borderRadius: 20,
                 boxShadow: '0 1px 2px rgba(220, 38, 38, 0.2)',
               }}
               title={t('header.logout')}

@@ -5,6 +5,7 @@ import AlertStrip from '../components/layout/AlertStrip'
 import Sidebar from '../components/layout/Sidebar'
 import Footer from '../components/layout/Footer'
 import { useSensors } from '../hooks/useSensors'
+import PageSection from '../components/ui/PageSection'
 
 type StationId = 'maitri' | 'bharati'
 type TabType = 'overview' | 'atmosphere' | 'glaciology' | 'seismic' | 'ocean'
@@ -44,6 +45,7 @@ export default function EnvironmentPage() {
   const navigate = useNavigate()
   const [activeStation, setActiveStation] = useState<StationId>('maitri')
   const [activeTab, setActiveTab] = useState<TabType>('overview')
+  const [secTabs, setSecTabs] = useState(true)
   const st = STATIONS[activeStation]
 
   // ── Live sensor data from Neon ──────────────────────────────────────────
@@ -90,7 +92,7 @@ export default function EnvironmentPage() {
             </div>
             <div style={{ background: '#4F5935', color: '#FCFBF8', padding: '10px 16px', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 800 }}>🌬️ {st.name.toUpperCase()} — ENVIRONMENTAL MONITORING</div>
+                <div style={{ fontSize: 13, fontWeight: 800, display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined" style={{ fontSize: 18 }}>air</span> {st.name.toUpperCase()} — ENVIRONMENTAL MONITORING</div>
                 <div style={{ fontSize: 10, color: '#8A9088', marginTop: 2 }}>{st.coords} • {st.region} • {st.elevation}</div>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
@@ -106,6 +108,7 @@ export default function EnvironmentPage() {
                 </button>
               ))}
             </div>
+            <PageSection icon="sensors" title={`Environmental Data — ${activeTab.toUpperCase()}`} badge="LIVE SENSORS" badgeColor="#6F8747" accentColor="#4F5935" open={secTabs} onToggle={() => setSecTabs(v => !v)} bodyBg="#FCFBF8" bodyPadding={12}>
             {activeTab === 'overview' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {(env.temp !== null && env.temp < -30) && (<div style={{ background: '#FDF3E3', border: '1px solid #D4883A', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}><span className="material-symbols-outlined" style={{ color: '#C58A32', fontSize: 18 }}>warning</span><span style={{ fontSize: 11, fontWeight: 700, color: '#92400e' }}>SEVERE WEATHER ALERT: Extreme cold advisory active — Temperature below -30°C. All external operations suspended.</span></div>)}
@@ -146,7 +149,7 @@ export default function EnvironmentPage() {
                           <span className="material-symbols-outlined" style={{ fontSize: 20, color: '#76804D', margin: '6px 0', display: 'block' }}>{icons[i]}</span>
                           <div style={{ fontSize: 12, fontWeight: 800, color: '#252820' }}>{temps[i].toFixed(1)}°</div>
                           <div style={{ fontSize: 8, color: '#687066' }}>{labels[i]}</div>
-                          <div style={{ fontSize: 8, color: '#687066' }}>💨{Math.round(winds[i])}</div>
+                          <div style={{ fontSize: 8, color: '#687066' }}>Wind: {Math.round(winds[i])} km/h</div>
                         </div>)
                       })}
                     </div>
@@ -231,7 +234,7 @@ export default function EnvironmentPage() {
                         UNDERGROUND ICE & GROUND TEMPERATURE — {activeStation === 'maitri' ? 'MAITRI BASE (SCHIRMACHER OASIS)' : 'BHARATI BASE (LARSEMANN HILLS)'}
                       </div>
                       <div style={{ fontSize: 10, color: '#DDD8CC', marginTop: 2, marginLeft: 22 }}>
-                        National Centre for Polar and Ocean Research (MoES) • Multi-Depth Cryosphere Monitoring • GIGW 3.0
+                        National Centre for Polar and Ocean Research (MoES) • Multi-Depth Cryosphere Monitoring
                       </div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -379,6 +382,7 @@ export default function EnvironmentPage() {
                 </div>
               </div>
             )}
+            </PageSection>
           </div>
         </main>
       </div>

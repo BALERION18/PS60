@@ -90,7 +90,7 @@ export default function Footer() {
       >
         {/* Left: NCPOR Logo + Official Ministry Copyright */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src="/ncpor_logo.png" alt="NCPOR Logo" style={{ height: 32, width: 32, objectFit: 'contain' }} />
+          <img src="/himadri_logo.png" alt="HIMADRI Logo" style={{ height: 32, width: 32, objectFit: 'contain' }} />
           <div style={{ fontSize: 10, color: '#B5B0A4', lineHeight: 1.3 }}>
             <div>
               <span style={{ fontWeight: 800, color: '#ffffff' }}>

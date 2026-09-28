@@ -1,32 +1,7 @@
 import { useAlerts } from '../../hooks/useAlerts'
-import { useLanguage } from '../../context/LanguageContext'
 
 export default function AlertStrip() {
-  const { data, isError } = useAlerts({ ack_state: 'OPEN', page_size: 10 })
-  const { t } = useLanguage()
-
-  const alerts = data?.items ?? []
-
-  const bulletins = [
-    t('marquee.notice1'),
-    alerts.length > 0
-      ? alerts.map(a => `[${a.severity}] ${a.station_id.toUpperCase()}: ${a.description}`).join(' • ')
-      : t('advisory.all_nominal'),
-    t('marquee.notice2'),
-    'NCPOR HQ Goa Polar Satellite Telemetry Uplink: GSAT-7 / Inmarsat Encrypted Multi-Beam Nominal',
-  ]
-
-  // Render a block of bulletins
-  const renderBulletinBlock = () => (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 24, paddingRight: 24 }}>
-      {bulletins.map((item, idx) => (
-        <span key={idx} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, fontWeight: 600, color: '#252820' }}>
-          <span style={{ color: '#C58A32', fontWeight: 900 }}>★</span>
-          <span>{item}</span>
-        </span>
-      ))}
-    </div>
-  )
+  const { isError } = useAlerts({ ack_state: 'OPEN', page_size: 1 })
 
   return (
     <div
@@ -36,64 +11,33 @@ export default function AlertStrip() {
         padding: '3px 16px',
         display: 'flex',
         alignItems: 'center',
-        gap: 12,
+        justifyContent: 'space-between',
         minHeight: 34,
         flexShrink: 0,
-        boxShadow: '0 1px 2px rgba(0, 0, 0, 0.04)',
-        overflow: 'hidden',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
       }}
     >
-      {/* Official Government "LATEST BULLETINS" Badge */}
+      {/* Left: Static tagline */}
+      <span style={{
+        fontSize: 12,
+        fontWeight: 700,
+        color: '#4F5935',
+        letterSpacing: '0.04em',
+        fontStyle: 'italic',
+      }}>
+        Intelligent Monitoring of Maitri &amp; Bharati,&nbsp;
+        <span style={{ color: '#C58A32' }}>Anywhere, Anytime</span>
+      </span>
+
+      {/* Right: Backend live indicator */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          background: '#B85A5A',
-          padding: '3px 10px',
-          flexShrink: 0,
-          boxShadow: '0 1px 2px rgba(220,38,38,0.25)',
-          zIndex: 5,
-        }}
-      >
-        <span className="material-symbols-outlined" style={{ fontSize: 14, color: '#ffffff' }}>
-          campaign
-        </span>
-        <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: '0.06em', color: '#ffffff', whiteSpace: 'nowrap' }}>
-          {t('marquee.label')}
-        </span>
-      </div>
-
-      {/* Running Continuous Marquee Ticker */}
-      <div
-        style={{
-          flex: 1,
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          position: 'relative',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-        title="Hover to pause ticker / स्क्रॉल रोकने के लिए कर्सर ऊपर लाएं"
-      >
-        <div className="marquee-track">
-          {renderBulletinBlock()}
-          {renderBulletinBlock()}
-        </div>
-      </div>
-
-      {/* Live sync pulse */}
-      <div
-        style={{
-          marginLeft: 'auto',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          flexShrink: 0,
           background: '#F6F3ED',
           border: '1px solid #E9E5DC',
-          padding: '2px 8px',
-          zIndex: 5,
+          padding: '2px 10px',
         }}
       >
         <span
@@ -105,8 +49,14 @@ export default function AlertStrip() {
             display: 'inline-block',
           }}
         />
-        <span style={{ fontSize: 10, fontWeight: 800, color: isError ? '#dc2626' : '#6F8747', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
-          {isError ? 'LINK OFFLINE' : t('advisory.live')}
+        <span style={{
+          fontSize: 10,
+          fontWeight: 800,
+          color: isError ? '#dc2626' : '#6F8747',
+          letterSpacing: '0.04em',
+          whiteSpace: 'nowrap',
+        }}>
+          {isError ? 'BACKEND OFFLINE' : 'VSAT TELEMETRY LIVE'}
         </span>
       </div>
     </div>
