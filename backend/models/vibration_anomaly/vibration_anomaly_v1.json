@@ -1,0 +1,37 @@
+{
+  "model_name": "vibration_anomaly",
+  "model_version": "v1",
+  "trained_at": "2026-09-27T21:18:10.483946+00:00",
+  "algorithm": "IsolationForest",
+  "feature_names": [
+    "vibration_rms",
+    "oil_pressure_bar",
+    "coolant_temp_c",
+    "power_output_kw",
+    "fuel_consumption_lph"
+  ],
+  "n_features": 5,
+  "n_training_samples": 7678,
+  "hyperparameters": {
+    "n_estimators": 200,
+    "contamination": 0.05,
+    "max_samples": "auto",
+    "max_features": 1.0,
+    "random_state": 42,
+    "threshold_warning": 0.02,
+    "threshold_critical": -0.04
+  },
+  "val_scores": {
+    "recall_anomaly": 0.9865,
+    "precision_anomaly": 0.9831,
+    "specificity": 0.9484,
+    "f1_score": 0.9848,
+    "fp_rate": 0.0516,
+    "mean_score_normal": 0.0782,
+    "mean_score_anomaly": -0.1442,
+    "n_val_normal": 853,
+    "n_val_anomaly": 2600
+  },
+  "notes": "Trained on NASA CMAPSS FD001 real engine data",
+  "model_id": "0b94104b-1d23-4aa3-8600-053632f23caf"
+}
