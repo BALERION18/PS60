@@ -1,8 +1,8 @@
-# ❄️ Himantar — SIH 2026 Project Repository
+# Himadri — SIH 2026 Project Repository
 
 > **Digital Platform for Efficient Remote Management of Indian Antarctic Research Stations**
 
-**Himantar** is a comprehensive **edge-to-cloud monitoring, digital twin, and synchronization system** designed for remote management of India's Antarctic research stations — **Maitri** and **Bharati**.
+**Himadri** is a comprehensive **edge-to-cloud monitoring, digital twin, and synchronization system** designed for remote management of India's Antarctic research stations — **Maitri** and **Bharati**.
 
 The system combines **Edge AI, Digital Twins, predictive analytics, offline-first architecture, IoT monitoring, and bandwidth-efficient synchronization** to operate reliably under extreme environmental conditions and severely constrained connectivity.
 
@@ -12,8 +12,8 @@ The system combines **Edge AI, Digital Twins, predictive analytics, offline-firs
 
 | Field             | Details                                                                                |
 | ----------------- | -------------------------------------------------------------------------------------- |
-| **Project Title** | Himantar                                                                               |
-| **Team Name**     | VajraX                                                                                 |
+| **Project Title** | Himadri                                                                                |
+| **Team Name**     | Team_lakshya                                                                           |
 | **PS ID**         | SIH`26060`                                                                                |
 | **PS Title**      | Digital Platform for efficient remote management of Indian Antarctic Research Stations |
 | **Organization**  | Ministry of Earth Sciences (MoES)                                                      |
