@@ -193,3 +193,85 @@ class AIPredictionOut(BaseModel):
     generated_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+# ---------------------------------------------------------------------------
+# AI Model outputs — Models 1, 2, 4
+# ---------------------------------------------------------------------------
+
+class FuelDayForecastOut(BaseModel):
+    """Single-day entry in a fuel burn forecast."""
+    date: str
+    predicted_burn_litres: float
+    lower_bound_litres: float
+    upper_bound_litres: float
+    tank_level_litres: float
+    tank_pct: float
+
+
+class FuelForecastOut(BaseModel):
+    """Full 90-day fuel forecast from Model 1 (Prophet)."""
+    station_id: str
+    generated_at: str
+    horizon_days: int
+    current_tank_litres: float
+    tank_capacity_litres: float
+    risk_level: str                    # NOMINAL | WARNING | CRITICAL
+    days_to_warning: Optional[int]
+    days_to_critical: Optional[int]
+    avg_daily_7d: float
+    avg_daily_30d: float
+    total_30d_litres: float
+    peak_day_litres: float
+    peak_day_date: str
+    model_mae_litres: float
+    model_name: str
+    model_version: str
+    daily_forecast: List[FuelDayForecastOut]
+
+
+class AnomalyEventOut(BaseModel):
+    """A single anomaly detection event from Model 2 (Isolation Forest)."""
+    event_id: str
+    station_id: str
+    asset_id: str
+    sensor_name: str                   # human-readable sensor label
+    detected_value: str                # e.g. "14.2 mm/s"
+    baseline_value: str                # e.g. "8.1 mm/s"
+    deviation_pct: str                 # e.g. "+75%"
+    risk_level: str                    # NOMINAL | WARNING | CRITICAL
+    status: str                        # MONITORING | RESOLVED
+    model_name: str                    # "Isolation Forest"
+    anomaly_score: float
+    confidence: float
+    detected_at: str
+    dominant_sensor: Optional[str] = None
+
+
+class MaintenancePredictionOut(BaseModel):
+    """A maintenance recommendation from Model 4 (Random Forest)."""
+    asset_id: str
+    asset_name: str
+    station_id: str
+    urgency: str                       # NONE | LOW | MEDIUM | HIGH
+    days_until_action: int
+    recommended_task: str
+    confidence: float
+    trigger_description: str
+    class_probabilities: Dict[str, float]
+    model_name: str
+    model_version: str
+
+
+class AIModelStatusOut(BaseModel):
+    """Status of all loaded AI models at a station."""
+    station_id: str
+    vibration_model_loaded: bool
+    maintenance_model_loaded: bool
+    fuel_model_loaded: bool
+    vibration_model_trained_at: Optional[str] = None
+    maintenance_model_trained_at: Optional[str] = None
+    fuel_model_trained_at: Optional[str] = None
+    vibration_recall: Optional[float] = None
+    maintenance_accuracy: Optional[float] = None
+    fuel_mae_litres: Optional[float] = None

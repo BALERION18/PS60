@@ -370,3 +370,123 @@ export async function getIoTSensors(
   })
   return data
 }
+
+// ── AI Model Types ────────────────────────────────────────────────────────────
+
+export interface FuelDayForecast {
+  date: string
+  predicted_burn_litres: number
+  lower_bound_litres: number
+  upper_bound_litres: number
+  tank_level_litres: number
+  tank_pct: number
+}
+
+export interface FuelForecastOut {
+  station_id: string
+  generated_at: string
+  horizon_days: number
+  current_tank_litres: number
+  tank_capacity_litres: number
+  risk_level: 'NOMINAL' | 'WARNING' | 'CRITICAL'
+  days_to_warning: number | null
+  days_to_critical: number | null
+  avg_daily_7d: number
+  avg_daily_30d: number
+  total_30d_litres: number
+  peak_day_litres: number
+  peak_day_date: string
+  model_mae_litres: number
+  model_name: string
+  model_version: string
+  daily_forecast: FuelDayForecast[]
+}
+
+export interface AnomalyEventOut {
+  event_id: string
+  station_id: string
+  asset_id: string
+  sensor_name: string
+  detected_value: string
+  baseline_value: string
+  deviation_pct: string
+  risk_level: 'NOMINAL' | 'WARNING' | 'CRITICAL'
+  status: 'MONITORING' | 'RESOLVED'
+  model_name: string
+  anomaly_score: number
+  confidence: number
+  detected_at: string
+  dominant_sensor: string | null
+}
+
+export interface MaintenancePredictionOut {
+  asset_id: string
+  asset_name: string
+  station_id: string
+  urgency: 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH'
+  days_until_action: number
+  recommended_task: string
+  confidence: number
+  trigger_description: string
+  class_probabilities: Record<string, number>
+  model_name: string
+  model_version: string
+}
+
+export interface AIModelStatusOut {
+  station_id: string
+  vibration_model_loaded: boolean
+  maintenance_model_loaded: boolean
+  fuel_model_loaded: boolean
+  vibration_model_trained_at: string | null
+  maintenance_model_trained_at: string | null
+  fuel_model_trained_at: string | null
+  vibration_recall: number | null
+  maintenance_accuracy: number | null
+  fuel_mae_litres: number | null
+}
+
+// ── AI API functions ──────────────────────────────────────────────────────────
+
+export async function getFuelForecast(
+  stationId: string,
+  horizonDays = 90,
+  currentTankLitres?: number,
+): Promise<FuelForecastOut> {
+  const params: Record<string, unknown> = { horizon_days: horizonDays }
+  if (currentTankLitres !== undefined) params.current_tank_litres = currentTankLitres
+  const { data } = await api.get<FuelForecastOut>(
+    `/hq/stations/${stationId}/ai/fuel-forecast`,
+    { params },
+  )
+  return data
+}
+
+export async function getAnomalyEvents(
+  stationId: string,
+  limit = 20,
+): Promise<AnomalyEventOut[]> {
+  const { data } = await api.get<AnomalyEventOut[]>(
+    `/hq/stations/${stationId}/ai/anomalies`,
+    { params: { limit } },
+  )
+  return data
+}
+
+export async function getMaintenancePredictions(
+  stationId: string,
+): Promise<MaintenancePredictionOut[]> {
+  const { data } = await api.get<MaintenancePredictionOut[]>(
+    `/hq/stations/${stationId}/ai/maintenance`,
+  )
+  return data
+}
+
+export async function getAIModelStatus(
+  stationId: string,
+): Promise<AIModelStatusOut> {
+  const { data } = await api.get<AIModelStatusOut>(
+    `/hq/stations/${stationId}/ai/status`,
+  )
+  return data
+}

@@ -40,12 +40,17 @@ from shared.db.models.edge import Alert, InventoryItem, SensorReading
 from shared.utils.time import utcnow
 from cloud.api.schemas import (
     AIPredictionOut,
+    AIModelStatusOut,
     AlertAcknowledgeIn,
     AlertOut,
     AnalyticsOut,
+    AnomalyEventOut,
     AssetOut,
     DashboardSummaryOut,
+    FuelForecastOut,
+    FuelDayForecastOut,
     InventoryItemOut,
+    MaintenancePredictionOut,
     PaginatedResponse,
     ResupplyManifestOut,
     ResupplyLineItemOut,
@@ -1306,6 +1311,381 @@ async def download_report(
     filename = f"VajraX_{report_type}_{now.strftime('%Y%m%d_%H%M%S')}.txt"
 
     return {"filename": filename, "content": content}
+
+
+# ---------------------------------------------------------------------------
+# AI Model Endpoints — Models 1, 2, 4
+# ---------------------------------------------------------------------------
+
+@router.get(
+    "/stations/{station_id}/ai/fuel-forecast",
+    response_model=FuelForecastOut,
+    summary="Fuel burn 90-day forecast (Model 1 — Prophet)",
+)
+async def get_fuel_forecast(
+    station_id: str,
+    horizon_days: int = Query(90, ge=7, le=180),
+    current_tank_litres: Optional[float] = Query(None),
+    session: AsyncSession = Depends(get_db_session),
+) -> FuelForecastOut:
+    """Run the trained Prophet fuel burn model and return a 90-day forecast.
+
+    If the trained model is not found on disk, returns a 503 with a clear message.
+    If current_tank_litres is not provided, it is estimated from the latest
+    fuel_pct sensor reading in the DB (falls back to 65% capacity).
+    """
+    import os, sys
+    from pathlib import Path
+
+    # Ensure backend/ is on path (works in both Railway and local)
+    _backend = Path(__file__).resolve().parent.parent.parent
+    if str(_backend) not in sys.path:
+        sys.path.insert(0, str(_backend))
+
+    try:
+        from cloud.ai_engine.fuel_model import FuelForecastModel
+        from cloud.ai_engine.fuel_features import STATION_CONSTANTS
+    except ImportError as e:
+        raise HTTPException(status_code=503, detail=f"AI engine not available: {e}")
+
+    # Try loading the trained model
+    model = FuelForecastModel.load_or_none(station_id=station_id)
+    if model is None:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                f"Fuel forecast model for '{station_id}' not trained yet. "
+                f"Run: python -m scripts.train_fuel_model --station {station_id}"
+            ),
+        )
+
+    # Determine current tank level
+    if current_tank_litres is None:
+        # Try to read latest fuel_pct from DB
+        fuel_sensor = f"{station_id}.energy.gen1.fuel_pct"
+        row = (await session.execute(
+            select(SensorReading)
+            .where(SensorReading.station_id == station_id)
+            .where(SensorReading.sensor_id == fuel_sensor)
+            .order_by(SensorReading.timestamp_utc.desc())
+            .limit(1)
+        )).scalar_one_or_none()
+
+        consts   = STATION_CONSTANTS.get(station_id, STATION_CONSTANTS["maitri"])
+        capacity = consts["tank_capacity_litres"]
+
+        if row is not None:
+            current_tank_litres = row.value / 100.0 * capacity
+        else:
+            current_tank_litres = capacity * 0.65  # default 65%
+
+    # Run the model
+    try:
+        fc = model.forecast(
+            current_tank_litres=current_tank_litres,
+            horizon_days=horizon_days,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Forecast failed: {e}")
+
+    return FuelForecastOut(
+        station_id          = fc.station_id,
+        generated_at        = fc.generated_at,
+        horizon_days        = fc.horizon_days,
+        current_tank_litres = fc.current_tank_litres,
+        tank_capacity_litres= fc.tank_capacity_litres,
+        risk_level          = fc.risk_level,
+        days_to_warning     = fc.days_to_warning,
+        days_to_critical    = fc.days_to_critical,
+        avg_daily_7d        = round(fc.summary.avg_daily_7d, 1),
+        avg_daily_30d       = round(fc.summary.avg_daily_30d, 1),
+        total_30d_litres    = round(fc.summary.total_30d_litres, 1),
+        peak_day_litres     = round(fc.summary.peak_day_litres, 1),
+        peak_day_date       = fc.summary.peak_day_date,
+        model_mae_litres    = round(fc.model_mae_litres, 1),
+        model_name          = fc.model_name,
+        model_version       = fc.model_version,
+        daily_forecast      = [
+            FuelDayForecastOut(
+                date                  = d.date,
+                predicted_burn_litres = round(d.predicted_burn_litres, 1),
+                lower_bound_litres    = round(d.lower_bound_litres, 1),
+                upper_bound_litres    = round(d.upper_bound_litres, 1),
+                tank_level_litres     = round(d.tank_level_litres, 1),
+                tank_pct              = round(d.tank_pct, 4),
+            )
+            for d in fc.daily_forecast
+        ],
+    )
+
+
+@router.get(
+    "/stations/{station_id}/ai/anomalies",
+    response_model=List[AnomalyEventOut],
+    summary="Recent anomaly detection events (Model 2 — Isolation Forest)",
+)
+async def get_anomaly_events(
+    station_id: str,
+    limit: int = Query(20, ge=1, le=100),
+    session: AsyncSession = Depends(get_db_session),
+) -> List[AnomalyEventOut]:
+    """Return recent anomaly events detected by Model 2 (Isolation Forest).
+
+    Reads from the ai_predictions table where model_name starts with
+    'vibration_anomaly'. Falls back to the existing seed rows if no
+    live model output exists yet.
+
+    Also runs a fresh inference pass on the latest sensor readings so
+    the response always reflects the most recent model output.
+    """
+    import sys, uuid
+    from pathlib import Path
+    _backend = Path(__file__).resolve().parent.parent.parent
+    if str(_backend) not in sys.path:
+        sys.path.insert(0, str(_backend))
+
+    events: List[AnomalyEventOut] = []
+
+    # --- Live model inference on latest sensor readings ---
+    try:
+        from edge.ai_engine.vibration_model import VibrationAnomalyModel
+        from edge.ai_engine.feature_builder import FEATURE_SPEC
+
+        vib_model = VibrationAnomalyModel.load_or_none()
+        if vib_model is not None:
+            # Pull latest energy readings for gen1
+            gen_sensors = [
+                f"{station_id}.energy.gen1.vibration_rms",
+                f"{station_id}.energy.gen1.oil_pressure_bar",
+                f"{station_id}.energy.gen1.coolant_temp_c",
+                f"{station_id}.energy.gen1.power_output_kw",
+                f"{station_id}.energy.gen1.fuel_consumption_lph",
+            ]
+            readings: dict = {}
+            for sens_id in gen_sensors:
+                row = (await session.execute(
+                    select(SensorReading)
+                    .where(SensorReading.station_id == station_id)
+                    .where(SensorReading.sensor_id == sens_id)
+                    .order_by(SensorReading.timestamp_utc.desc())
+                    .limit(1)
+                )).scalar_one_or_none()
+                if row:
+                    suffix = sens_id.rsplit(".", 1)[-1]
+                    readings[suffix] = row.value
+
+            if readings:
+                pred = vib_model.predict(
+                    asset_id=f"{station_id}.gen1",
+                    readings=readings,
+                )
+                if pred.is_anomaly:
+                    # Format detected vs baseline values
+                    vib_val  = readings.get("vibration_rms", 0.0)
+                    oil_val  = readings.get("oil_pressure_bar", 4.5)
+                    cool_val = readings.get("coolant_temp_c", 85.0)
+
+                    events.append(AnomalyEventOut(
+                        event_id        = str(uuid.uuid4())[:8].upper(),
+                        station_id      = station_id,
+                        asset_id        = f"{station_id}.gen1",
+                        sensor_name     = "Generator DG-1 Multi-Sensor",
+                        detected_value  = f"{vib_val:.1f} mm/s vib, {oil_val:.2f} bar oil",
+                        baseline_value  = "2–8 mm/s, 3.5–5.5 bar",
+                        deviation_pct   = f"{pred.confidence * 100:.0f}% anomaly confidence",
+                        risk_level      = pred.risk_level,
+                        status          = "MONITORING",
+                        model_name      = "Isolation Forest",
+                        anomaly_score   = round(pred.anomaly_score, 4),
+                        confidence      = round(pred.confidence, 4),
+                        detected_at     = utcnow().isoformat(),
+                        dominant_sensor = None,
+                    ))
+    except Exception as exc:
+        log.warning("api.ai_anomalies.live_inference_failed", error=str(exc))
+
+    # --- Historical from ai_predictions table ---
+    rows = (await session.execute(
+        select(AIPrediction)
+        .where(AIPrediction.station_id == station_id)
+        .where(AIPrediction.model_name.like("vibration_anomaly%"))
+        .order_by(AIPrediction.generated_at.desc())
+        .limit(limit)
+    )).scalars().all()
+
+    for r in rows:
+        events.append(AnomalyEventOut(
+            event_id        = r.prediction_id[:8].upper(),
+            station_id      = r.station_id,
+            asset_id        = r.station_id + ".gen1",
+            sensor_name     = "Generator Vibration & Sensors",
+            detected_value  = f"{r.predicted_value:.2f}" if r.predicted_value else "N/A",
+            baseline_value  = "Normal operating range",
+            deviation_pct   = f"{(r.confidence or 0) * 100:.0f}% confidence",
+            risk_level      = r.risk_level,
+            status          = "RESOLVED" if r.risk_level == "NOMINAL" else "MONITORING",
+            model_name      = "Isolation Forest",
+            anomaly_score   = round(r.predicted_value or 0.0, 4),
+            confidence      = round(r.confidence or 0.0, 4),
+            detected_at     = r.generated_at.isoformat(),
+            dominant_sensor = None,
+        ))
+
+    # Return newest first, capped at limit
+    return events[:limit]
+
+
+@router.get(
+    "/stations/{station_id}/ai/maintenance",
+    response_model=List[MaintenancePredictionOut],
+    summary="Predictive maintenance recommendations (Model 4 — Random Forest)",
+)
+async def get_maintenance_predictions(
+    station_id: str,
+    session: AsyncSession = Depends(get_db_session),
+) -> List[MaintenancePredictionOut]:
+    """Run Model 4 (Random Forest) on latest sensor trends and return
+    maintenance urgency predictions for all generator assets at this station.
+
+    Uses the latest sensor readings from the DB to build feature vectors,
+    runs the trained Random Forest classifier, and returns urgency + task
+    recommendations for each generator asset.
+    """
+    import sys
+    from pathlib import Path
+    _backend = Path(__file__).resolve().parent.parent.parent
+    if str(_backend) not in sys.path:
+        sys.path.insert(0, str(_backend))
+
+    results: List[MaintenancePredictionOut] = []
+
+    try:
+        from edge.ai_engine.maintenance_model import MaintenanceModel
+        from edge.ai_engine.maintenance_features import AssetState, MAINT_FEATURE_SPEC
+
+        maint_model = MaintenanceModel.load_or_none()
+        if maint_model is None:
+            # Return empty list gracefully — frontend handles missing data
+            return []
+
+        # Assets to evaluate — gen1 always, gen2 only for Maitri
+        assets = [f"{station_id}.gen1"]
+        if station_id == "maitri":
+            assets.append(f"{station_id}.gen2")
+
+        for asset_id in assets:
+            asset_part = asset_id.split(".")[-1]  # "gen1" or "gen2"
+
+            # Build feature dict from latest DB readings
+            state = AssetState(asset_id=asset_id)
+
+            sensor_suffixes = [
+                "vibration_rms", "oil_pressure_bar", "coolant_temp_c",
+                "power_output_kw", "fuel_consumption_lph",
+            ]
+            for suffix in sensor_suffixes:
+                sens_id = f"{station_id}.energy.{asset_part}.{suffix}"
+                # Get last 7 days of readings for trend features
+                rows = (await session.execute(
+                    select(SensorReading)
+                    .where(SensorReading.station_id == station_id)
+                    .where(SensorReading.sensor_id == sens_id)
+                    .where(SensorReading.timestamp_utc >= utcnow() - timedelta(days=7))
+                    .order_by(SensorReading.timestamp_utc.asc())
+                )).scalars().all()
+                for row in rows:
+                    state.update_sensor(suffix, row.value)
+
+            feature_dict = state.to_feature_dict()
+            pred = maint_model.predict(asset_id=asset_id, features=feature_dict)
+
+            asset_name_map = {
+                f"{station_id}.gen1": "Generator DG-1",
+                f"{station_id}.gen2": "Generator DG-2 (Backup)",
+            }
+
+            results.append(MaintenancePredictionOut(
+                asset_id            = pred.asset_id,
+                asset_name          = asset_name_map.get(asset_id, asset_id),
+                station_id          = station_id,
+                urgency             = pred.urgency,
+                days_until_action   = pred.days_until_action,
+                recommended_task    = pred.recommended_task,
+                confidence          = round(pred.confidence, 4),
+                trigger_description = (
+                    f"RF classifier: anomaly_events_7d={int(feature_dict.get('anomaly_events_7d', 0))}, "
+                    f"runtime={int(feature_dict.get('runtime_hours_since_service', 0))}h since service"
+                ),
+                class_probabilities = pred.class_probabilities,
+                model_name          = pred.model_name,
+                model_version       = pred.model_version,
+            ))
+
+    except Exception as exc:
+        log.warning("api.ai_maintenance.failed", error=str(exc), station_id=station_id)
+
+    return results
+
+
+@router.get(
+    "/stations/{station_id}/ai/status",
+    response_model=AIModelStatusOut,
+    summary="Status of all trained AI models for a station",
+)
+async def get_ai_model_status(station_id: str) -> AIModelStatusOut:
+    """Return which AI models are trained and loaded, with their key metrics."""
+    import sys
+    from pathlib import Path
+    _backend = Path(__file__).resolve().parent.parent.parent
+    if str(_backend) not in sys.path:
+        sys.path.insert(0, str(_backend))
+
+    vib_loaded = vib_trained_at = vib_recall = None
+    maint_loaded = maint_trained_at = maint_acc = None
+    fuel_loaded = fuel_trained_at = fuel_mae = None
+
+    try:
+        from edge.ai_engine.vibration_model import VibrationAnomalyModel
+        m = VibrationAnomalyModel.load_or_none()
+        vib_loaded = m is not None
+        if m and m.metadata:
+            vib_trained_at = m.metadata.trained_at
+            vib_recall = m.metadata.val_scores.get("recall_anomaly")
+    except Exception:
+        vib_loaded = False
+
+    try:
+        from edge.ai_engine.maintenance_model import MaintenanceModel
+        m2 = MaintenanceModel.load_or_none()
+        maint_loaded = m2 is not None
+        if m2 and m2.metadata:
+            maint_trained_at = m2.metadata.trained_at
+            maint_acc = m2.metadata.val_scores.get("accuracy")
+    except Exception:
+        maint_loaded = False
+
+    try:
+        from cloud.ai_engine.fuel_model import FuelForecastModel
+        m3 = FuelForecastModel.load_or_none(station_id=station_id)
+        fuel_loaded = m3 is not None
+        if m3 and m3.metadata:
+            fuel_trained_at = m3.metadata.trained_at
+            fuel_mae = m3.metadata.val_scores.get("mae_litres")
+    except Exception:
+        fuel_loaded = False
+
+    return AIModelStatusOut(
+        station_id                  = station_id,
+        vibration_model_loaded      = bool(vib_loaded),
+        maintenance_model_loaded    = bool(maint_loaded),
+        fuel_model_loaded           = bool(fuel_loaded),
+        vibration_model_trained_at  = vib_trained_at,
+        maintenance_model_trained_at= maint_trained_at,
+        fuel_model_trained_at       = fuel_trained_at,
+        vibration_recall            = vib_recall,
+        maintenance_accuracy        = maint_acc,
+        fuel_mae_litres             = fuel_mae,
+    )
 
 
 # ---------------------------------------------------------------------------
